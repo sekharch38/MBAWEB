@@ -1,0 +1,39 @@
+﻿@model MYFEELIB.Entities.PostedFile
+
+@{
+    ViewBag.Title = "Student Photo Upload";
+    Layout = "~/Views/Shared/_StudentRegistration.cshtml";
+}
+<section id="" class="animated fadeInUp">
+    <section class="fuelux" style="border: 14px solid #57bee0; margin: 50px 50px;">
+        <div class="container py-4">
+            <br />
+            <h5>Student Photo Upload</h5>
+            <br />
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <input type="text" value="@Session["RollNo"].ToString()" id="RollNo" class="form-control" readonly="readonly" />
+                </div>
+                <div class="clearfix"></div>
+                <br />
+                <br />
+                <div class="card-body">
+                    <div id="feedback" style="color: red;"></div>
+                    @using (Html.BeginForm("SavePhoto", "Enrollment", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                    {
+                        <div class="form-group col-sm-12 col-md-12 col-lg-12 text-left ">
+                            <span>Select File:</span>
+                            @Html.TextBoxFor(m => m.UploadFile, new { type = "file", @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.UploadFile, "", new { @class = "text-danger" })
+                            <div class="col-sm-6">
+                                <input type="submit" id="btnUpload" value="Upload" />
+                            </div>
+                        </div>
+                    }
+
+                </div>
+            </div>
+        </div>
+    </section>
+</section>
+

@@ -1,0 +1,183 @@
+﻿@model MYFEELIB.Entities.Modules
+@{
+    ViewData["Title"] = "Main Modules";
+}
+
+
+<script>
+    $(document).ready(function () {
+        $("#UserName").prop("readonly", false);
+        $("#UserPwd").prop("readonly", false);
+        $.ajax({
+            type: "GET",
+            contentType: "application/json; charset=utf-8",
+            url: '@Url.Action("MainModuleDetails", "Master")',
+            dataType: "json",
+            beforeSend: function () {
+            },
+            success: function (data) {
+                var markup = "<tr><th width='10%'>Id</th><th width='40%'>Name</th><th width='20%'>Web_Page</th><th width='20%' align='right'>Css Class</th><th width='10%' align='right'>Edit Module</th></tr>";
+                $("#DataTable").append(markup);
+                var markupfooter;
+                $.each(data, function (i, Rec) {
+                    var markup = "<tr><td width='5%'>" + Rec.Id + "</td><td width='5%'>" + Rec.Name + "</td><td width='5%' class='hidetext'>" + Rec.WebPage + "</td><td width='20%' align='left'>" + Rec.F_Class + "</td><td><a data-value=" + Rec.Id + " href='javascript:void(0)' class='btnEdit'>Edit</a></td></tr>";
+                    $("#DataTable").append(markup);
+                });
+            }
+        });
+    });
+
+    $(document).on('click', '.btnEdit', function () {
+        var id = $(this).attr("data-value");
+        $("#Id").val(id);
+        $("#Name").val($(this).closest("tr").find('td:eq(1)').text());
+        $("#WebPage").val($(this).closest("tr").find('td:eq(2)').text());
+        $("#F_Class").val($(this).closest("tr").find('td:eq(3)').text());
+        $("#Id").prop("readonly", true);
+    });
+
+    $(document).on("click", "#btnsubmit", function () {
+
+        var data = $("#MyModuleForm").serialize();
+        var Id = $("#Id").val();
+        var Name = $("#Name").val();
+        var WebPage = $("#WebPage").val();
+        var F_Class = $("#F_Class").val();
+
+        if (Id == "") {
+            alert("Enter Module Id !");
+            $("#Id").focus();
+            return false;
+        }
+        if (Name == "") {
+            alert("Enter  Module Name !");
+            $("#Name").focus();
+            return false;
+        }
+        if (WebPage == "") {
+            alert("Enter Page Name !");
+            $("#WebPage").focus();
+            return false;
+        }
+        if (F_Class == "") {
+            alert("Enter Css class Name !");
+            $("#F_Class").focus();
+            return false;
+        }
+
+
+
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("MainModuleSave", "Master")',
+            data: data,
+            success: function (r) {
+                if (r == "Error") {
+                    alert("Main Module Not Saved !");
+
+                }
+                else {
+                    alert("Main Module Saved Successfully !");
+                    $("#Id").val("");
+                    $("#Name").val("");
+                    $("#WebPage").val("");
+                    $("#F_Class").val("");
+
+                }
+            },
+            error: function (result) {
+
+                alert('Service call failed: ' + result.status + ' Type :' + result.statusText);
+            }
+
+        });
+    });
+
+    $(document).on("click", "#btnClear", function () {
+        $("#Id").val("");
+        $("#Name").val("");
+        $("#WebPage").val("");
+        $("#F_Class").val("");
+        $("#Id").prop("readonly", false);
+    });
+
+
+
+
+</script>
+<section id="" class="animated fadeInUp">
+    <section class="fuelux" style=" margin: 50px 50px;">
+
+        <form id="MyModuleForm">
+            <div class="step-content" style="margin-bottom: 0px; background: #fff; text-align: center; border-top: 1px solid #D4D4D4;">
+
+
+                <div class="step-pane active" id="step1">
+
+                    <div class="col-md-offset-0  preauth_font">
+                        <div class="clear" style="clear: both;"></div>
+
+                        <div class="form-group col-sm-12 col-md-6 col-lg-3 text-left ">
+                            @Html.LabelFor(m => m.Id, new { @class = "control-label" })
+                            <div class="">
+                                @Html.TextBoxFor(m => m.Id, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.Id, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+
+                        <div class="form-group col-sm-12 col-md-6 col-lg-3 text-left">
+                            @Html.LabelFor(m => m.Name, new { @class = "control-label" })
+                            <div class="">
+                                @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group col-sm-12 col-md-6 col-lg-3 text-left">
+                            @Html.LabelFor(m => m.WebPage, new { @class = "control-label" })
+                            <div class="">
+                                @Html.TextBoxFor(m => m.WebPage, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.WebPage, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group col-sm-12 col-md-6 col-lg-3 text-left">
+                            @Html.LabelFor(m => m.F_Class, new { @class = "control-label" })
+                            <div class="">
+                                @Html.TextBoxFor(m => m.F_Class, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.F_Class, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+
+
+                        <div class="wizard col-sm-12">
+                            <div class="pull-right" style="padding: 5px;">
+                                <button id="btnClear" class="btn btn-default">Clear</button>
+                                <button type="submit" id="btnsubmit" class="btn btn-success btn-default">Submit</button>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="clearfix"></div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </form>
+
+
+        <div align="center">
+            <table id="DataTable" style="width:100%;" class="table table-bordered">
+                <thead>
+
+                </thead>
+                <tbody></tbody>
+                <tfoot></tfoot>
+            </table>
+
+        </div>
+
+    </section>
+</section>

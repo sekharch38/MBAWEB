@@ -1,0 +1,671 @@
+﻿@model MYFEELIB.Entities.RequireElements
+@{
+    ViewData["Title"] = "MassUpdate";
+}
+
+<style>
+    table {
+        max-width: 980px;
+        table-layout: fixed;
+        margin: auto;
+    }
+
+    th, td {
+        padding: 2px 4px;
+        border: 1px solid #ddd;
+    }
+
+    thead, tfoot {
+        background: #58bee0;
+        color: #eaebec;
+        display: table;
+        width: 100%;
+        width: calc(100% - 18px);
+    }
+
+    tbody {
+        min-height: 0px;
+        max-height: 300px;
+        overflow: auto;
+        overflow-x: hidden;
+        display: block;
+        width: 100%;
+    }
+
+        tbody tr {
+            display: table;
+            width: 100%;
+            table-layout: fixed;
+        }
+
+    table, td, tr {
+        min-height: 0px;
+        max-height: 300px;
+    }
+</style>
+
+<script>
+    function isNumber(evt) {
+        evt = (evt) ? evt : window.event;
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+            return false;
+        }
+        return true;
+    }
+</script>
+<script type="text/jscript">
+
+    $(document).ready(function () {
+        $("#btnClear").hide();
+        $("#SaveAll").hide();
+        $("#DataTable").hide();
+        $("#ChallanNo").hide();
+        $("#PaymentDate").hide();
+        $("#EntryDate").hide();
+        $("#PayMode").hide();
+        $("#CN").hide();
+        $("#PD").hide();
+        $("#ED").hide();
+        $("#PM").hide();
+
+    });
+
+
+
+
+    $(document).on("click", "#checkBoxAll", function () {
+        //alert("check All clicked!")
+
+        var chkAll = this;
+
+        //Fetch all row CheckBoxes in the Table.
+        var chkRows = $("#DataTable").find(".chkres");
+
+        //Execute loop over the CheckBoxes and check and uncheck based on
+        //checked status of Header row CheckBox.
+        chkRows.each(function () {
+            $(this)[0].checked = chkAll.checked;
+        });
+
+        var sum = 0;
+        var select = 0;
+        if (chkAll.checked) {
+            $("#DataTable TBODY TR").each(function () {
+                var row = $(this);
+                var rowfee = row.find("TD").eq(5).find("input").val();
+                if (!isNaN(rowfee) && rowfee.length !== 0) {
+                    sum += parseFloat(rowfee);
+                    select += 1;
+                }
+            });
+        }
+
+        $('#TotSelect').val(select);
+        $('#TotSum').val(sum);
+
+    });
+
+
+    $(document).on("click", ".chkres", function () {
+        var chkAll = $("#checkBoxAll");
+
+        //By default set to Checked.
+        chkAll.attr("checked", "checked");
+
+        //Fetch all row CheckBoxes in the Table.
+        var chkRows = $("#DataTable").find(".chkres");
+
+        //Execute loop over the CheckBoxes and if even one CheckBox
+        //is unchecked then Uncheck the Header CheckBox.
+        chkRows.each(function () {
+            if (!$(this).is(":checked")) {
+                chkAll.removeAttr("checked", "checked");
+                return;
+            }
+        });
+
+        var sum = 0;
+        var select = 0;
+        $('tr').find('.chkres').each(function () {
+
+            if ($(this).is(":checked")) {
+                var rowfee = $(this).closest("tr").find("TD").eq(5).find("input").val();
+
+                if (!isNaN(rowfee) && rowfee.length !== 0) {
+                    sum += parseFloat(rowfee);
+                    select += 1;
+                }
+            }
+
+        });
+
+        $('#TotSelect').val(select);
+        $('#TotSum').val(sum);
+
+    });
+
+
+    $(document).on("click", "#SaveAll", function () {
+
+        debugger;
+
+        var Challan_No = $("#ChallanNo");
+        var PaymentDate = $("#PaymentDate");
+        var PM = $("#PayMode :selected").val();
+        var Totamount = $("#TotSum").val();
+
+        if (Challan_No.val() == "") {
+            alert("Please Enter Challan / DD No !");
+            return;
+        }
+        else if (PaymentDate.val() == "") {
+            alert("Please Enter Payment Date !");
+            return;
+        }
+        else if (PM == "") {
+
+            alert("Please Select Payment Mode !")
+            return;
+        }
+        else if (Totamount == "") {
+
+            alert("Please Select Students !")
+            return;
+        }
+        else if (Totamount == "0") {
+
+            alert("Please Select Students !")
+            return;
+        }
+
+
+
+
+
+
+
+        var CheckAll = new Array();
+
+        $('tr').find('.chkres').each(function () {
+
+            if ($(this).is(":checked")) {
+
+                var req = {};
+
+                req.StudentId = $(this).closest("tr").find("TD").eq(0).find("input").val();
+                req.TuitionFee = $(this).closest("tr").find("TD").eq(5).find("input").val();
+                req.OUFee = $(this).closest("tr").find("TD").eq(6).find("input").val();
+                req.Year = $("#Year :selected").val();
+                req.ChallanNo = $("#ChallanNo").val();
+                req.ChallanDate = $("#PaymentDate").val();
+                req.EntryDate = $("#EntryDate").val();
+                req.ReceivedFrom = $("#DueFrom :selected").val();
+                req.Status = "Not Approved";
+                req.PaymentId = $("#PayMode :selected").val();
+                req.EnterBy = "@Session["username"]";
+                req.ProgramId = $("#Program :selected").val();
+
+                CheckAll.push(req);
+            }
+
+        });
+
+
+
+
+        CheckAll = JSON.stringify({ 'CheckAll': CheckAll });
+
+        //Send the JSON array to Controller using AJAX.
+        $.ajax({
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            //url: "/Enrollment/InsertAcademics",
+            url: '@Url.Action("InsertMassUpdate", "Academic")',
+            data: CheckAll,
+            dataType: "json",
+            success: function (r) {
+
+                if (r == 0) {
+
+                    return;
+                }
+                else {
+                    alert(r + " record(s) inserted.");
+                    $("#DataTable tr").remove();
+                    $("#DueFrom").val("");
+                    $("#SaveAll").hide();
+                }
+
+
+            }
+        });
+    });
+
+
+
+
+
+    $(function () {
+
+        $('#Batch').change(function () {
+            //  debugger;
+            var id = $("#Batch :selected").val();
+            if (id != "") {
+                $.ajax({
+                    type: "GET",
+                    contentType: "application/json; charset=utf-8",
+                    url: '@Url.Action("FillYears", "Academic")',
+                    data: { "Batch": id },
+                    dataType: "json",
+                    beforeSend: function () {
+                        //alert(id);
+                    },
+                    success: function (data) {
+                        var items = "";
+                        $.each(data, function (i, yr) {
+                            items += "<option value='" + yr.Value + "'>" + yr.Text + "</option>";
+                        });
+                        $('#Year').html(items);
+
+                    },
+                    error: function (result) {
+
+                        alert('Service call failed: ' + result.status + ' Type :' + result.statusText);
+                    }
+                });
+            }
+            else {
+                var items = '<option value="">Select</option>';
+                $('#Year').html(items);
+            }
+        });
+
+    });
+
+    $(function () {
+
+        $('#Program').change(function () {
+            //  debugger;
+            var id = $("#Program :selected").val();
+            if (id != "") {
+                $.ajax({
+                    type: "GET",
+                    contentType: "application/json; charset=utf-8",
+                    url: '@Url.Action("FillCourse", "Academic")',
+                    data: { "PId": id },
+                    dataType: "json",
+                    beforeSend: function () {
+                        //alert(id);
+                    },
+                    success: function (data) {
+                        var items = "";
+                        $.each(data, function (i, Course) {
+                            items += "<option value='" + Course.Value + "'>" + Course.Text + "</option>";
+                        });
+                        $('#Course').html(items);
+
+                    },
+                    error: function (result) {
+
+                        alert('Service call failed: ' + result.status + ' Type :' + result.statusText);
+                    }
+                });
+            }
+            else {
+                var items = '<option value="">Select</option>';
+                $('#Course').html(items);
+            }
+        });
+
+    });
+
+
+    $(function () {
+
+        $('#DueFrom').change(function () {
+            //  debugger;
+            $("#DataTable tr").remove();
+
+
+            if ($("#Batch :selected").val() == "") {
+                alert("Please Select Batch !");
+                $("#DueFrom").val("");
+                return;
+            }
+            else if ($("#Year :selected").val() == "") {
+                alert("Please Select Year !");
+                $("#DueFrom").val("");
+                return;
+            }
+            else if ($("#Program :selected").val() == "") {
+                alert("Please Select Program !");
+                $("#DueFrom").val("");
+                return;
+            }
+            else if ($("#Course :selected").val() == "") {
+                alert("Please Select Course !");
+                $("#DueFrom").val("");
+                return;
+            }
+            else if ($("#Status :selected").val() == "") {
+                alert("Please Select Status !");
+                $("#DueFrom").val("");
+                return;
+            }
+
+
+            if ($("#DueFrom :selected").val() != "") {
+                $("#loaderDiv").show();
+            }
+
+
+            var id = $("#DueFrom :selected").val();
+            var Params = new Array();
+            var req = {};
+
+            req.Batch = $("#Batch :selected").val();
+            req.Year = $("#Year :selected").val();
+            req.Program = $("#Program :selected").val();
+            req.Course = $("#Course :selected").val();
+            req.Status = $("#Status :selected").val();
+            req.DueFrom = $("#DueFrom :selected").val();
+
+
+
+
+
+
+            Params.push(req);
+
+            Params = JSON.stringify({ 'Params': Params });
+
+            if (id != "") {
+                $.ajax({
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    url: '@Url.Action("FillDueFrom", "Academic")',
+                    data: Params,
+                    dataType: "json",
+                    beforeSend: function () {
+                        //alert(id);
+                    },
+                    success: function (data) {
+
+                        var markup = "<tr><th width='8%'><input type='checkbox' id='checkBoxAll' class='custom-checkbox' />Select All</th><th width='10%'>Roll No</th><th width='22%'>Name</th><th width='22%'>Father Name</th><th width='10%'>Scholarship Id</th><th width='15%'>Tuition Fee Due</th><th width='15%'>Other Fee</th></tr>";
+                        $("table thead").append(markup);
+
+                        $.each(data, function (i, Rec) {
+
+                            var markup = "<tr><td width='8%'><input type='checkbox' value='" + Rec.StudentId + "' class='chkres' name='StudentId'></td><td width='10%'>" + Rec.RollNo + "</td><td width='22%'>" + Rec.DisplayName + "</td><td width='22%'>" + Rec.FatherName + "</td><td width='10%'>" + Rec.ScholarshipId + "</td><td width='15%'><input type='text' id='DueVal' value='" + Rec.TuitionFee + "' name='DueVal' class='form-control'   onkeypress='return isNumber(event)' /></td><td width='15%'><input type='text' id='ODueVal' value='0' class='form-control' name='ODueVal'   onkeypress='return isNumber(event)' /></td></tr>";
+                            $("table tbody").append(markup);
+
+                        });
+
+                        var markup = "<tr><td>Number Of Rows Selected</td><td><input type='text' id='TotSelect' name='TotSelect' class='form-control' readonly/></td><td>Total Amount</td><td><input type='text' id='TotSum' name='TotSum' class='form-control' readonly/></td></tr>";
+                        $("table tfoot").append(markup);
+
+
+                        $("#ChallanNo").show();
+                        $("#PaymentDate").show();
+                        $("#EntryDate").show();
+                        $("#PayMode").show();
+                        $("#CN").show();
+                        $("#PD").show();
+                        $("#ED").show();
+                        $("#PM").show();
+
+                        $("#DataTable").show();
+                        $("#btnClear").show();
+                        $("#SaveAll").show();
+                        $("#loaderDiv").hide();
+
+                    },
+                    error: function (result) {
+
+                        alert('Data Not Available !');
+                        $("#ChallanNo").hide();
+                        $("#PaymentDate").hide();
+                        $("#EntryDate").hide();
+                        $("#PayMode").hide();
+                        $("#CN").hide();
+                        $("#PD").hide();
+                        $("#ED").hide();
+                        $("#PM").hide();
+                        $("#DataTable").hide();
+                        $("#btnClear").hide();
+                        $("#SaveAll").hide();
+                        $("#loaderDiv").hide();
+                    }
+                });
+            }
+            else {
+                //var items = '<option value="">Select</option>';
+                //$('#Course').html(items);
+            }
+        });
+
+    });
+
+
+
+
+
+    $(function () {
+        $("#PaymentDate").blur(function () {
+
+            var dtmin = "@Session["FD"]";
+            var dtmax = "@Session["ED"]";
+            var PaymentDate = $("#PaymentDate").val();
+
+            if (!(dtmin <= PaymentDate && dtmax >= PaymentDate)) {
+                alert("Payment Date should be with in financial Period !");
+                $("#PaymentDate").val("");
+
+            }
+
+
+        });
+    })
+
+
+    var Clear = function () {
+        $("#Batch").val("");
+        $("#Year").val("");
+        $("#Program").val("");
+        $("#Course").val("");
+        $("#Status").val("");
+        $("#DueFrom").val("");
+
+
+        $("#ChallanNo").hide();
+        $("#PaymentDate").hide();
+        $("#EntryDate").hide();
+        $("#PayMode").hide();
+        $("#CN").hide();
+        $("#PD").hide();
+        $("#ED").hide();
+        $("#PM").hide();
+        $("#DataTable").hide();
+        $("#SaveAll").hide();
+        $("#loaderDiv").hide();
+
+    }
+
+
+
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<section id="" class="animated fadeInUp">
+    <section class="fuelux" style="border: 0px solid #57bee0; margin: 50px 50px;">
+
+
+
+        <div class="step-content" style="margin-bottom: 0px; background: #fff; text-align: center; border-top: 1px solid #D4D4D4;">
+            <div class="step-pane active" id="step1">
+
+                <div class="col-md-offset-0  preauth_font">
+                    <div class="clear" style="clear: both;"></div>
+
+                    <div class="form-group col-sm-12 col-md-6 col-lg-3 text-left ">
+                        @Html.LabelFor(m => m.Batch, new { @class = "control-label" })
+                        <div>
+                            @Html.DropDownListFor(m => m.Batch, Model.Batches, "SELECT BATCH",
+                                              new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.Batch, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group col-sm-12 col-md-6 col-lg-3 text-left ">
+                        @Html.LabelFor(m => m.Year, new { @class = "control-label" })
+                        <div>
+                            @Html.DropDownListFor(m => m.Year, Model.Years, "SELECT YEAR",
+                                              new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.Year, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group col-sm-12 col-md-6 col-lg-3 text-left ">
+                        @Html.LabelFor(m => m.Program, new { @class = "control-label" })
+                        <div>
+                            @Html.DropDownListFor(m => m.Program, Model.Programs, "SELECT PROGRAM",
+                                              new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.Program, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+
+                    <div class="form-group col-sm-12 col-md-6 col-lg-3 text-left ">
+                        @Html.LabelFor(m => m.Course, new { @class = "control-label" })
+                        <div>
+                            @Html.DropDownListFor(m => m.Course, Model.Courses, "SELECT COURSE",
+                                              new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.Course, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group col-sm-12 col-md-6 col-lg-3 text-left ">
+                        @Html.LabelFor(m => m.Status, new { @class = "control-label" })
+                        <div>
+                            @Html.DropDownListFor(m => m.Status, Model.Statuses, "SELECT STATUS",
+                                              new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.Status, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+
+                    <div class="form-group col-sm-12 col-md-6 col-lg-3 text-left ">
+                        @Html.LabelFor(m => m.DueFrom, new { @class = "control-label" })
+                        <div>
+                            @Html.DropDownListFor(m => m.DueFrom, Model.DuesFrom, "SELECT DUE FROM",
+                                              new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.DueFrom, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+
+
+                    <div align="center">
+                        <table id="DataTable" style="width:100%;" class="table table-bordered">
+                            <thead>
+
+                            </thead>
+                            <tbody></tbody>
+                            <tfoot></tfoot>
+                        </table>
+
+                    </div>
+
+                    <div class="clearfix"></div>
+
+
+
+                    <div class="form-group col-sm-12 col-md-6 col-lg-3 text-left ">
+                        @*@Html.LabelFor(m => m.ChallanNo, new { @class = "control-label" })*@
+                        <span id="CN" class="control-label">Challan / DD / FT Number</span>
+                        <div>
+                            @Html.TextBoxFor(m => m.ChallanNo, new { @class = "form-control", placeholder = "Challan / DD / FT Number" })
+                            @Html.ValidationMessageFor(m => m.ChallanNo, "", new { @class = "text-danger" })
+
+                        </div>
+                    </div>
+
+                    <div class="form-group col-sm-12 col-md-6 col-lg-3 text-left ">
+                        @*@Html.LabelFor(m => m.PaymentDate, new { @class = "control-label" })*@
+                        <span id="PD" class="control-label">Payment Date</span>
+
+                        <div>
+                            @Html.TextBoxFor(m => m.PaymentDate, "{0:yyyy-MM-dd}", new { @class = "form-control", @type = "date", @min = @Session["FD"], @max = @Session["ED"] })
+                            @Html.ValidationMessageFor(m => m.PaymentDate, "", new { @class = "text-danger" })
+
+                        </div>
+                    </div>
+
+                    <div class="form-group col-sm-12 col-md-6 col-lg-3 text-left ">
+                        @*@Html.LabelFor(m => m.EntryDate, new { @class = "control-label" })*@
+                        <span id="ED" class="control-label">Entry Date</span>
+                        <div>
+
+                            @Html.TextBoxFor(m => m.EntryDate, "{0:yyyy-MM-dd}", new { @class = "form-control", @type = "date", @min = @DateTime.Now.ToString("yyyy-MM-dd"), @max = @DateTime.Now.ToString("yyyy-MM-dd") })
+                            @Html.ValidationMessageFor(model => model.EntryDate, "", new { @class = "text-danger" })
+
+                        </div>
+                    </div>
+
+
+
+                    <div class="form-group col-sm-12 col-md-6 col-lg-3 text-left ">
+                        @*@Html.LabelFor(m => m.PayMode, new { @class = "control-label" })*@
+                        <span id="PM" class="control-label">Payment Mode</span>
+                        <div>
+                            @Html.DropDownListFor(m => m.PayMode, Model.PayModes, "SELECT PAYMENT MODE",
+                                                       new { @class = "form-control", placeholder = "Password" })
+                            @Html.ValidationMessageFor(m => m.PayMode, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+
+
+
+                    <div class="wizard col-sm-12">
+                        <div class="pull-right" style="padding: 5px;">
+                            <button id="btnClear" onclick="Clear()" class="btn btn-default">Clear</button>
+                            <button type="submit" id="SaveAll" onclick="return confirm('Are you sure?')" class="btn btn-success btn-default">Submit</button>
+                        </div>
+                    </div>
+
+
+
+                </div>
+
+
+            </div>
+            <div class="clearfix"></div>
+
+        </div>
+     
+
+
+
+
+
+
+    </section>
+
+</section>
+
+
+

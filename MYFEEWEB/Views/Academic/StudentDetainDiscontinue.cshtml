@@ -1,0 +1,349 @@
+﻿@model MYFEELIB.Entities.Student_Detain_Discontinue
+@{
+    ViewData["Title"] = "Student Detain or Discontinue";
+}
+
+
+<section id="" class="animated fadeInUp">
+    <section class="fuelux" style="margin: 50px 50px;">
+
+        <div class="step-content" style="margin-bottom: 0px; background: #fff; text-align: center; border-top: 1px solid #D4D4D4;">
+            <div class="step-pane active" id="step1">
+
+                <div class="col-md-offset-1 col-sm-12 col-md-9 col-lg-9 preauth_font  ">
+                    <div class="clear" style="clear: both;"></div>
+
+                    <div class="form-group col-sm-12 col-md-12 col-lg-12 text-left ">
+                        @Html.LabelFor(m => m.RollNo, new { @class = "col-md-6 control-label" })
+                        <div class="col-sm-6">
+                            @Html.TextBoxFor(m => m.RollNo, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.RollNo, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group col-sm-12 col-md-12 col-lg-12 text-left">
+
+                        @Html.LabelFor(m => m.Name, new { @class = "col-sm-6 control-label" })
+                        <div class="col-sm-6">
+                            @Html.TextBoxFor(m => m.Name, new { @class = "form-control", placeholder = "Name", @readonly = "readonly" })
+                            @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group col-sm-12 col-md-12 col-lg-12 text-left">
+                        @Html.LabelFor(m => m.Year, new { @class = "col-md-6 control-label" })
+                        <div class="col-sm-6">
+                            @Html.TextBoxFor(m => m.Year, new { @class = "form-control", @readonly = "readonly" })
+
+
+
+                        </div>
+                    </div>
+
+
+                    <div class="form-group col-sm-12 col-md-12 col-lg-12 text-left ">
+                        @Html.LabelFor(m => m.DetainId, new { @class = "col-sm-6 control-label" })
+                        <div class="col-sm-6">
+                            @Html.DropDownListFor(m => m.DetainId, Model.DetainTypes, "SELECT DETAIN TYPE",
+                                              new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.DetainId, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group col-sm-12 col-md-12 col-lg-12 text-left ">
+                        @Html.LabelFor(m => m.Status, new { @class = "col-sm-6 control-label" })
+                        <div class="col-sm-6">
+                            @Html.DropDownListFor(m => m.Status, Model.Statuses, "SELECT STATUS",
+                                              new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.Status, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+
+
+                    <div class="form-group col-sm-12 col-md-12 col-lg-12 text-left ">
+                        @Html.LabelFor(m => m.DetainDate, new { @class = "col-sm-6 control-label" })
+                        <div class="col-sm-6">
+                            @Html.TextBoxFor(m => m.DetainDate, "{0:yyyy-MM-dd}", new { @class = "form-control", @type = "date", @min = @Session["FD"], @max = @Session["ED"] })
+                            @Html.ValidationMessageFor(m => m.DetainDate, "", new { @class = "text-danger" })
+
+                        </div>
+                    </div>
+
+
+
+
+
+                    <div class="form-group col-sm-12 col-md-12 col-lg-12 text-left">
+                        @Html.LabelFor(m => m.Remarks, new { @class = "col-sm-6 control-label" })
+                        <div class="col-sm-6">
+                            @Html.TextBoxFor(m => m.Remarks, new { @class = "form-control", placeholder = "Remarks" })
+                            @Html.ValidationMessageFor(m => m.Remarks, "", new { @class = "text-danger" })
+
+                        </div>
+                    </div>
+
+                    <div align="center">
+
+                        <table id="DataTable" style="width:100%;" class="table table-bordered">
+                            <thead>
+
+                            </thead>
+                            <tbody></tbody>
+                            <tfoot></tfoot>
+                        </table>
+
+                    </div>
+
+
+                    <div class="wizard col-sm-12">
+                        <div class="pull-right" style="padding: 5px;">
+
+                            <button type="submit" id="SaveAll" onclick="return confirm('Are you sure?')" class=" btn btn-success btn-default">Submit</button>
+                        </div>
+                    </div>
+
+
+                </div>
+
+
+
+                <div class="clearfix"></div>
+            </div>
+            <div class="clearfix"></div>
+
+        </div>
+        @*<div id="MyWizard" class="wizard" style=" text-align :right ">
+
+                <button type="submit" id="SaveAll" value="Save" class="btn-default round" onclick="return confirm('Are you sure?')">Submit</button>
+            </div>*@
+
+
+
+        <script type="text/jscript">
+
+            $(document).ready(function () {
+                $("#SaveAll").hide();
+
+
+            });
+
+            $(function () {
+
+                $('#DetainId').change(function () {
+                    $("#Remarks").val($("#DetainId :selected").text());
+                });
+
+            });
+
+
+            $(document).on('click', '.btnEdit', function () {
+                var id = $(this).attr("data-value");
+                $("#DetainModal").modal('show');
+                var id = $(this).attr("data-value");
+
+                var route = '@Url.Action("StudentDetainDetails", "Admin")?ID=' + id
+
+                $('#partialDetain').load(route);
+            });
+
+            $(document).on('click', '#btnDetainHideModal', function () {
+                $("#DetainModal").modal('hide');
+            });
+
+
+            $("#RollNo").blur(function () {
+
+                var RollNo = $("#RollNo").val();
+                if (RollNo != "") {
+                    $("#DataTable tr").remove();
+                    $("#SaveAll").hide();
+                    $.ajax({
+                        type: "GET",
+                        contentType: "application/json; charset=utf-8",
+                        url: '@Url.Action("verifyRollNo", "Academic")',
+                        data: { "RollNo": RollNo },
+                        dataType: "json",
+                        beforeSend: function () {
+                            //alert(id);
+                        },
+                        success: function (data) {
+                            $.each(data, function (i, Rec) {
+                                if (Rec.Status == "Active") {
+                                    $('#Name').val(Rec.Name);
+                                    $('#Year').val(Rec.Year);
+                                    $("#SaveAll").show();
+                                }
+                                else {
+                                    $('#Name').val("");
+                                    $('#Year').val("");
+
+                                    alert('This Roll No Already in In Active !');
+                                    $("#RollNo").val("");
+                                    $("#RollNo").focus();
+
+
+                                    //Display Detain or Discontinue Record
+                                    $("#DataTable tr").remove();
+                                    $.ajax({
+                                        type: "GET",
+                                        contentType: "application/json; charset=utf-8",
+                                        url: '@Url.Action("StudentSearchDetainDetails", "Admin")',
+                                        data: { "student": RollNo },
+                                        dataType: "json",
+                                        beforeSend: function () {
+
+                                        },
+                                        success: function (edata) {
+
+                                            var markup = "<tr><th width='5%'>S.No</th><th width='5%'>Year</th><th width='20%' align='right'>DetainId</th><th align='right' width='20%'>DetainDate</th><th width='20%' align='right'>Status</th><th width='20%' align='right'>Discontinue Date</th><th></th></tr>";
+                                            $("#DataTable > thead").append(markup);
+                                            var markupfooter;
+                                            var cnt = 1;
+                                            $.each(edata, function (i, Rec) {
+                                                if (Rec.Status != "Re Admitted") {
+
+
+
+                                                    var markup = "<tr><td width='5%'>" + cnt + "</td><td width='5%'>" + Rec.Year + "</td><td width='20%' align='right'>" + Rec.DetainId + "</td><td width='20%' align='right'>" + Rec.DDate + "</td><td width='20%' align='right'>" + Rec.Status + "</td><td width='20%' align='right'>" + Rec.DISDate + "</td> <td><a data-value=" + Rec.ID + " href='javascript:void(0)' class='btnEdit'>Edit</a></td></tr>";
+
+                                                    $("#DataTable > tbody").append(markup);
+                                                    //$('select[id="' + Rec.Id + '"]').val(Rec.Status);
+                                                    cnt = cnt + 1;
+                                                }
+
+
+                                            });
+
+
+                                        }
+                                    });
+
+                                    //End
+
+
+
+                                }
+                            });
+                        },
+                        error: function (result) {
+                            $('#Name').val("");
+                            $("#Year").val("");
+                            $("#DetainId").val("");
+                            $("#DetainDate").val("");
+                            $("#Status").val("");
+                            $("#Remarks").val("");
+                            alert('Invalid RollNo !');
+                            $("#RollNo").val("");
+                            $("#RollNo").focus();
+                        }
+                    });
+                }
+
+            });
+
+            $(document).on("click", "#SaveAll", function () {
+                //debugger;
+                var RollNo = $("#RollNo").val();
+                var Year = $("#Year").val();
+                var DetainId = $("#DetainId :selected").val();
+                var DetainDate = $("#DetainDate").val();
+                var Status = $("#Status :selected").val();
+
+
+                if (RollNo == "") {
+                    alert("Please Enter Challan / DD No !");
+                    $("#RollNo").focus();
+                    return;
+                }
+                else if (Year == "") {
+                    alert("Please Enter Year !");
+                    $("#Year").focus();
+                    return;
+                }
+                else if (DetainId == "") {
+                    alert("Please Select Detain Type !");
+                    $("#DetainId").focus();
+                    return;
+                }
+                else if (Status == "") {
+
+                    alert("Please Select Status !")
+                    $("#Status").focus();
+
+                    return;
+                }
+                else if (!Date.parse(DetainDate)) {
+                    alert("Please Enter Valid Detain Date !")
+                    $("#DetainDate").focus();
+
+                    return;
+                }
+                else if (DetainDate == "") {
+                    alert("Please Enter Detain Date !")
+                    $("#DetainDate").focus();
+                    return;
+                }
+
+                $("#loaderDiv").show();
+
+                var StudentDetain = new Array();
+                var req = {};
+
+                req.RollNo = $("#RollNo").val();
+                req.Year = $("#Year").val();
+                req.DetainId = $("#DetainId :selected").val();
+                req.DetainDate = $("#DetainDate").val();
+                req.Status = $("#Status :selected").val();
+                req.EnterBy = "@Session["username"]";
+                req.Remarks = $("#Remarks").val();
+                StudentDetain.push(req);
+
+                StudentDetain = JSON.stringify({ 'StudentDetain': StudentDetain });
+
+                //Send the JSON array to Controller using AJAX.
+                $.ajax({
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+
+                    url: '@Url.Action("SaveStudentDetain", "Academic")',
+                    data: StudentDetain,
+                    dataType: "json",
+                    success: function (r) {
+
+                        if (r == 0) {
+
+                            alert("Student Not Detained !");
+                            $("#loaderDiv").hide();
+                        }
+                        else {
+                            alert("Student Detained [or] Discontinued Successfully !");
+                            $("#RollNo").val("");
+                            $("#Year").val("");
+                            $("#DetainId").val("");
+                            $("#DetainDate").val("");
+                            $("#Status").val("");
+                            $("#Remarks").val("");
+                            $("#Name").val("");
+                            $("#SaveAll").hide();
+                            $("#loaderDiv").hide();
+                        }
+
+
+                    }
+                });
+            });
+
+
+
+
+
+
+
+
+
+        </script>
+
+    </section>
+
+</section>

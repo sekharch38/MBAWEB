@@ -1,0 +1,467 @@
+﻿@model MYFEELIB.Entities.Certificate
+@{
+    ViewData["Title"] = "Certificate";
+}
+
+<style>
+    .hidetext {
+        -webkit-text-security: disc; /* Default */
+    }
+</style>
+
+<script>
+    $(document).ready(function () {
+        $("#btnPrint").hide();
+    });
+
+    $(document).on("click", "#btnPrint", function () {
+        var rollno = $("#RollNo").val();
+        if (rollno != "") {
+            var txt = $("#SelectCertificate :selected").val();
+            if (txt == "TC") {
+                $("#ReportModal").modal('show');
+                var route = '@Url.Action("CertificateTC", "Admin")?RollNo=' + $("#RollNo").val()
+                $('#Report_Form').load(route);
+            }
+            if (txt == "BC") {
+                $("#ReportModal").modal('show');
+                var route = '@Url.Action("CertificateBC", "Admin")?RollNo=' + $("#RollNo").val()
+                $('#Report_Form').load(route);
+            }
+        }
+        else {
+            alert('Plese Enter RollNo !');
+        }
+    });
+
+    $(function () {
+        $('#Program').change(function () {
+            var id = $("#Program :selected").val();
+            if (id != "") {
+                $.ajax({
+                    type: "GET",
+                    contentType: "application/json; charset=utf-8",
+                    url: '@Url.Action("FillBatch", "Master")',
+                    data: { "PId": id },
+                    dataType: "json",
+                    beforeSend: function () {
+                    },
+                    success: function (data) {
+                        var items = "";
+                        $.each(data, function (i, Batch) {
+                            items += "<option value='" + Batch.Value + "'>" + Batch.Text + "</option>";
+                        });
+                        $('#Batch').html(items);
+
+                    },
+                    error: function (result) {
+
+                        alert('Service call failed: ' + result.status + ' Type :' + result.statusText);
+                    }
+                });
+            }
+            else {
+                var items = '<option value="">Select</option>';
+                $('#Batch').html(items);
+            }
+        });
+
+    });
+
+    $(function () {
+        //When the blur event occurs from your Textbox (you lose focus)
+        $('#RollNo').blur(function () {
+            var id = $("#RollNo").val();
+            //Perform your AJAX call to the Controller Action
+            $.ajax({
+                type: "GET",
+                contentType: "application/json; charset=utf-8",
+                url: '@Url.Action("CertificateGridDetails", "Master")',
+                data: { "rollno": id },
+                dataType: "json",
+                beforeSend: function () {
+                },
+
+                success: function (result) {
+
+                    var markup = "<tr><th width='5%'>S.No</th><th width='5%'>RollNo</th><th width='5%'>BatchId</th><th width='5%'>Actual</th><th width='5%'>Paid</th><th width='5%'>Due</th> </tr>";
+                    $("#DataTable").append(markup);
+                    var markupfooter;
+                    $.each(result, function (i, Rec) {
+                        var markup = "<tr><td width='10%'>" + (i + 1) + "</td><td width='20%'>" + Rec.RollNo + "</td><td width='20%'>" + Rec.Batch + "</td><td width='20%'>" + Rec.Actual + "</td><td width='15%'>" + Rec.Paid + "</td><td width='20%'>" + Rec.Due + "</td></tr>";
+                        debugger;
+                        $("#DataTable").append(markup);
+                        $('#Name').val(Rec.Name);
+                        $('#FatherName').val(Rec.FatherName);
+                        $('#DateOfBirth').val(Rec.DateOfBirth);
+                        $("#Dues").val(Rec.Due);
+                    });
+                }
+            });
+        });
+    });
+
+
+    $(function () {
+        $('#SelectCertificate').change(function () {
+            var id = $("#SelectCertificate :selected").val();
+            var rollno = $("#RollNo").val();
+            if (id != "") {
+                $.ajax({
+                    type: "GET",
+                    contentType: "application/json; charset=utf-8",
+                    url: '@Url.Action("SelectCertificateDetails", "Master")',
+                    data: { "rollno": rollno },
+                    dataType: "json",
+                    beforeSend: function () {
+                    },
+                    success: function (data) {
+
+                        var items = "";
+                        $.each(data, function (i, Rec) {
+
+                            $('#Course').val("Completed");
+
+                            $("#AnyDisciplinaryMeasurestakenagainsthim").val("No");
+                            $("#GeneralRemarks").val("No");
+                            $("#Conduct").val("GOOD");
+                            var due = $('#Dues').val();
+                            if (due = '0.00') {
+                                $("#Dues").val("NIL");
+                            }
+                            if (Rec.EntryId = 1) {
+                                var BatchId = Rec.Batch;
+                                var ArrBatchs = BatchId.split("-");
+                                var conBatch = parseInt(ArrBatchs[0]) + parseInt(Rec.Period);
+                                $("#AdmissiontotheCollege").val("Sept," + Rec.DateOfJoining + " " + Rec.Program + " 1/" + Rec.Period + "(" + Rec.Description + ")");
+                                $("#LeavingtheCollege").val("May," + conBatch + " " + Rec.Program + "" + Rec.Period + "/" + Rec.Period + "(" + Rec.Description + ")");
+                            }
+                            else if (Rec.EntryId = 2) {
+                                $("#AdmissiontotheCollege").val("Sept," + Rec.DateOfJoining + " " + Rec.Program + " 1/" + Rec.Period + "(" + Rec.Description + ")");
+                                $("#LeavingtheCollege").val("May," + conBatch + " " + Rec.Program + "" + Rec.Period + "/" + Rec.Period + "(" + Rec.Description + ")");
+
+                            }
+                            else if (Rec.EntryId = 3) {
+                                $("#AdmissiontotheCollege").val("Sept," + Rec.DateOfJoining + " " + Rec.Program + " 1/" + Rec.Period + "(" + Rec.Description + ")");
+                                $("#LeavingtheCollege").val("May," + conBatch + " " + Rec.Program + "" + Rec.Period + "/" + Rec.Period + "(" + Rec.Description + ")");
+
+                            }
+                        });
+
+
+                    },
+                    error: function (result) {
+
+                        alert('Service call failed: ' + result.status + ' Type :' + result.statusText);
+                    }
+                });
+            }
+            else {
+                var items = '<option value="">Select</option>';
+                $('#SelectCertificate').html(items);
+            }
+            var sno = $("#SelectCertificate :selected").val();
+            if (sno != "") {
+                $.ajax({
+                    type: "GET",
+                    contentType: "application/json; charset=utf-8",
+                    url: '@Url.Action("SelectCertificateSNODetails", "Master")',
+                    data: { "CertificateId": sno },
+                    dataType: "json",
+                    beforeSend: function () {
+                        //alert(id);
+                    },
+                    success: function (data) {
+
+                        var items = "";
+                        $.each(data, function (i, Rec) {
+                            $('#SNo').val(Rec.SNo);
+                            //SNo
+                        });
+
+
+                    },
+                    error: function (result) {
+
+                        alert('Service call failed: ' + result.status + ' Type :' + result.statusText);
+                    }
+                });
+            }
+            else {
+                var items = '<option value="">Select</option>';
+                $('#SelectCertificate').html(items);
+            }
+        });
+
+    });
+
+    var CertificateSave = function () {
+
+        var data = $("#MyCertificateForm").serialize();
+
+        var Dues = $("#Dues").val();
+        var AnyDisciplinaryMeasurestakenagainsthim = $("#AnyDisciplinaryMeasurestakenagainsthim").val();
+        var Course = $("#Course :selected").val();
+        var Conduct = $("#Conduct").val();
+        var AdmissiontotheCollege = $("#AdmissiontotheCollege").val();
+        var LeavingtheCollege = $("#LeavingtheCollege").val();
+
+
+
+        if (Dues == "") {
+            alert("Enter Dues !");
+            $("#Dues").focus();
+            return false;
+        }
+        if (AnyDisciplinaryMeasurestakenagainsthim == "") {
+            alert("Enter Disciplinary !");
+            $("#AnyDisciplinaryMeasurestakenagainsthim").focus();
+            return false;
+        }
+        if (Course == "") {
+            alert("Select Course !");
+            $("#Course").focus();
+            return false;
+        }
+        if (Conduct == "") {
+            alert("Enter Conduct !");
+            $("#Conduct").focus();
+            return false;
+        }
+        if (AdmissiontotheCollege == "") {
+            alert("Enter Admission !");
+            $("#AdmissiontotheCollege").focus();
+            return false;
+        }
+        if (LeavingtheCollege == "") {
+            alert("Enter Leaving !");
+            $("#LeavingtheCollege").focus();
+            return false;
+        }
+
+        if (Dues != "0" && Dues != "NIL") {
+            alert("Please Select Certificate and Due must be 0 or NIL.!");
+            $("#Dues").focus();
+            return false;
+        }
+
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("CertificateSave", "Master")',
+            data: data,
+            success: function (r) {
+                if (r == "Error") {
+                    alert("Certificate Not Saved !");
+                    $("#btnPrint").hide();
+                }
+                else {
+                    alert("Certificate Saved Successfully !");
+                    $("#Program").val("");
+                    $("#Batch").val("");
+                    $("#RollNo").val("");
+                    $("#Name").val("");
+                    $("#FatherName").val("");
+                    $("#DateOfBirth").val("");
+                    $("#SelectCertificate").val("");
+                    $("#Course").val("");
+                    $("#Bonafied").val("");
+                    $("#DateOfLeaving").val("");
+                    $("#Dues").val("");
+                    $("#Conduct").val("");
+                    $("#AdmissiontotheCollege").val("");
+                    $("#LeavingtheCollege").val("");
+                    $("#AnyDisciplinaryMeasurestakenagainsthim").val("");
+                    $("#GeneralRemarks").val("");
+                    $("#SNo").val("");
+                    $("#btnPrint").show();
+                }
+            }
+        });
+    }
+
+    var Clear = function () {
+        $("#Program").val("");
+        $("#Batch").val("");
+        $("#RollNo").val("");
+        $("#Name").val("");
+        $("#FatherName").val("");
+        $("#DateOfBirth").val("");
+        $("#SelectCertificate").val("");
+        $("#Course").val("");
+        $("#Bonafied").val("");
+        $("#DateOfLeaving").val("");
+        $("#Dues").val("");
+        $("#Conduct").val("");
+        $("#AdmissiontotheCollege").val("");
+        $("#LeavingtheCollege").val("");
+        $("#AnyDisciplinaryMeasurestakenagainsthim").val("");
+        $("#GeneralRemarks").val("");
+        $("#SNo").val("");
+        $(".text-danger field-validation-error").empty();
+    }
+</script>
+<section id="" class="animated fadeInUp">
+    <section class="fuelux" style=" margin: 50px 50px;">
+
+        <form id="MyCertificateForm">
+            <div class="step-content" style="margin-bottom: 0px; background: #fff; text-align: center; border-top: 1px solid #D4D4D4;">
+
+
+                <div class="step-pane active" id="step1">
+
+                    <div class="col-md-offset-1 col-sm-12 col-md-9 col-lg-9 preauth_font  ">
+                        <div class="clear" style="clear: both;"></div>
+                        <div class="form-group col-sm-12 col-md-12 col-lg-12 text-left ">
+                            @Html.LabelFor(m => m.Program, new { @class = "control-label" })
+                            <div class="">
+                                @Html.DropDownListFor(m => m.Program, Model.Programs, "SELECT PROGRAM",
+                                                      new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.Program, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-12 col-md-12 col-lg-12 text-left ">
+                            @Html.LabelFor(m => m.Batch, new { @class = "control-label" })
+                            <div class="">
+                                @Html.DropDownListFor(m => m.Batch, Model.Batchs, "SELECT Batch",
+                                                      new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.Batch, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-12 col-md-12 col-lg-12 text-left ">
+                            @Html.LabelFor(m => m.RollNo, new { @class = "control-label" })
+                            <div class="">
+                                @Html.TextBoxFor(m => m.RollNo, new { @class = "form-control ucase" })
+                                @Html.ValidationMessageFor(m => m.RollNo, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group col-sm-12 col-md-12 col-lg-12 text-left ">
+                            @Html.LabelFor(m => m.Name, new { @class = "control-label" })
+                            <div class="">
+                                @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-12 col-md-12 col-lg-12 text-left ">
+                            @Html.LabelFor(m => m.FatherName, new { @class = "control-label" })
+                            <div class="">
+                                @Html.TextBoxFor(m => m.FatherName, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.FatherName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-12 col-md-12 col-lg-12 text-left ">
+                            @Html.LabelFor(model => model.DateOfBirth, htmlAttributes: new { @class = "control-label" })
+                            <div class="">
+                                @Html.TextBoxFor(m => m.DateOfBirth, "{0:yyyy-MM-dd}", new { @class = "form-control date", @type = "date", @min = @DateTime.Now.AddYears(-50).ToString("yyyy-MM-dd"), @max = @DateTime.Now.ToString("yyyy-MM-dd") })
+                                @Html.ValidationMessageFor(model => model.DateOfBirth, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="clearfix"></div>
+                        <div align="center">
+
+                            <table id="DataTable" style="width:100%;" class="table table-bordered">
+                                <thead>
+
+                                </thead>
+                                <tbody></tbody>
+                                <tfoot></tfoot>
+                            </table>
+
+                        </div>
+
+
+
+                        <div class="form-group col-sm-12 col-md-12 col-lg-12 text-left ">
+                            @Html.LabelFor(m => m.SelectCertificate, new { @class = "control-label" })
+                            <div class="">
+                                @Html.DropDownListFor(m => m.SelectCertificate, Model.SelectCertificates, "SELECT CERTIFICATE",
+                                                                         new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.SelectCertificate, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-12 col-md-12 col-lg-12 text-left ">
+                            @Html.LabelFor(m => m.Course, new { @class = "control-label" })
+                            <div class="">
+                                @Html.DropDownListFor(m => m.Course, Model.Courses, "SELECT COURSE",
+                                                                         new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.Course, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+
+                        <div class="form-group col-sm-12 col-md-12 col-lg-12 text-left ">
+                            @Html.LabelFor(m => m.DateOfLeaving, new { @class = "control-label" })
+                            <div class="">
+                                @Html.TextBoxFor(m => m.DateOfLeaving, "{0:yyyy-MM-dd}", new { @Value = "2019-08-01", @class = "form-control", @type = "date", @min = @DateTime.Now.AddYears(-50).ToString("yyyy-MM-dd"), @max = @DateTime.Now.ToString("yyyy-MM-dd") })
+                                @Html.ValidationMessageFor(m => m.DateOfLeaving, "", new { @class = "text-danger" })
+
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-12 col-md-12 col-lg-12 text-left ">
+                            @Html.LabelFor(m => m.Dues, new { @class = "control-label" })
+                            <div class="">
+                                @Html.TextBoxFor(m => m.Dues, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.Dues, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-12 col-md-12 col-lg-12 text-left ">
+                            @Html.LabelFor(m => m.Conduct, new { @class = " control-label" })
+                            <div class="">
+                                @Html.TextBoxFor(m => m.Conduct, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.Conduct, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-12 col-md-12 col-lg-12 text-left ">
+                            @Html.LabelFor(m => m.AdmissiontotheCollege, new { @class = " control-label" })
+                            <div class="">
+                                @Html.TextBoxFor(m => m.AdmissiontotheCollege, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.AdmissiontotheCollege, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-12 col-md-12 col-lg-12 text-left ">
+                            @Html.LabelFor(m => m.LeavingtheCollege, new { @class = " control-label" })
+                            <div class="">
+                                @Html.TextBoxFor(m => m.LeavingtheCollege, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.LeavingtheCollege, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group col-sm-12 col-md-12 col-lg-12 text-left ">
+                            @Html.LabelFor(m => m.AnyDisciplinaryMeasurestakenagainsthim, new { @class = " control-label" })
+                            <div class="">
+                                @Html.TextBoxFor(m => m.AnyDisciplinaryMeasurestakenagainsthim, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.AnyDisciplinaryMeasurestakenagainsthim, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-12 col-md-12 col-lg-12 text-left ">
+                            @Html.LabelFor(m => m.GeneralRemarks, new { @class = " control-label" })
+                            <div class="">
+                                @Html.TextBoxFor(m => m.GeneralRemarks, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.GeneralRemarks, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-12 col-md-12 col-lg-12 text-left ">
+                            @Html.LabelFor(m => m.SNo, new { @class = " control-label" })
+                            <div class="">
+                                @Html.TextBoxFor(m => m.SNo, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.SNo, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="wizard col-sm-12">
+                            <div class="pull-right" style="padding: 5px;">
+                                <button id="btnClear" onclick="Clear()" class="btn btn-default">Clear</button>
+                                <button type="submit" id="btnsubmit" onclick="CertificateSave()" class="btn btn-success btn-default">Generate Certificate</button>
+                                <button id="btnPrint" class="btn btn-success btn-default">Print Certificate</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </form>
+        <div align="center">
+        </div>
+    </section>
+</section>

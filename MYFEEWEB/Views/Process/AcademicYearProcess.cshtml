@@ -1,0 +1,194 @@
+﻿@{
+    ViewData["Title"] = "Academic Year Process";
+}
+
+<script type="text/jscript">
+
+    $(document).ready(function () {
+        $("#SaveAll").hide();
+        $("#loaderDiv").show();
+        $.ajax({
+            type: "GET",
+            url: '@Url.Action("FillProgram", "Process")',
+            data: "{}",
+            success: function (data) {
+                var items = "";
+                $.each(data, function (i, program) {
+                    items += "<option value='" + program.Value + "'>" + program.Text + "</option>";
+                });
+                $('#program').html(items);
+                $("#loaderDiv").hide();
+            },
+            error: function (result) {
+                alert('Service call failed: ' + result.status + ' Type :' + result.statusText);
+                $("#loaderDiv").hide();
+            }
+        });
+    });
+
+    $(function () {
+
+        $('#program').change(function () {
+            $("#BatchDataTable tr").remove();
+            $("#loaderDiv").show();
+            var id = $("#program :selected").val();
+            if (id != "") {
+
+                $.ajax({
+                    type: "GET",
+                    contentType: "application/json; charset=utf-8",
+                    url: '@Url.Action("FinanciYearBatches", "Process")',
+                    data: { "PId": id },
+                    dataType: "json",
+                    beforeSend: function () {
+                        //alert(id);
+                    },
+                    success: function (data) {
+                        var markup = "<tr><th width='20%'>S.No</th><th width='40%'>Batch</th><th width='30%'>Year</th><th width='10%'>Select Batch</th></tr>";
+                        $("#BatchDataTable > thead").append(markup);
+
+                        $.each(data, function (i, Rec) {
+                            var markup = "<tr><td width='20%'>" + (i + 1) + "</td><td width='40%'>" + Rec.Batch + "</td><td width='30%'>" + Rec.Year + "</td><td style='width: 10%'><input type='button' class='btn btn-danger btnSelect'  value='Select' /></td></tr>";
+                            $("#BatchDataTable > tbody").append(markup);
+                        });
+                        $("#loaderDiv").hide();
+
+                    },
+                    error: function (result) {
+
+                        alert('Service call failed: ' + result.status + ' Type :' + result.statusText);
+                        $("#loaderDiv").hide();
+                    }
+                });
+            }
+            else {
+
+                $("#loaderDiv").hide();
+            }
+        });
+
+    });
+
+    $(document).on('click', '.btnSelect', function () {
+
+        var chkRows = $("#BatchDataTable").find(".my-class");
+        chkRows.each(function () {
+            $(this).removeClass("my-class");
+        });
+
+
+
+        $(this).closest("tr").addClass("my-class");
+        $("#ProcessDataTable tr").remove();
+        var markup = "<tr><th width='20%'>Batch</th><th width='20%'>Year</th><th width='40%'>Batch & Year Related to All Programs (Do you Want To close check check box)</th><th width='20%'>Academic Year Process</th></tr>";
+        $("#ProcessDataTable > thead").append(markup);
+        var markup = "<tr><td width='30%'>" + $(this).closest("tr").find('td:eq(1)').text() + "</td><td width='30%'>" + $(this).closest("tr").find('td:eq(2)').text() + "</td><td width='30%'><input id=ChkBatch type='checkbox' /></td><td style='width: 10%'><input type='button' class='btn  btn-info btnProcess' value='Proceed' /></td></tr>";
+        $("#ProcessDataTable >  tbody").append(markup);
+    });
+
+
+
+
+    $(document).on('click', '.btnProcess', function () {
+
+        var data = {};
+        data.Program = $("#program :selected").val();
+        data.Batch = $(this).closest("tr").find('td:eq(0)').text();
+        data.Year = $(this).closest("tr").find('td:eq(1)').text();
+        data.UserName = "@Session["username"]";
+
+        var $chkbox = $(this).closest("tr").find('input[type="checkbox"]');
+
+        if (!$chkbox.is(":checked")) {
+            data.BatchClose = "No";
+        }
+        else {
+            data.BatchClose = "Yes";
+        }
+
+
+        $("#ProcessDiv").show();
+
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("AcademicYearProcess", "Process")',
+            data: data,
+            success: function (r) {
+                if (r === 0) {
+                    alert("Financial Year Process has not done !");
+                  
+                    $("#ProcessDiv").hide();
+                }
+                else {
+                    alert("Financial Year Process Done Successfully !");
+                    $("#ProcessDiv").hide();
+                    $("#program").val("");
+                    $("#ProcessDataTable tr").remove();
+                    var chkRows = $("#BatchDataTable").find(".my-class");
+                    chkRows.each(function () {
+                        $(this).remove();
+                    });
+                    var rowCount = $('#BatchDataTable tbody tr').length;
+
+                    if (rowCount == 0) {
+                        $("#BatchDataTable tr").remove();
+                    }
+                }
+            },
+            error: function (result) {
+                alert('Service call failed: ' + result.status + ' Type :' + result.statusText);
+                $("#ProcessDiv").hide();
+            }
+
+        });
+    });
+</script>
+<section id="" class="animated min-height-brow fadeInUp">
+    <section class="fuelux" style="border: 1px solid #cccccc; margin: 50px 50px; background: #fff;">
+
+        <div class="step-content" style="margin-bottom: 0px; background: #fff; text-align: center; border-top: 1px solid #D4D4D4;">
+            <div class="step-pane active" id="step1">
+
+                <div class="col-md-offset-1 col-sm-12 col-md-9 col-lg-9 preauth_font  ">
+                    <div class="clear" style="clear: both;"></div>
+
+                    <div class="form-group col-sm-12 col-md-12 col-lg-12 text-left ">
+
+                        <span class="col-sm-6 control-label">SELECT PROGRAM</span>
+                        <div class="col-sm-6">
+                            <select id="program" class="form-control"></select>
+                        </div>
+                    </div>
+                    <div align="center">
+
+                        <table id="BatchDataTable" style="width:100%;" class="table table-bordered">
+                            <thead>
+
+                            </thead>
+                            <tbody></tbody>
+                            <tfoot></tfoot>
+                        </table>
+
+                    </div>
+                    <div align="center">
+
+                        <table id="ProcessDataTable" style="width:100%;" class="table table-bordered">
+                            <thead>
+
+                            </thead>
+                            <tbody></tbody>
+                            <tfoot></tfoot>
+                        </table>
+
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="clearfix"></div>
+
+        </div>
+
+
+    </section>
+
+</section>

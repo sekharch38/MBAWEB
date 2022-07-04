@@ -1,0 +1,200 @@
+﻿@model MYFEELIB.Entities.Message
+@{
+    ViewData["Title"] = "Message";
+}
+
+<style>
+    .hidetext {
+        -webkit-text-security: disc; /* Default */
+    }
+</style>
+
+<script>
+
+    $(document).ready(function () {
+      //  debugger;
+        $.ajax({
+            type: "GET",
+            contentType: "application/json; charset=utf-8",
+            url: '@Url.Action("MessagesMasterDetails", "Master")',
+            dataType: "json",
+            beforeSend: function () {
+
+            },
+            success: function (data) {
+
+                var markup = "<tr><th width='5%'>S.No</th><th width='5%'>MessageId</th><th width='20%'>Messages</th><th width='10%' align='right'>MessageType</th><th width='10%' align='right'>IsAmount</th> <th align='right'></th></tr>";
+                $("#DataTable").append(markup);
+                var markupfooter;
+                $.each(data, function (i, Rec) {
+                    var markup = "<tr><td width='5%'>" + (i + 1) + "</td><td width='5%'>" + Rec.MessageId + "</td><td width='20%' >" + Rec.Messages + "</td><td width='10%' align='left'>" + Rec.MessageType + "</td><td width='10%' align='left'>" + Rec.IsAmount + "</td><td><a data-value=" + Rec.MessageId + " href='javascript:void(0)' class='btnEdit'>Edit</a></td></tr>";
+                    $("#DataTable").append(markup);
+
+
+                });
+
+            }
+        });
+
+
+
+    });
+
+    $(document).on('click', '.btnEdit', function () {
+         var id = $(this).attr("data-value");
+         $("#MessageId").val(id);
+         $("#MessageId").prop("readonly", true);
+        $("#Messages").val($(this).closest("tr").find('td:eq(2)').text());
+        $("#MessageType").val($(this).closest("tr").find('td:eq(3)').text());
+        $("#IsAmount").val($(this).closest("tr").find('td:eq(4)').text());
+
+        var IsAmount = $(this).closest("tr").find('td:eq(4)').text();
+        if (IsAmount == "Yes") {
+            $("#Yes").prop("checked", true);
+        }
+        else {
+            $("#No").prop("checked", true);
+        }
+    });
+
+    var MessageSave = function () {
+
+        var data = $("#MyMessageForm").serialize();
+
+        var MessageId = $("#MessageId").val();
+        var Messages = $("#Messages").val();
+        var MessageType = $("#MessageType :selected").val();
+
+        if (MessageId == "") {
+            alert("Enter MessageId !");
+            $("#MessageId").focus();
+            return false;
+        }
+        if (Messages == "") {
+            alert("Enter Messages !");
+            $("#Messages").focus();
+            return false;
+        }
+        if (MessageType == "") {
+            alert("Select MessageType !");
+            $("#MessageType").focus();
+            return false;
+        }
+
+
+
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("MessagesMasterSave", "Master")',
+            data: data,
+            success: function (r) {
+
+                if (r == "Error") {
+
+                    alert("Message Not Saved !");
+
+                }
+                else {
+                    alert("Message Saved Successfully !");
+                    $("#MessageId").val("");
+                    $("#Messages").val("");
+                    $("#MessageType").val("");
+
+                }
+
+
+            }
+        });
+    }
+
+    var Clear = function () {
+        $("#MessageId").val("");
+        $("#Messages").val("");
+        $("#MessageType").val("");
+        $(".text-danger field-validation-error").empty();
+    }
+
+
+
+</script>
+<section id="" class="animated fadeInUp">
+    <section class="fuelux" style=" margin: 50px 50px;">
+
+        <form id="MyMessageForm">
+            <div class="step-content" style="margin-bottom: 0px; background: #fff; text-align: center; border-top: 1px solid #D4D4D4;">
+
+
+                <div class="step-pane active" id="step1">
+
+                    <div class="col-md-offset-0  preauth_font">
+                        <div class="clear" style="clear: both;"></div>
+
+
+
+
+                        <div class="form-group col-sm-12 col-md-6 col-lg-3 text-left ">
+                            @Html.LabelFor(m => m.MessageId, new { @class = "control-label" })
+                            <div class="">
+                                @Html.TextBoxFor(m => m.MessageId, new { @class = "form-control ucase" })
+                                @Html.ValidationMessageFor(m => m.MessageId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group col-sm-12 col-md-6 col-lg-3 text-left ">
+                            @Html.LabelFor(m => m.Messages, new { @class = "control-label" })
+                            <div class="">
+                                @Html.TextBoxFor(m => m.Messages, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.Messages, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group col-sm-12 col-md-6 col-lg-3 text-left ">
+                            @Html.LabelFor(m => m.MessageType, new { @class = "col-sm-6 control-label" })
+                            <div class="">
+                                @Html.DropDownListFor(m => m.MessageType, Model.MessageTypes, "SELECT MessageType",
+                                              new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.MessageType, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group col-sm-12 col-md-6 col-lg-4 text-left ">
+                            @Html.LabelFor(m => m.IsAmount, new { @class = "col-sm-12 control-label" })
+                            <div class="col-sm-12">
+
+                                @Html.RadioButtonFor(m => m.IsAmount, "Yes", new { id = "Yes" })
+                                @Html.Label("Yes", new { @for = "Yes" })
+                                @Html.RadioButtonFor(m => m.IsAmount, "No", new { id = "No", @checked = "checked" })
+                                @Html.Label("No", new { @for = "No" })
+                            </div>
+                        </div>
+
+
+                        <div class="wizard col-sm-12">
+                            <div class="pull-right" style="padding: 5px;">
+                                <button id="btnClear" onclick="Clear()" class="btn btn-default">Clear</button>
+                                <button type="submit" id="btnsubmit" onclick="MessageSave()" class="btn btn-success btn-default">Submit</button>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="clearfix"></div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </form>
+
+
+        <div align="center">
+            <table id="DataTable" style="width:100%;" class="table table-bordered">
+                <thead>
+
+                </thead>
+                <tbody></tbody>
+                <tfoot></tfoot>
+            </table>
+
+        </div>
+
+    </section>
+</section>

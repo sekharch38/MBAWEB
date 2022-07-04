@@ -1,0 +1,140 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section css {
+    <style>
+        .filter-table .quick {
+            margin-left: 0.5em;
+            font-size: 0.8em;
+            text-decoration: none;
+        }
+
+        .fitler-table .quick:hover {
+            text-decoration: underline;
+        }
+
+        td.alt {
+            background-color: #ffc;
+            background-color: rgba(255, 255, 0, 0.2);
+        }
+    </style>
+}
+<h2>MVC Grid</h2>
+
+@*<div>
+        @Html.ActionLink("Index", "Index")
+    </div>*@
+<div class="col-md-1">
+    <select id="ddlFilterColumns" class="form-control input-sm">
+        <option value="">All Columns</option>
+        <option value="0">First</option>
+        <option value="1">Last</option>
+        <option value="2">Address</option>
+        <option value="3">City</option>
+        <option value="4">State</option>
+
+    </select>
+</div>
+<div class="col-md-11">
+</div>
+<div id="dvTable">
+    <table id="tblSearch" cellpadding="2" cellspacing="0" border="1" style="width:500px;">
+
+        <tr style="font-weight:bold;">
+
+            <td>First</td>
+            <td>Last</td>
+            <td>Address</td>
+            <td>City</td>
+            <td>State</td>
+
+        </tr>
+
+        <tr>
+
+            <td>John</td>
+            <td>Dough</td>
+            <td>123 Main Street</td>
+            <td>Orlando</td>
+            <td>Florida</td>
+
+        </tr>
+
+        <tr>
+
+            <td>Jane</td>
+
+            <td>Dough</td>
+
+            <td>4367 South Washington Avenue</td>
+
+            <td>Bartow</td>
+
+            <td>California</td>
+
+        </tr>
+
+        <tr>
+
+            <td>Bart</td>
+
+            <td>Thompson</td>
+
+            <td>531 Townsend Circle</td>
+
+            <td>Atlanta</td>
+
+            <td>Georgia</td>
+
+        </tr>
+
+        <tr>
+
+            <td>Sherry</td>
+
+            <td>Simpson</td>
+
+            <td>3346 Presario Lane, Apt. 123</td>
+
+            <td>Seattle</td>
+
+            <td>Washington</td>
+
+        </tr>
+
+        <tr>
+
+            <td>Matt</td>
+
+            <td>Damon</td>
+
+            <td>300 Pounds Street</td>
+
+            <td>Boston</td>
+
+            <td>Massachusetts</td>
+
+        </tr>
+
+    </table>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        debugger;
+        $('#tblSearch').filterTable({ ignoreClass: 'no-filter' });
+
+        $('#ddlFilterColumns').change(function () {
+            var index = $(this).val();
+            if (index == "")
+                $('#tblSearch td').removeClass('no-filter');
+            else {
+                $('#tblSearch>tbody>tr>td').addClass('no-filter');
+                $('#tblSearch>tbody>tr').each(function () {
+                    $('td:eq(' + index + ')', this).removeClass('no-filter');
+                });
+            }
+        });
+    });
+</script>

@@ -1,0 +1,376 @@
+﻿@model MYFEELIB.Entities.MassMailingSMS
+@{
+    ViewData["Title"] = "MassMailingSMS";
+}
+
+<style>
+    .hidetext {
+        -webkit-text-security: disc; /* Default */
+    }
+</style>
+
+<script>
+
+    $(function () {
+
+        $('#Program').change(function () {
+            //debugger;
+            var id = $("#Program :selected").val();
+            if (id != "") {
+                $.ajax({
+                    type: "GET",
+                    contentType: "application/json; charset=utf-8",
+                    url: '@Url.Action("FillCourse", "Master")',
+                    data: { "PId": id },
+                    dataType: "json",
+                    beforeSend: function () {
+                        //alert(id);
+                    },
+                    success: function (data) {
+                        var items = "";
+                        $.each(data, function (i, Course) {
+                            items += "<option value='" + Course.Value + "'>" + Course.Text + "</option>";
+                        });
+                        $('#Course').html(items);
+
+                    },
+                    error: function (result) {
+
+                        alert('Service call failed: ' + result.status + ' Type :' + result.statusText);
+                    }
+                });
+            }
+            else {
+                var items = '<option value="">Select</option>';
+                $('#Course').html(items);
+            }
+
+
+            var Program = $("#Program :selected").val();
+            if (Program != "") {
+                $.ajax({
+                    type: "GET",
+                    contentType: "application/json; charset=utf-8",
+                    url: '@Url.Action("FillBatch", "Master")',
+                    data: { "PId": id },
+                    dataType: "json",
+                    beforeSend: function () {
+                        //alert(id);
+                    },
+                    success: function (data) {
+                        var items = "";
+                        $.each(data, function (i, Batch) {
+                            items += "<option value='" + Batch.Value + "'>" + Batch.Text + "</option>";
+                        });
+                        $('#Batch').html(items);
+
+                    },
+                    error: function (result) {
+
+                        alert('Service call failed: ' + result.status + ' Type :' + result.statusText);
+                    }
+                });
+            }
+            else {
+                var items = '<option value="">Select</option>';
+                $('#Batch').html(items);
+            }
+
+            var Year = $("#Program :selected").val();
+            
+            if (Year != "") {
+                $.ajax({
+                    type: "GET",
+                    contentType: "application/json; charset=utf-8",
+                    url: '@Url.Action("YearList", "Master")',
+                    data: { "Program": id },
+                    dataType: "json",
+                    beforeSend: function () {
+                        //alert(id);
+                    },
+
+                    success: function (data) {
+                        debugger;
+                        var items = "";
+                        $.each(data, function (i, Year) {
+                            items += "<option value='" + Year.Value + "'>" + Year.Text + "</option>";
+                        });
+                        $('#Year').html(items);
+
+                    },
+                    error: function (result) {
+                        debugger;
+                        alert('Service call failed: ' + result.status + ' Type :' + result.statusText);
+                    }
+                });
+            }
+            else {
+                var items = '<option value="">Select</option>';
+                $('#Year').html(items);
+            }
+      
+        });
+
+    });
+
+    $(function () {
+
+        $('#Batch').change(function () {
+          //  debugger;
+            var id = $("#Batch :selected").val();
+            var Program = $("#Program :selected").val();
+            if (id != "") {
+                $.ajax({
+                    type: "GET",
+                    contentType: "application/json; charset=utf-8",
+                    url: '@Url.Action("QCNameDetails", "Master")',
+                    data: { "PId": Program },
+                    dataType: "json",
+                    beforeSend: function () {
+                        //alert(id);
+                    },
+                    success: function (data) {
+                        debugger;
+                        $('#checkBoxAll').empty();
+                        var content;
+                        $.each(data, function (index, value) {
+                            content += '<input type="checkbox" name="' + value.name + '" id="' + value.id + '"/>'
+                        });
+                        $('#checkBoxAll').html(content);
+                       
+
+                        //$('#checkboxContainer').empty();
+                        //var content;
+                        //$.each(data, function (index, value) {
+                        //    content += '<input type="checkbox" name="' + value.name + '" id="' + value.id + '"/>'
+                        //});
+                        //$('#checkboxContainer').html(content);
+
+
+                        ////Determine the reference CheckBox in Header row.
+                        //var chkAll = $("#checkBoxAll");
+
+                        ////By default set to Checked.
+                        //chkAll.attr("checked", "checked");
+
+                        ////Fetch all row CheckBoxes in the Table.
+                        //var chkRows = $("#DataTable").find(".chkres");
+
+                        ////Execute loop over the CheckBoxes and if even one CheckBox
+                        ////is unchecked then Uncheck the Header CheckBox.
+                        //chkRows.each(function () {
+                        //    if (!$(this).is(":checked")) {
+                        //        chkAll.removeAttr("checked", "checked");
+                        //        return;
+                        //    }
+                        //});
+                    },
+                    error: function (result) {
+                        debugger;
+                        alert('Service call failed: ' + result.status + ' Type :' + result.statusText);
+                    }
+                });
+            }
+            else {
+                var items = '<option value="">Select</option>';
+                $('#Batch').html(items);
+            }
+        });
+
+    });
+
+      @*$(document).ready(function () {
+      //  debugger;
+        $.ajax({
+            type: "GET",
+            contentType: "application/json; charset=utf-8",
+            url: '@Url.Action("MessagesMasterDetails", "Master")',
+            dataType: "json",
+            beforeSend: function () {
+
+            },
+            success: function (data) {
+
+                var markup = "<tr><th width='5%'>S.No</th><th width='5%'>MessageId</th><th width='20%'>Messages</th><th width='10%' align='right'>MessageType</th><th width='10%' align='right'>IsAmount</th> <th align='right'></th></tr>";
+                $("#DataTable").append(markup);
+                var markupfooter;
+                $.each(data, function (i, Rec) {
+                    var markup = "<tr><td width='5%'>" + (i + 1) + "</td><td width='5%'>" + Rec.MessageId + "</td><td width='20%' >" + Rec.Messages + "</td><td width='10%' align='left'>" + Rec.MessageType + "</td><td width='10%' align='left'>" + Rec.IsAmount + "</td><td><a data-value=" + Rec.MessageId + " href='javascript:void(0)' class='btnEdit'>Edit</a></td></tr>";
+                    $("#DataTable").append(markup);
+
+
+                });
+
+            }
+        });
+        
+    });*@
+
+    $(document).on('click', '.btnEdit', function () {
+         var id = $(this).attr("data-value");
+         $("#MessageId").val(id);
+         $("#MessageId").prop("readonly", true);
+        $("#Messages").val($(this).closest("tr").find('td:eq(2)').text());
+        $("#MessageType").val($(this).closest("tr").find('td:eq(3)').text());
+        $("#IsAmount").val($(this).closest("tr").find('td:eq(4)').text());
+
+        var IsAmount = $(this).closest("tr").find('td:eq(4)').text();
+        if (IsAmount == "Yes") {
+            $("#Yes").prop("checked", true);
+        }
+        else {
+            $("#No").prop("checked", true);
+        }
+    });
+
+    var MessageSave = function () {
+
+        var data = $("#MyMessageForm").serialize();
+
+        var MessageId = $("#MessageId").val();
+        var Messages = $("#Messages").val();
+        var MessageType = $("#MessageType :selected").val();
+
+        if (MessageId == "") {
+            alert("Enter MessageId !");
+            $("#MessageId").focus();
+            return false;
+        }
+        if (Messages == "") {
+            alert("Enter Messages !");
+            $("#Messages").focus();
+            return false;
+        }
+        if (MessageType == "") {
+            alert("Select MessageType !");
+            $("#MessageType").focus();
+            return false;
+        }
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("MessagesMasterSave", "Master")',
+            data: data,
+            success: function (r) {
+
+                if (r == "Error") {
+
+                    alert("Message Not Saved !");
+                }
+                else {
+                    alert("Message Saved Successfully !");
+                    $("#MessageId").val("");
+                    $("#Messages").val("");
+                    $("#MessageType").val("");
+                }
+            }
+        });
+    }
+
+    var Clear = function () {
+        $("#MessageId").val("");
+        $("#Messages").val("");
+        $("#MessageType").val("");
+        $(".text-danger field-validation-error").empty();
+    }
+
+</script>
+<section id="" class="animated fadeInUp">
+    <section class="fuelux" style=" margin: 50px 50px;">
+
+        <form id="MyMessageForm">
+            <div class="step-content" style="margin-bottom: 0px; background: #fff; text-align: center; border-top: 1px solid #D4D4D4;">
+
+
+                <div class="step-pane active" id="step1">
+
+                    <div class="col-md-offset-0  preauth_font">
+                        <div class="clear" style="clear: both;"></div>
+
+                        <div class="form-group col-sm-12 col-md-6 col-lg-3 text-left ">
+                            @Html.LabelFor(m => m.Program, new { @class = "col-sm-6 control-label" })
+                            <div class="">
+                                @Html.DropDownListFor(m => m.Program, Model.Programs, "SELECT Program",
+                                              new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.Program, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group col-sm-12 col-md-6 col-lg-3 text-left ">
+                            @Html.LabelFor(m => m.Course, new { @class = "col-sm-6 control-label" })
+                            <div class="">
+                                @Html.DropDownListFor(m => m.Course, Model.Courses, "SELECT Course",
+                                              new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.Course, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group col-sm-12 col-md-6 col-lg-3 text-left ">
+                            @Html.LabelFor(m => m.Batch, new { @class = "col-sm-6 control-label" })
+                            <div class="">
+                                @Html.DropDownListFor(m => m.Batch, Model.Batchs, "SELECT Batch",
+                                              new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.Batch, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group col-sm-12 col-md-6 col-lg-3 text-left ">
+                            @Html.LabelFor(m => m.Year, new { @class = "col-sm-6 control-label" })
+                            <div class="">
+                                @Html.DropDownListFor(m => m.Year, Model.Years, "SELECT Year",
+                                              new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.Year, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <table id="DataTable" style="width:40%;" class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th><input type="checkbox" id="checkBoxAll" class="custom-checkbox" />Select All</th>                                 
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                              
+                                @*@foreach (var OF in ViewBag.ListOtherFee)
+                                {
+                                    <tr>
+                                        <td><input type="checkbox" name="QCId" value="@OF.FeeId" class="chkres" /></td>
+                                        <td>@OF.FeeName</td>
+                                        <td class="combat" style="text-align :center ">@OF.Amount</td>
+
+                                    </tr>
+                                }*@                              
+
+                            </tbody>
+                        </table>
+
+
+
+                        <div class="wizard col-sm-12">
+                            <div class="pull-right" style="padding: 5px;">
+                                <button id="btnClear" onclick="Clear()" class="btn btn-default">Clear</button>
+                                <button type="submit" id="btnsubmit" onclick="MessageSave()" class="btn btn-success btn-default">Submit</button>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="clearfix"></div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </form>
+
+
+        <div align="center">
+            <table id="DataTable" style="width:100%;" class="table table-bordered">
+                <thead>
+
+                </thead>
+                <tbody></tbody>
+                <tfoot></tfoot>
+            </table>
+
+        </div>
+
+    </section>
+</section>

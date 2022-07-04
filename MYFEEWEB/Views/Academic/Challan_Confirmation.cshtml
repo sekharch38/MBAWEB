@@ -1,0 +1,420 @@
+﻿@model MYFEELIB.Entities.ChallanConfirmation
+@{
+    //Layout = null;
+    ViewData["Title"] = "Challan Confirmation";
+}
+
+
+<script>
+    function isNumber(evt) {
+        evt = (evt) ? evt : window.event;
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+            return false;
+        }
+        return true;
+    }
+</script>
+<script type="text/jscript">
+
+
+    $(document).ready(function () {
+        $("#Confirm").hide();
+        $("#Year").val("");
+
+    });
+
+    $(function () {
+
+        $('#PaymentDate').blur(function () {
+            //debugger;
+            $("#DataTable tr").remove();
+            $("#PayMode").val("");
+            $("#Year").val("");
+            $("#Name").val("");
+            $("#ChallanNo").val("");
+            $("#Confirm").hide();
+
+            var items = '<option value="">SELECT TRANSACTIONS</option>';
+            $('#TransactionId').html(items);
+
+            var dtmin = "@Session["FD"]";
+            var dtmax = "@Session["ED"]";
+            var PaymentDate = $("#PaymentDate").val();
+
+            if (!(dtmin <= PaymentDate && dtmax >= PaymentDate)) {
+                alert("Payment Date should be with in financial Period !");
+                $("#PaymentDate").val("");
+                return;
+
+            }
+
+            var Dt = $("#PaymentDate").val();
+            if (Dt != "") {
+                $.ajax({
+                    type: "GET",
+                    contentType: "application/json; charset=utf-8",
+                    url: '@Url.Action("TransactionList", "Academic")',
+                    data: { "DT": Dt },
+                    dataType: "json",
+                    beforeSend: function () {
+                        //alert(id);
+                    },
+                    success: function (data) {
+                        var items = "";
+                        if (data.length != 0) {
+                            $.each(data, function (i, Tr) {
+                                items += "<option value='" + Tr.Value + "'>" + Tr.Text + "</option>";
+                            });
+                            $('#TransactionId').html(items);
+                        }
+                        else {
+                            var items = '<option value="">SELECT TRANSACTIONS</option>';
+                            $('#TransactionId').html(items);
+                            alert("Transactions not available for Confirmation !")
+                        }
+
+                    },
+                    error: function (result) {
+
+                        alert('Service call failed: ' + result.status + ' Type :' + result.statusText);
+                        var items = '<option value="">SELECT TRANSACTIONS</option>';
+                        $('#TransactionId').html(items);
+                    }
+                });
+            }
+            else {
+                var items = '<option value="">SELECT TRANSACTIONS</option>';
+                $('#TransactionId').html(items);
+            }
+        });
+
+    });
+
+
+
+    $(function () {
+
+        $('#TransactionId').change(function () {
+            // debugger;
+            $("#DataTable tr").remove();
+            var id = $("#TransactionId :selected").val();
+            if (id != "") {
+                $.ajax({
+                    type: "GET",
+                    contentType: "application/json; charset=utf-8",
+                    url: '@Url.Action("StudentTransactionDetails", "Academic")',
+                    data: { "TranId": id },
+                    dataType: "json",
+                    beforeSend: function () {
+                        //alert(id);
+                    },
+                    success: function (data) {
+                        var markup = "<tr><th width='20%'>SNo</th><th width='20%'>TransactionId</th><th width='20%'>FeeId</th><th width='20%'>Amount</th></tr>";
+                        $("table thead").append(markup);
+                        var markupfooter;
+                        $.each(data, function (i, Rec) {
+
+                            $("#StudentId").val(Rec.StudentId);
+                            $("#TranId").val(id);
+                            $("#Name").val(Rec.DisplayName);
+                            $("#ChallanNo").val(Rec.ChallanNo);
+                            $("#PayMode").val(Rec.PayMode);
+                            $("#Year").val(Rec.Year);
+
+
+                            var markup = "<tr><td width='20%'>" + (i + 1) + "</td><td width='20%'>" + id + "</td><td width='40%'>" + Rec.FeeId + "</td><td width='20%'>" + Rec.Amount + "</td></tr>";
+                            $("table tbody").append(markup);
+
+                            markupfooter = "<tr><td></td><td></td><td>Total Amount</td><td><input type='text' id='TotSum' value='" + Rec.TotalAmount + "' name='TotSum' class='form-control' readonly/></td></tr>";
+
+                        });
+
+
+                        $("table tfoot").append(markupfooter);
+
+                        $("#Confirm").show();
+                        $("#loaderDiv").hide();
+
+                    },
+                    error: function (result) {
+
+                        alert('Service call failed: ' + result.status + ' Type :' + result.statusText);
+                        $("#PayMode").val("");
+                        $("#Year").val("");
+                        $("#Name").val("");
+                        $("#ChallanNo").val("");
+                        $("#Confirm").hide();
+                        $("#loaderDiv").hide();
+                    }
+                });
+            }
+            else {
+                $("#DataTable tr").remove();
+                $("#PayMode").val("");
+                $("#Year").val("");
+                $("#Name").val("");
+                $("#ChallanNo").val("");
+                $("#Confirm").hide();
+            }
+        });
+
+    });
+
+
+
+
+
+
+    $(document).on("click", "#Confirm", function () {
+
+        // debugger;
+        var Tran_Id = $("#TransactionId :selected").val();
+        var Challan_No = $("#ChallanNo");
+        var PaymentDate = $("#PaymentDate");
+        var PM = $("#PayMode").val();
+        var Totamount = $("#TotSum").val();
+
+        if (Tran_Id == "") {
+            alert("Please Select Transaction!");
+            return;
+        }
+        else if (Challan_No.val() == "") {
+            alert("Please Enter Challan / DD No !");
+            return;
+        }
+        else if (PaymentDate.val() == "") {
+            alert("Please Enter Payment Date !");
+            return;
+        }
+        else if (PM == "") {
+
+            alert("Please Select Payment Mode !")
+            return;
+        }
+        else if (Totamount == "") {
+
+            alert("Please Select Students !")
+            return;
+        }
+        else if (Totamount == "0") {
+
+            alert("Please Enter Amount !")
+            return;
+        }
+
+
+        var StudentTransactions = new Array();
+        $("#DataTable TBODY TR").each(function () {
+
+            var req = {};
+
+            var row = $(this);
+            var EnterAmount = $(this).closest("tr").find('td:eq(3)').text();
+            if (!isNaN(EnterAmount) && EnterAmount.length !== 0) {
+
+                var req = {};
+
+
+                req.StudentId = $("#StudentId").val();
+                req.TotalAmout = $("#TotSum").val();
+
+                req.Year = $("#Year").val();
+                req.ChallanNo = $("#ChallanNo").val();
+                req.PaymentDate = $("#PaymentDate").val();
+
+                req.PayMode = $("#PayMode").val();
+                req.EnterBy = "@Session["username"]";
+
+                req.Id = $(this).closest("tr").find('td:eq(0)').text();
+                req.TransactionId = $(this).closest("tr").find('td:eq(1)').text();
+                req.FeeId = $(this).closest("tr").find('td:eq(2)').text();
+                req.Due = $(this).closest("tr").find('td:eq(3)').text();
+
+
+                StudentTransactions.push(req);
+
+            }
+        });
+
+
+
+
+        StudentTransactions = JSON.stringify({ 'StudentTransactions': StudentTransactions });
+
+        //Send the JSON array to Controller using AJAX.
+        $.ajax({
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+
+            url: '@Url.Action("ConfirmAcademicChallan", "Academic")',
+            data: StudentTransactions,
+            dataType: "json",
+            success: function (r) {
+
+                if (r == 0) {
+
+                    alert("Student Fee Details Not Confirmed.");
+                }
+                else {
+                    alert("Student Fee Details Confirmed.");
+                    $("#DataTable tr").remove();
+                    var Tran_Id = $("#TranId").val();
+                    $("#TransactionId option[value='" + Tran_Id + "']").remove();
+                    $("#PaymentDate").val("");
+                    $("#TransactionId").val("");
+                    $("#PayMode").val("");
+                    $("#Year").val("");
+                    $("#Name").val("");
+                    $("#ChallanNo").val("");
+                    $("#Confirm").hide();
+                }
+
+
+            }
+        });
+    });
+
+
+    $(document).on("click", "#btnShowModal", function () {
+        //var id = $(this).data('assigned-id');
+        var PaymentDate = $("#PaymentDate").val();
+        if (PaymentDate.val() == "") {
+            alert("Please Enter Payment Date !");
+            return;
+        }
+        var route = '@Url.Action("GetExtraPaid", "Academic")?id=' + $("#PaymentDate").val();
+        $('#partial').load(route);
+        refresh: true
+        $("#loginModal").modal('show');
+    });
+    $("#btnHideModal").click(function () {
+        //$(this).removeData('modal');
+        $("#loginModal").modal('hide');
+    });
+
+</script>
+
+
+
+
+
+<section id="" class="animated fadeInUp">
+    <section class="fuelux" style="margin: 50px 100px;">
+
+
+
+        <div class="step-content" style="margin-bottom: 0px; background: #fff; text-align: center; border-top: 1px solid #D4D4D4;">
+            <div class="step-pane active" id="step1">
+
+                <div class="col-md-offset-1 col-sm-12 col-md-9 col-lg-9 preauth_font  ">
+                    <div class="clear" style="clear: both;"></div>
+
+
+                    <div class="form-group col-sm-12 col-md-12 col-lg-12 text-left ">
+                        @Html.LabelFor(m => m.PaymentDate, new { @class = "col-sm-6 control-label" })
+                        <div class="col-sm-6">
+                            @Html.TextBoxFor(m => m.PaymentDate, "{0:yyyy-MM-dd}", new { @class = "form-control", @type = "date", @min = @Session["FD"], @max = @Session["ED"] })
+
+
+                        </div>
+                    </div>
+
+                    <div class="form-group col-sm-12 col-md-12 col-lg-12 text-left ">
+                        @Html.LabelFor(m => m.TransactionId, new { @class = "col-sm-6 control-label" })
+                        <div class="col-sm-6">
+                            @Html.DropDownListFor(m => m.TransactionId, Model.Transactions, "SELECT TRANSACTION",
+                                              new { @class = "form-control" })
+
+                        </div>
+                    </div>
+
+
+
+                    <div class="form-group col-sm-12 col-md-12 col-lg-12 text-left">
+
+                        @Html.LabelFor(m => m.Name, new { @class = "col-sm-6 control-label" })
+                        <div class="col-sm-6">
+                            @Html.TextBoxFor(m => m.Name, new { @class = "form-control", placeholder = "Name", @readonly = "readonly" })
+
+                        </div>
+                    </div>
+
+
+                    <div class="form-group col-sm-12 col-md-12 col-lg-12 text-left">
+                        @Html.LabelFor(m => m.ChallanNo, new { @class = "col-md-6 control-label" })
+                        <div class="col-sm-6">
+                            @Html.TextBoxFor(m => m.ChallanNo, new { @class = "form-control", @readonly = "readonly", placeholder = "Challan / DD / FT Number" })
+
+
+
+                        </div>
+                    </div>
+
+
+                    <div class="form-group col-sm-12 col-md-12 col-lg-12 text-left">
+                        @Html.LabelFor(m => m.PayMode, new { @class = "col-md-6 control-label" })
+                        <div class="col-sm-6">
+                            @Html.TextBoxFor(m => m.PayMode, new { @class = "form-control", placeholder = "Payment Mode", @readonly = "readonly" })
+
+
+
+                        </div>
+                    </div>
+
+                    <div class="form-group col-sm-12 col-md-12 col-lg-12 text-left">
+                        @Html.LabelFor(m => m.Year, new { @class = "col-md-6 control-label" })
+                        <div class="col-sm-6">
+                            @Html.TextBoxFor(m => m.Year, new { @class = "form-control", placeholder = "Year", @readonly = "readonly" })
+
+
+
+                        </div>
+                    </div>
+
+                    <div align="center">
+                        <input type='hidden' id='StudentId' name='StudentId' value=''>
+                        <input type='hidden' id='TranId' name='TranId' value=''>
+                        <table id="DataTable" style="width:100%;" class="table table-bordered">
+                            <thead>
+
+                            </thead>
+                            <tbody></tbody>
+                            <tfoot></tfoot>
+                        </table>
+
+                    </div>
+
+
+                    <div class="wizard col-sm-12">
+                        <div class="pull-right" style="padding: 5px;">
+                            <button type="submit" id="Confirm" onclick="return confirm('Are you sure?')" class="btn btn-success btn-default">Confirm</button>
+                        </div>
+                    </div>
+
+
+
+
+
+                </div>
+
+
+
+
+
+
+
+                <div class="clearfix"></div>
+            </div>
+            <div class="clearfix"></div>
+
+        </div>
+
+
+    </section>
+
+
+
+
+</section>
+

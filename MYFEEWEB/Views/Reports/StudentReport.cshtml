@@ -1,0 +1,236 @@
+﻿@model MYFEELIB.Entities.RequireElements
+@{
+    ViewData["Title"] = "Student Report";
+}
+
+<script type="text/jscript">
+
+    $(document).ready(function () {
+
+
+    });
+
+
+
+
+
+
+
+    $(document).on("click", "#BtnGenerate", function () {
+      
+        if ($("#Batch :selected").val() == "") {
+            alert("Please Select Batch !");
+            return;
+        }
+        else if ($("#Year :selected").val() == "") {
+            alert("Please Select Year !");
+            return;
+        }
+        else if ($("#Program :selected").val() == "") {
+            alert("Please Select Program !");
+            return;
+        }
+
+        else if ($("#Status :selected").val() == "") {
+            alert("Please Select Status !");
+            return;
+        }
+        var Params = new Array();
+        var req = {};
+
+        req.Batch = $("#Batch :selected").val();
+        req.YearId = $("#Year :selected").val();
+        req.Program = $("#Program :selected").val();
+
+        req.Status = $("#Status :selected").val();
+
+        Params.push(req);
+
+        Params = JSON.stringify({ 'Params': Params });
+
+        $("#ReportModal").modal('show');
+        var route = '@Url.Action("GenerateStudentReport", "Reports")?Param=' + $("#Batch :selected").val() + '/' + $("#Year :selected").val() + '/' + $("#Program :selected").val() + '/' + $("#Status :selected").val()
+        $('#Report_Form').load(route);
+
+
+
+
+    });
+
+
+
+
+
+    $(function () {
+
+        $('#Batch').change(function () {
+            //  debugger;
+            var id = $("#Batch :selected").val();
+            if (id != "") {
+                $.ajax({
+                    type: "GET",
+                    contentType: "application/json; charset=utf-8",
+                    url: '@Url.Action("FillYears", "Academic")',
+                    data: { "Batch": id },
+                    dataType: "json",
+                    beforeSend: function () {
+                        //alert(id);
+                    },
+                    success: function (data) {
+                        var items = "";
+                        $.each(data, function (i, yr) {
+                            items += "<option value='" + yr.Value + "'>" + yr.Text + "</option>";
+                        });
+                        $('#Year').html(items);
+
+                    },
+                    error: function (result) {
+
+                        alert('Service call failed: ' + result.status + ' Type :' + result.statusText);
+                    }
+                });
+            }
+            else {
+                var items = '<option value="">Select</option>';
+                $('#Year').html(items);
+            }
+        });
+
+    });
+
+    $(function () {
+
+        $('#Program').change(function () {
+            //  debugger;
+            var id = $("#Program :selected").val();
+            if (id != "") {
+                $.ajax({
+                    type: "GET",
+                    contentType: "application/json; charset=utf-8",
+                    url: '@Url.Action("FillCourse", "Academic")',
+                    data: { "PId": id },
+                    dataType: "json",
+                    beforeSend: function () {
+                        //alert(id);
+                    },
+                    success: function (data) {
+                        var items = "";
+                        $.each(data, function (i, Course) {
+                            items += "<option value='" + Course.Value + "'>" + Course.Text + "</option>";
+                        });
+                        $('#Course').html(items);
+
+                    },
+                    error: function (result) {
+
+                        alert('Service call failed: ' + result.status + ' Type :' + result.statusText);
+                    }
+                });
+            }
+            else {
+                var items = '<option value="">Select</option>';
+                $('#Course').html(items);
+            }
+        });
+
+    });
+
+
+
+
+
+
+
+
+
+
+    var Clear = function () {
+        $("#Batch").val("");
+        $("#Year").val("");
+        $("#Program").val("");
+
+        $("#Status").val("");
+
+
+    }
+
+
+
+
+</script>
+
+<section id="" class="animated fadeInUp">
+    <section class="fuelux" style="border: 0px solid #57bee0; margin: 50px 50px;">
+
+
+
+        <div class="step-content" style="margin-bottom: 0px; background: #fff; text-align: center; border-top: 1px solid #D4D4D4;">
+            <div class="step-pane active" id="step1">
+
+                <div class="col-md-offset-0  preauth_font">
+                    <div class="clear" style="clear: both;"></div>
+
+                    <div class="form-group col-sm-12 col-md-6 col-lg-3 text-left ">
+                        @Html.LabelFor(m => m.Batch, new { @class = "control-label" })
+                        <div>
+                            @Html.DropDownListFor(m => m.Batch, Model.Batches, "SELECT BATCH",
+                                              new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.Batch, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group col-sm-12 col-md-6 col-lg-3 text-left ">
+                        @Html.LabelFor(m => m.Year, new { @class = "control-label" })
+                        <div>
+                            @Html.DropDownListFor(m => m.Year, Model.Years, "SELECT YEAR",
+                                              new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.Year, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group col-sm-12 col-md-6 col-lg-3 text-left ">
+                        @Html.LabelFor(m => m.Program, new { @class = "control-label" })
+                        <div>
+                            @Html.DropDownListFor(m => m.Program, Model.Programs, "SELECT PROGRAM",
+                                              new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.Program, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group col-sm-12 col-md-6 col-lg-3 text-left ">
+                        @Html.LabelFor(m => m.Status, new { @class = "control-label" })
+                        <div>
+                            @Html.DropDownListFor(m => m.Status, Model.Statuses, "SELECT STATUS",
+                                              new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.Status, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+
+                    <div class="wizard col-sm-12">
+                        <div class="pull-right" style="padding: 5px;">
+                            <button id="btnClear" onclick="Clear()" class="btn btn-default">Clear</button>
+                            <button type="submit" id="BtnGenerate" class="btn btn-success btn-default">Generate Report</button>
+                        </div>
+                    </div>
+
+
+
+                </div>
+
+
+            </div>
+            <div class="clearfix"></div>
+
+        </div>
+
+
+
+
+
+
+
+    </section>
+
+</section>
+

@@ -1,0 +1,380 @@
+﻿@model MYFEELIB.Entities.TobeReceived
+@{
+    ViewData["Title"] = "AcademicChallan";
+}
+<script type="text/jscript">
+
+
+    $(document).ready(function () {
+        $.ajax({
+            type: "GET",
+            contentType: "application/json; charset=utf-8",
+            url: '@Url.Action("TobeReceivedDetails", "Master")',
+            dataType: "json",
+            beforeSend: function () {
+            },
+            success: function (data) {
+                var markup = "<tr><th width='10%'>S.No</th><th width='10%'>Program</th><th width='10%'>Quota Category</th><th width='10%' align='right'>Year</th><th width='10%' align='right'>Convenor</th><th width='10%' align='right'>TSMFC / APSMFC </th><th width='10%' align='right'>Student</th><th width='10%' align='right'>Is Percentage</th><th width='10%' align='right'>Edit</th></tr>";
+                $("#DataTable").append(markup);
+                var markupfooter;
+                var i = 0;
+                $.each(data, function (i, Rec) {
+                    var markup = "<tr><td width='10%'>" + (i + 1) + "</td><td width='10%'>" + Rec.Program + "</td><td width='10%' class='hidetext'>" + Rec.QuotaCategory + "</td><td width='10%' align='left'>" + Rec.Year + "</td><td width='10%' align='left'>" + Rec.Convenor + "</td><td width='10%' align='left'>" + Rec.APSMFC + "</td><td width='10%' align='left'>" + Rec.Student + "</td><td width='10%' align='left'>" + Rec.IsPercentage + "</td><td><a href='javascript:void(0)'  class='btnEdit'>Edit</a></td></tr>";
+                    $("#DataTable").append(markup);
+                });
+            }
+        });
+    });
+
+
+    $(function () {
+
+        $('#Program').change(function () {
+            //  debugger;
+            var id = $("#Program :selected").val();
+
+            if (id != "") {
+                $.ajax({
+                    type: "GET",
+                    contentType: "application/json; charset=utf-8",
+                    url: '@Url.Action("QuotaCatList", "Master")',
+                    data: { "Program": id },
+                    dataType: "json",
+                    beforeSend: function () {
+                        //alert(id);
+                    },
+                    success: function (data) {
+                        var items = "";
+                        $.each(data, function (i, QC) {
+                            items += "<option value='" + QC.Value + "'>" + QC.Text + "</option>";
+                        });
+                        $('#QuotaCategory').html(items);
+
+                    },
+                    error: function (result) {
+
+                        alert('Service call failed: ' + result.status + ' Type :' + result.statusText);
+                    }
+                });
+            }
+            else {
+                var items = '<option value="">SELECT QUOTA CATEGORY</option>';
+                $('#QuotaCategory').html(items);
+            }
+
+
+            if (id != "") {
+                $.ajax({
+                    type: "GET",
+                    contentType: "application/json; charset=utf-8",
+                    url: '@Url.Action("YearList", "Master")',
+                    data: { "Program": id },
+                    dataType: "json",
+                    beforeSend: function () {
+                        //alert(id);
+                    },
+                    success: function (data) {
+                        var items = "";
+                        $.each(data, function (i, QC) {
+                            items += "<option value='" + QC.Value + "'>" + QC.Text + "</option>";
+                        });
+                        $('#Year').html(items);
+
+                    },
+                    error: function (result) {
+
+                        alert('Service call failed: ' + result.status + ' Type :' + result.statusText);
+                    }
+                });
+            }
+            else {
+                var items = '<option value="">SELECT YEAR</option>';
+                $('#Year').html(items);
+            }
+
+        });
+
+    });
+
+    $(document).on('click', '.btnEdit', function () {
+
+        var strIsPercentage = $(this).closest("tr").find('td:eq(7)').text();
+        if (strIsPercentage == "Yes") {
+            $("input[name='IsPercentage'][value='Yes']").prop("checked", true);
+        }
+        else {
+            $("input[name='IsPercentage'][value='No']").prop("checked", true);
+        }
+        $("#Program").val($(this).closest("tr").find('td:eq(1)').text());
+        var QCId = $(this).closest("tr").find('td:eq(2)').text();
+        var Year = $(this).closest("tr").find('td:eq(3)').text()
+
+
+        var id = $("#Program :selected").val();
+        if (id != "") {
+            $.ajax({
+                type: "GET",
+                contentType: "application/json; charset=utf-8",
+                url: '@Url.Action("QuotaCatList", "Master")',
+                data: { "Program": id },
+                dataType: "json",
+                beforeSend: function () {
+                    //alert(id);
+                },
+                success: function (data) {
+                    var items = "";
+                    $.each(data, function (i, QC) {
+                        items += "<option value='" + QC.Value + "'>" + QC.Text + "</option>";
+                    });
+                    $('#QuotaCategory').html(items);
+                    $("#QuotaCategory").val(QCId);
+                },
+                error: function (result) {
+                    alert('Service call failed: ' + result.status + ' Type :' + result.statusText);
+                }
+            });
+        }
+        else {
+            var items = '<option value="">SELECT QUOTA CATEGORY</option>';
+            $('#QuotaCategory').html(items);
+        }
+
+
+        if (id != "") {
+            $.ajax({
+                type: "GET",
+                contentType: "application/json; charset=utf-8",
+                url: '@Url.Action("YearList", "Master")',
+                data: { "Program": id },
+                dataType: "json",
+                beforeSend: function () {
+                    //alert(id);
+                },
+                success: function (data) {
+                    var items = "";
+                    $.each(data, function (i, QC) {
+                        items += "<option value='" + QC.Value + "'>" + QC.Text + "</option>";
+                    });
+                    $('#Year').html(items);
+                    $("#Year").val(Year);
+                },
+                error: function (result) {
+
+                    alert('Service call failed: ' + result.status + ' Type :' + result.statusText);
+                }
+            });
+        }
+        else {
+            var items = '<option value="">SELECT YEAR</option>';
+            $('#Year').html(items);
+        }
+
+        $("#Convenor").val($(this).closest("tr").find('td:eq(4)').text());
+        $("#APSMFC").val($(this).closest("tr").find('td:eq(5)').text())
+        $("#Student").val($(this).closest("tr").find('td:eq(6)').text())
+
+
+    });
+
+    var SelectControls = function () {
+
+    }
+
+    $(document).on("click", "#SaveAll", function () {
+
+
+        var Program = $("#Program").val();
+        var Year = $("#Year").val();
+        var QC = $("#QuotaCategory").val();
+        var Con = $("#Convenor").val();
+        var APSMFC = $("#APSMFC").val();
+        var Student = $("#Student").val();
+        var IsPercentage = $("#IsPercentage").val();
+
+        var radioValue = $("input[name='IsPercentage']:checked").val();
+        if (radioValue == "") {
+            alert("Select IsPercentage !");
+            $("#IsPercentage").focus();
+            return false;
+        }
+
+        if (Program == "") {
+            alert("Enter Program !");
+            $("#Program").focus();
+            return false;
+        }
+        if (QC == "") {
+            alert("Enter Quota Category !");
+            $("#QuotaCategory").focus();
+            return false;
+        }
+        if (Year == "") {
+            alert("Enter Year !");
+            $("#Year").focus();
+            return false;
+        }
+        if (Con == "") {
+            alert("Enter Convenor !");
+            $("#Convenor").focus();
+            return false;
+        }
+        if (APSMFC == "") {
+            alert("Enter TSMFC !");
+            $("#APSMFC").focus();
+            return false;
+        }
+
+        if (Student == "") {
+            alert("Enter Student !");
+            $("#Student").focus();
+            return false;
+        }
+
+        var data = {};
+        data.Program = Program;
+        data.QuotaCategory = QC;
+        data.Year = Year;
+        data.Convenor = Con;
+        data.APSMFC = APSMFC;
+        data.Student = Student;
+        data.IsPercentage = radioValue;
+
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("TobeReceived_Save", "Master")',
+            data: data,
+            success: function (r) {
+                if (r == "Error") {
+                    alert("Record Not submitted !");
+                }
+                else {
+                    alert("Record Submitted Successfully !");
+                    $("#Program").val("");
+                    $("#QuotaCategory").val("");
+                    $("#Year").val("");
+                    $("#Convenor").val("");
+                    $("#APSMFC").val("");
+                    $("#Student").val("");
+                }
+            },
+            error: function (result) {
+                alert('Service call failed: ' + result.status + ' Type :' + result.statusText);
+            }
+        });
+    });
+
+
+
+
+
+
+
+
+</script>
+
+<script language="javascript" type="text/javascript">
+    $(document).ready(function () {
+        try {
+            $("input[type='text']").each(function () {
+                $(this).attr("autocomplete", "off");
+            });
+        }
+        catch (e)
+        { }
+    });
+</script>
+
+
+<section id="" class="animated min-height-brow fadeInUp">
+    <section class="fuelux" style="margin: 50px 50px;">
+
+        <div class="step-content" style="margin-bottom: 0px; background: #fff; text-align: center; border-top: 1px solid #D4D4D4;">
+            <div class="step-pane active" id="step1">
+
+                <div class="col-md-offset-1 col-sm-12 col-md-9 col-lg-9 preauth_font  ">
+                    <div class="clear" style="clear: both;"></div>
+                    <div class="form-group col-sm-12 col-md-6 col-lg-4 text-left ">
+                        @Html.LabelFor(m => m.Program, new { @class = "col-sm-12 control-label" })
+                        <div class="col-sm-12">
+                            @Html.DropDownListFor(m => m.Program, Model.Programs, "SELECT PROGRAM",
+                                              new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.Program, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group col-sm-12 col-md-6 col-lg-4 text-left ">
+                        @Html.LabelFor(m => m.QuotaCategory, new { @class = "col-sm-12 control-label" })
+                        <div class="col-sm-12">
+                            @Html.DropDownListFor(m => m.QuotaCategory, Model.QuotaCategories, "SELECT QUOTA CATEGORY",
+                                              new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.QuotaCategory, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group col-sm-12 col-md-6 col-lg-4 text-left ">
+                        @Html.LabelFor(m => m.Year, new { @class = "col-sm-12 control-label" })
+                        <div class="col-sm-12">
+                            @Html.DropDownListFor(m => m.Year, Model.Years, "SELECT YEAR",
+                                              new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.Year, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group col-sm-12 col-md-6 col-lg-4 text-left">
+
+                        @Html.LabelFor(m => m.Convenor, new { @class = "col-sm-12 control-label" })
+                        <div class="col-sm-12">
+                            @Html.TextBoxFor(m => m.Convenor, new { @class = "form-control ucase" })
+                            @Html.ValidationMessageFor(m => m.Convenor, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group col-sm-12 col-md-6 col-lg-4 text-left">
+
+                        @Html.LabelFor(m => m.APSMFC, new { @class = "col-sm-12 control-label" })
+                        <div class="col-sm-12">
+                            @Html.TextBoxFor(m => m.APSMFC, new { @class = "form-control ucase" })
+                            @Html.ValidationMessageFor(m => m.APSMFC, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group col-sm-12 col-md-6 col-lg-4 text-left">
+
+                        @Html.LabelFor(m => m.Student, new { @class = "col-sm-12 control-label" })
+                        <div class="col-sm-12">
+                            @Html.TextBoxFor(m => m.Student, new { @class = "form-control ucase" })
+                            @Html.ValidationMessageFor(m => m.Student, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group col-sm-12 col-md-6 col-lg-4 text-left ">
+                        @Html.LabelFor(m => m.IsPercentage, new { @class = "col-sm-12 control-label" })
+                        <div class="col-sm-12">
+                            <label><input type="radio" name="IsPercentage" value="Yes">Yes</label>
+                            <label><input type="radio" name="IsPercentage" value="No">No</label>
+
+                        </div>
+                    </div>
+
+
+
+                    <div class="wizard col-sm-12">
+                        <div class="pull-right" style="padding: 5px;">
+                            <button type="submit" id="SaveAll" onclick="return confirm('Are you sure?')" class="btn btn-success btn-default">Submit</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+
+        </div>
+
+        <div align="center">
+            <table id="DataTable" style="width:100%;" class="table table-bordered">
+                <thead>
+
+                </thead>
+                <tbody></tbody>
+                <tfoot></tfoot>
+            </table>
+
+        </div>
+    </section>
+</section>

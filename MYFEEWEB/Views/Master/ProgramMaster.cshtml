@@ -1,0 +1,230 @@
+﻿@model MYFEELIB.Entities.Program
+@{
+    ViewData["Title"] = "Program Master";
+}
+
+<style>
+    .hidetext {
+        -webkit-text-security: disc; /* Default */
+    }
+</style>
+
+<script>
+    
+    $(document).ready(function () {
+      //  debugger;
+        $.ajax({
+            type: "GET",
+            contentType: "application/json; charset=utf-8",
+            url: '@Url.Action("ProgramDetails", "Master")',
+            dataType: "json",
+            beforeSend: function () {
+
+            },
+            success: function (data) {
+
+                var markup = "<tr><th width='5%'>S.No</th><th width='5%'>ProgramId</th><th width='8%'>ProgramName</th><th width='24%' align='right'>Description</th><th width='15%' align='right'>Period</th> <th width='24%' align='right'>IsDefault</th><th width='15%' align='right'>IsFeeRestrict</th> <th align='right'></th></tr>";
+                $("#DataTable").append(markup);
+                var markupfooter;
+                $.each(data, function (i, Rec) {
+                    var markup = "<tr><td width='5%'>" + (i + 1) + "</td><td width='5%'>" + Rec.ProgramId + "</td><td width='5%' >" + Rec.ProgramName + "</td><td width='20%' align='left'>" + Rec.Description + "</td><td width='20%' align='left'>" + Rec.Period + "</td><td width='20%' align='left'>" + Rec.IsDefault + "</td><td width='20%' align='left'>" + Rec.IsFeeRestrict + "</td><td><a data-value=" + Rec.ProgramId + " href='javascript:void(0)' class='btnEdit'>Edit</a></td></tr>";
+                    $("#DataTable").append(markup);
+
+                });
+            }
+        });
+
+    });
+
+    $(document).on('click', '.btnEdit', function () {
+       // debugger;
+         var id = $(this).attr("data-value");
+         $("#ProgramId").val(id);
+         $("#ProgramId").prop("readonly", true);
+         $("#ProgramName").val($(this).closest("tr").find('td:eq(2)').text());
+         $("#Description").val($(this).closest("tr").find('td:eq(3)').text());
+         $("#Period").val($(this).closest("tr").find('td:eq(4)').text());
+         var IsDefault = $(this).closest("tr").find('td:eq(5)').text();
+   
+         if (IsDefault == "Yes") {
+             $("#Yes").prop("checked", true);
+         }
+         else {
+             $("#No").prop("checked", true);
+         }
+        // $("#IsFeeRestrict").val($(this).closest("tr").find('td:eq(6)').text());
+         var IsFeeRestrict = $(this).closest("tr").find('td:eq(6)').text();
+         if (IsFeeRestrict == "Yes") {
+             $("#FeeRestrictYes").prop("checked", true);
+         }
+         else {
+             $("#FeeRestrictNo").prop("checked", true);
+         }
+    });
+
+    var ProgramSave = function () {
+
+        var data = $("#MyProgramForm").serialize();
+
+        var ProgramId = $("#ProgramId").val();
+        var ProgramName = $("#ProgramName").val();
+        var Description = $("#Description").val();
+        var Period = $("#Period").val();
+
+        if (ProgramId == "") {
+            alert("Enter ProgramId !");
+            $("#ProgramId").focus();
+            return false;
+        }
+        if (ProgramName == "") {
+            alert("Select ProgramName !");
+            $("#ProgramName").focus();
+            return false;
+        }
+
+        if (Description == "") {
+            alert("Select Description !");
+            $("#Description").focus();
+            return false;
+        }
+
+        if (Period == "") {
+            alert("Enter Period !");
+            $("#Period").focus();
+            return false;
+        }
+        
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("ProgramMasterSave", "Master")',
+            data: data,
+            success: function (r) {
+
+                if (r == "Error") {
+
+                    alert("Program Not Saved !");
+
+                }
+                else {
+                    alert("Program Saved Successfully !");
+                    $("#ProgramId").val("");
+                    $("#ProgramName").val("");                  
+                    $("#Description").val("");
+                    $("#Period").val("");
+                    $("#IsDefault").val("");
+                    $("#IsFeeRestrict").val("");
+                }
+            }
+        });
+    }
+
+    var Clear = function () {
+        $("#ProgramId").val("");
+        $("#ProgramName").val("");       
+        $("#Description").val("");       
+        $("#Period").val("");
+        $("#IsDefault").val("");
+        $("#IsFeeRestrict").val("");
+        $(".text-danger field-validation-error").empty();
+    }
+
+
+
+</script>
+<section id="" class="animated fadeInUp">
+    <section class="fuelux" style=" margin: 50px 50px;">
+
+        <form id="MyProgramForm">
+            <div class="step-content" style="margin-bottom: 0px; background: #fff; text-align: center; border-top: 1px solid #D4D4D4;">
+
+
+                <div class="step-pane active" id="step1">
+
+                    <div class="col-md-offset-0  preauth_font">
+                        <div class="clear" style="clear: both;"></div>
+
+
+
+
+                        <div class="form-group col-sm-12 col-md-6 col-lg-3 text-left ">
+                            @Html.LabelFor(m => m.ProgramId, new { @class = "control-label" })
+                            <div class="">
+                                @Html.TextBoxFor(m => m.ProgramId, new { @class = "form-control ucase" })
+                                @Html.ValidationMessageFor(m => m.ProgramId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group col-sm-12 col-md-6 col-lg-3 text-left ">
+                            @Html.LabelFor(m => m.ProgramName, new { @class = "control-label" })
+                            <div class="">
+                                @Html.TextBoxFor(m => m.ProgramName, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.ProgramName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group col-sm-12 col-md-6 col-lg-3 text-left ">
+                            @Html.LabelFor(m => m.Description, new { @class = " control-label" })
+                            <div class="">
+                                @Html.TextBoxFor(m => m.Description, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.Description, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-12 col-md-6 col-lg-3 text-left ">
+                            @Html.LabelFor(m => m.Period, new { @class = " control-label" })
+                            <div class="">
+                                @Html.TextBoxFor(m => m.Period, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.Period, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-12 col-md-6 col-lg-4 text-left ">
+                            @Html.LabelFor(m => m.IsDefault , new { @class = "col-sm-12 control-label" })
+                            <div class="col-sm-12">
+                               
+                                @Html.RadioButtonFor(m => m.IsDefault, "Yes", new { id = "Yes" })
+                                @Html.Label("Yes", new { @for = "Yes" })
+                                @Html.RadioButtonFor(m => m.IsDefault, "No", new { id = "No", @checked = "checked"})
+                                @Html.Label("No", new { @for = "No" })
+                               
+                            </div>
+                        </div>
+
+                        <div class="form-group col-sm-12 col-md-6 col-lg-4 text-left ">
+                            @Html.LabelFor(m => m.IsFeeRestrict, new { @class = "col-sm-12 control-label" })
+                            <div class="col-sm-12">
+                                @Html.RadioButtonFor(m => m.IsFeeRestrict, "Yes", new { id = "FeeRestrictYes" })
+                                @Html.Label("Yes", new { @for = "FeeRestrictYes" })
+                                @Html.RadioButtonFor(m => m.IsFeeRestrict, "No", new { id = "FeeRestrictNo" , @checked = "checked" })
+                                @Html.Label("No", new { @for = "FeeRestrictNo" })
+                               
+                            </div>
+                        </div>
+
+                        <div class="wizard col-sm-12">
+                            <div class="pull-right" style="padding: 5px;">
+                                <button id="btnClear" onclick="Clear()" class="btn btn-default">Clear</button>
+                                <button type="submit" id="btnsubmit" onclick="ProgramSave()" class="btn btn-success btn-default">Submit</button>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="clearfix"></div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </form>
+
+
+        <div align="center">
+            <table id="DataTable" style="width:100%;" class="table table-bordered">
+                <thead>
+
+                </thead>
+                <tbody></tbody>
+                <tfoot></tfoot>
+            </table>
+
+        </div>
+
+    </section>
+</section>

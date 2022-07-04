@@ -1,0 +1,226 @@
+﻿@model MYFEELIB.Entities.Registration
+@{
+    ViewData["Title"] = "User Master";
+
+}
+<style>
+    .hidetext {
+        -webkit-text-security: disc; /* Default */
+    }
+</style>
+
+<script>
+    $(document).ready(function () {
+        $("#UserName").prop("readonly", false);
+        $("#UserPwd").prop("readonly", false);
+        $.ajax({
+            type: "GET",
+            contentType: "application/json; charset=utf-8",
+            url: '@Url.Action("UserDetails", "Admin")',
+            dataType: "json",
+            beforeSend: function () {
+
+            },
+            success: function (data) {
+
+                var markup = "<tr><th width='5%'>S.No</th><th width='5%'>User</th><th width='8%'>Password</th><th width='24%' align='right'>Name</th><th align='right' width='32%'>Designation</th><th width='15%' align='right'>Mobile No</th><th width='8%' align='right'>User Type</th> <th align='right'></th></tr>";
+                $("#DataTable").append(markup);
+                var markupfooter;
+                $.each(data, function (i, Rec) {
+                    var markup = "<tr><td width='5%'>" + (i + 1) + "</td><td width='5%'>" + Rec.UserName + "</td><td width='5%' class='hidetext'>" + Rec.UserPwd + "</td><td width='20%' align='left'>" + Rec.DisplayName + "</td><td width='20%' align='left'>" + Rec.Designation + "</td><td width='20%' align='left'>" + Rec.MobileNo + "</td><td width='8%' align='left'>" + Rec.UserType + "</td><td><a data-value=" + Rec.UserName + " href='javascript:void(0)' class='btnEdit'>Edit</a></td></tr>";
+                    $("#DataTable").append(markup);
+                });
+            }
+        });
+    });
+
+    $(document).on('click', '.btnEdit', function () {
+        var id = $(this).attr("data-value");
+        $("#UserName").val(id);
+        $("#UserPwd").val($(this).closest("tr").find('td:eq(2)').text());
+        $("#UserName").prop("readonly", true);
+        $("#UserPwd").prop("readonly", true);
+        $("#DisplayName").val($(this).closest("tr").find('td:eq(3)').text());
+        $("#Designation").val($(this).closest("tr").find('td:eq(4)').text());
+        $("#MobileNo").val($(this).closest("tr").find('td:eq(5)').text());
+        $("#Role").val($(this).closest("tr").find('td:eq(6)').text())
+    });
+
+    var UserSave = function () {
+
+        var data = $("#MyUserForm").serialize();
+        var UserName = $("#UserName").val();
+        var UserPwd = $("#UserPwd").val();
+        var DisplayName = $("#DisplayName").val();
+        var Designation = $("#Designation").val();
+        var MobileNo = $("#MobileNo").val();
+        var Role = $("#Role :selected").val();
+        if (UserName == "") {
+            alert("Enter User Name !");
+            $("#UserName").focus();
+            return false;
+        }
+        if (UserPwd == "") {
+            alert("Enter Password !");
+            $("#UserPwd").focus();
+            return false;
+        }
+        if (DisplayName == "") {
+            alert("Enter Employee Name !");
+            $("#DisplayName").focus();
+            return false;
+        }
+        if (Designation == "") {
+            alert("Enter Designation !");
+            $("#Designation").focus();
+            return false;
+        }
+        if (MobileNo == "") {
+            alert("Enter MobileNo !");
+            $("#MobileNo").focus();
+            return false;
+        }
+        if (Role == "") {
+            alert("Select Role !");
+            $("#Role").focus();
+            return false;
+        }
+
+
+
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("UserMasterSave", "Master")',
+            data: data,
+            success: function (r) {
+
+                if (r == "Error") {
+
+                    alert("User Not Saved !");
+
+                }
+                else {
+                    alert("User Saved Successfully !");
+                    $("#UserName").val("");
+                    $("#UserPwd").val("");
+                    $("#DisplayName").val("");
+                    $("#Designation").val("");
+                    $("#MobileNo").val("");
+                    $("#Role").val("");
+
+                }
+
+
+            }
+        });
+    }
+
+    var Clear = function () {
+        $("#UserName").val("");
+        $("#UserPwd").val("");
+        $("#DisplayName").val("");
+        $("#Designation").val("");
+        $("#MobileNo").val("");
+        $("#Role").val("");
+        $("#UserName").prop("readonly", false);
+        $("#UserPwd").prop("readonly", false);
+        $(".text-danger field-validation-error").empty();
+    }
+
+
+
+</script>
+<section id="" class="animated fadeInUp">
+    <section class="fuelux" style=" margin: 50px 50px;">
+
+        <form id="MyUserForm">
+            <div class="step-content" style="margin-bottom: 0px; background: #fff; text-align: center; border-top: 1px solid #D4D4D4;">
+
+
+                <div class="step-pane active" id="step1">
+
+                    <div class="col-md-offset-0  preauth_font">
+                        <div class="clear" style="clear: both;"></div>
+
+
+
+
+                        <div class="form-group col-sm-12 col-md-6 col-lg-3 text-left ">
+                            @Html.LabelFor(m => m.UserName, new { @class = "control-label" })
+                            <div class="">
+                                @Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.UserName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group col-sm-12 col-md-6 col-lg-3 text-left ">
+                            @Html.LabelFor(m => m.UserPwd, new { @class = "control-label" })
+                            <div class="">
+                                @Html.PasswordFor(m => m.UserPwd, new { @class = "form-control", placeholder = "Password" })
+                                @Html.ValidationMessageFor(m => m.UserPwd, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group col-sm-12 col-md-6 col-lg-3 text-left ">
+                            @Html.LabelFor(m => m.DisplayName, new { @class = "control-label" })
+                            <div class="">
+                                @Html.TextBoxFor(m => m.DisplayName, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.DisplayName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group col-sm-12 col-md-6 col-lg-3 text-left ">
+                            @Html.LabelFor(m => m.Designation, new { @class = " control-label" })
+                            <div class="">
+                                @Html.TextBoxFor(m => m.Designation, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.Designation, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group col-sm-12 col-md-6 col-lg-3 text-left ">
+                            @Html.LabelFor(m => m.MobileNo, new { @class = " control-label" })
+                            <div class="">
+                                @Html.TextBoxFor(m => m.MobileNo, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.MobileNo, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group col-sm-12 col-md-6 col-lg-3 text-left ">
+                            @Html.LabelFor(m => m.Role, new { @class = "control-label" })
+                            <div class="">
+                                @Html.DropDownListFor(m => m.Role, Model.Roles, "SELECT ROLE", new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.Role, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+
+
+                        <div class="wizard col-sm-12">
+                            <div class="pull-right" style="padding: 5px;">
+                                <button  id="btnClear" onclick="Clear()" class="btn btn-default">Clear</button>
+                                <button type="submit" id="btnsubmit" onclick="UserSave()" class="btn btn-success btn-default">Submit</button>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="clearfix"></div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </form>
+
+
+        <div align="center">
+            <table id="DataTable" style="width:100%;" class="table table-bordered">
+                <thead>
+
+                </thead>
+                <tbody></tbody>
+                <tfoot></tfoot>
+            </table>
+
+        </div>
+
+    </section>
+</section>

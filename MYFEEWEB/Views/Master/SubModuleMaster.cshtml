@@ -1,0 +1,216 @@
+﻿@model MYFEELIB.Entities.SubModule
+@{
+    ViewData["Title"] = "Sub Modules";
+}
+
+<script>
+    $(document).ready(function () {
+        $("#UserName").prop("readonly", false);
+        $("#UserPwd").prop("readonly", false);
+        $.ajax({
+            type: "GET",
+            contentType: "application/json; charset=utf-8",
+            url: '@Url.Action("SubModuleDetails", "Master")',
+            dataType: "json",
+            beforeSend: function () {
+            },
+            success: function (data) {
+                var markup = "<tr><th width='10%'>Id</th><th width='20%'>Name</th><th width='20%'>Web_Page</th><th width='20%' align='right'>Css Class</th><th width='20%' align='right'>Controller</th><th width='20%' align='right'>MId</th><th width='10%' align='right'>Edit Module</th></tr>";
+                $("#DataTable").append(markup);
+                var markupfooter;
+                var i = 0;
+                $.each(data, function (i, Rec) {
+                    var markup = "<tr><td width='10%'>" + (i + 1) + "</td><td width='20%'>" + Rec.Name + "</td><td width='20%' class='hidetext'>" + Rec.WebPage + "</td><td width='20%' align='left'>" + Rec.F_Class + "</td><td width='20%' align='left'>" + Rec.cont + "</td><td width='20%' align='left'>" + Rec.Id + "</td><td><a data-value=" + Rec.Name + " href='javascript:void(0)' class='btnEdit'>Edit</a></td></tr>";
+                    $("#DataTable").append(markup);
+                });
+            }
+        });
+    });
+
+    $(document).on('click', '.btnEdit', function () {
+        var id = $(this).attr("data-value");
+        //$("#F_Id").val(id);
+        $("#Name").val($(this).closest("tr").find('td:eq(1)').text());
+        $("#WebPage").val($(this).closest("tr").find('td:eq(2)').text());
+        $("#F_Class").val($(this).closest("tr").find('td:eq(3)').text());
+        $("#cont").val($(this).closest("tr").find('td:eq(4)').text());
+        $("#Id").val($(this).closest("tr").find('td:eq(5)').text())
+        $("#Name").prop("readonly", true);
+    });
+
+    $(document).on("click", "#btnsubmit", function () {
+
+        //  var data = $("#MyModuleForm").serialize();
+        var Name = $("#Name").val();
+        var WebPage = $("#WebPage").val();
+        var F_Class = $("#F_Class").val();
+        var cont = $("#cont").val();
+        var Module = $("#Id :selected").val();
+
+        if (Name == "") {
+            alert("Enter Sub form Name !");
+            $("#Name").focus();
+            return false;
+        }
+        if (WebPage == "") {
+            alert("Enter Page Name !");
+            $("#WebPage").focus();
+            return false;
+        }
+        if (F_Class == "") {
+            alert("Enter Css class Name !");
+            $("#F_Class").focus();
+            return false;
+        }
+        if (cont == "") {
+            alert("Enter Control Name !");
+            $("#cont").focus();
+            return false;
+        }
+
+        if (Module == "") {
+            alert("Select Module !");
+            $("#Id").focus();
+            return false;
+        }
+
+        var data = {};
+        data.Name = Name;
+        data.WebPage = WebPage;
+        data.F_Class = F_Class;
+        data.cont = cont;
+        data.Id = Module;
+
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("SubModuleSave", "Master")',
+            data: data,
+            success: function (r) {
+                if (r == "Error") {
+                    alert("Sub form Not Saved !");
+
+                }
+                else {
+                    alert("sub form Saved Successfully !");
+                    $("#F_Id").val("");
+                    $("#Id").val("");
+                    $("#Name").val("");
+                    $("#WebPage").val("");
+                    $("#F_Class").val("");
+                    $("#cont").val("");
+
+                }
+            },
+            error: function (result) {
+
+                alert('Service call failed: ' + result.status + ' Type :' + result.statusText);
+            }
+
+        });
+    });
+
+    $(document).on("click", "#btnClear", function () {
+        $("#Name").val("");
+        $("#WebPage").val("");
+        $("#F_Class").val("");
+        $("#cont").val("");
+        $("#Id").val("");
+        $("#Name").prop("readonly", false);
+    });
+
+
+
+
+</script>
+<section id="" class="animated fadeInUp">
+    <section class="fuelux" style=" margin: 50px 50px;">
+
+        @*<form id="MyModuleForm">*@
+        <div class="step-content" style="margin-bottom: 0px; background: #fff; text-align: center; border-top: 1px solid #D4D4D4;">
+
+
+            <div class="step-pane active" id="step1">
+
+                <div class="col-md-offset-0  preauth_font">
+                    <div class="clear" style="clear: both;"></div>
+
+                    @*<div class="form-group col-sm-12 col-md-6 col-lg-3 text-left ">
+                            @Html.LabelFor(m => m.F_Id, new { @class = "control-label" })
+                            <div class="">
+                                @Html.TextBoxFor(m => m.F_Id, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.F_Id, "", new { @class = "text-danger" })
+                            </div>
+                        </div>*@
+
+
+                    <div class="form-group col-sm-12 col-md-6 col-lg-3 text-left">
+                        @Html.LabelFor(m => m.Name, new { @class = "control-label" })
+                        <div class="">
+                            @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group col-sm-12 col-md-6 col-lg-3 text-left">
+                        @Html.LabelFor(m => m.WebPage, new { @class = "control-label" })
+                        <div class="">
+                            @Html.TextBoxFor(m => m.WebPage, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.WebPage, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group col-sm-12 col-md-6 col-lg-3 text-left">
+                        @Html.LabelFor(m => m.F_Class, new { @class = "control-label" })
+                        <div class="">
+                            @Html.TextBoxFor(m => m.F_Class, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.F_Class, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group col-sm-12 col-md-6 col-lg-3 text-left">
+                        @Html.LabelFor(m => m.cont, new { @class = "control-label" })
+                        <div class="">
+                            @Html.TextBoxFor(m => m.cont, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.cont, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group col-sm-12 col-md-6 col-lg-3 text-left ">
+                        @Html.LabelFor(m => m.Id, new { @class = "control-label" })
+                        <div class="">
+                            @Html.DropDownListFor(m => m.Id, Model.Modules, "SELECT MODULE", new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.Id, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+
+
+                    <div class="wizard col-sm-12">
+                        <div class="pull-right" style="padding: 5px;">
+                            <button id="btnClear" class="btn btn-default">Clear</button>
+                            <button type="submit" id="btnsubmit" class="btn btn-success btn-default">Submit</button>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="clearfix"></div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+        @*</form>*@
+
+
+        <div align="center">
+            <table id="DataTable" style="width:100%;" class="table table-bordered">
+                <thead>
+
+                </thead>
+                <tbody></tbody>
+                <tfoot></tfoot>
+            </table>
+
+        </div>
+
+    </section>
+</section>

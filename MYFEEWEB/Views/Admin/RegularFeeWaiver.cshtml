@@ -1,0 +1,372 @@
+﻿@model MYFEELIB.Entities.StudentFeeMaster
+@{
+    ViewData["Title"] = "Regular Fee Waiver";
+}
+
+<style>
+    [data-tip] {
+        position: relative;
+    }
+
+        [data-tip]:before {
+            content: '';
+            /* hides the tooltip when not hovered */
+            display: none;
+            content: '';
+            display: none;
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+            border-bottom: 5px solid #1a1a1a;
+            position: absolute;
+            top: 30px;
+            left: 35px;
+            z-index: 8;
+            font-size: 0;
+            line-height: 0;
+            width: 0;
+            height: 0;
+            position: absolute;
+            top: 30px;
+            left: 35px;
+            z-index: 8;
+            font-size: 0;
+            line-height: 0;
+            width: 0;
+            height: 0;
+        }
+
+        [data-tip]:after {
+            display: none;
+            content: attr(data-tip);
+            position: absolute;
+            top: 35px;
+            left: 0px;
+            padding: 5px;
+            background: #bbe4e4;
+            color: #1d2939;
+            z-index: 9;
+            font-size: 0.8em;
+            height: auto;
+            width: 250px;
+            line-height: 18px;
+            -webkit-border-radius: 3px;
+            -moz-border-radius: 3px;
+            border-radius: 3px;
+            
+            word-wrap: normal;
+        }
+
+        [data-tip]:hover:before,
+        [data-tip]:hover:after {
+            display: block;
+        }
+</style>
+
+<section id="" class="animated fadeInUp">
+    <section class="fuelux" style="margin: 50px 50px;">
+
+        <div class="step-content" style="margin-bottom: 0px; background: #fff; text-align: center; border-top: 1px solid #D4D4D4;">
+            <div class="step-pane active" id="step1">
+
+                <div class="col-md-offset-1 col-sm-12 col-md-9 col-lg-9 preauth_font  ">
+                    <div class="clear" style="clear: both;"></div>
+
+                    <div class="form-group col-sm-12 col-md-12 col-lg-12 text-left ">
+                        @Html.LabelFor(m => m.RollNo, new { @class = "col-md-6 control-label" })
+                        <div class="col-sm-6">
+                            @Html.TextBoxFor(m => m.RollNo, new { @class = "form-control", placeholder = "Roll No" })
+                            @Html.ValidationMessageFor(m => m.RollNo, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group col-sm-12 col-md-12 col-lg-12 text-left">
+
+                        @Html.LabelFor(m => m.Name, new { @class = "col-sm-6 control-label" })
+                        <div class="col-sm-6">
+                            @Html.TextBoxFor(m => m.Name, new { @class = "form-control", placeholder = "Name", @readonly = "readonly" })
+                            @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="clearfix"></div>
+                    <div align="center">
+                        <input type='hidden' id='fee_WV' name='fee_WV' value=''>
+                        <table id="DataTable" style="width:100%;" class="table table-bordered">
+                            <thead>
+
+                            </thead>
+                            <tbody></tbody>
+                            <tfoot></tfoot>
+                        </table>
+
+                    </div>
+
+                    <div class="form-group col-sm-12 col-md-12 col-lg-12 text-left">
+
+                        <span id="Reason_Lbl" class="col-sm-6 control-label">Reason</span>
+                        <div class="col-sm-12">
+                            @Html.TextBoxFor(m => m.Reason, new { @class = "form-control", placeholder = "Enter Reason" })
+
+                        </div>
+                    </div>
+
+                    <div class="form-group col-sm-12 col-md-12 col-lg-12 text-left">
+
+                        <span id="Fee_Waiver_Lbl" class="col-sm-6 control-label">Fee Waiver</span>
+                        <div class="col-sm-12">
+                            @Html.TextBoxFor(m => m.Fee_Waiver, new { @class = "form-control", placeholder = "Enter Fee Waiver", @readonly = "readonly" })
+
+                        </div>
+                    </div>
+
+                    <div class="wizard col-sm-12">
+                        <div class="pull-right" style="padding: 5px;">
+
+                            <button type="submit" id="SaveAll" onclick="return confirm('Are you sure?')" class="btn btn-success btn-default">Submit</button>
+                        </div>
+                    </div>
+
+                </div>
+
+
+
+            </div>
+            <div class="clearfix"></div>
+
+        </div>
+
+        <script>
+
+            $(document).on("blur", "#txtFW", function () {
+                var afw = 0;
+                $("#DataTable TBODY TR").each(function () {
+                    var row = $(this);
+                    var rowActual = row.find("TD").eq(4).find("input").val();
+                    var rowPA = row.find("TD").eq(5).find("input").val();
+                    var Enter_FW = row.find("TD").eq(7).find("input").val();
+                    if (!isNaN(Enter_FW) && Enter_FW.length !== 0) {
+
+                        if ((parseFloat(rowActual) - parseFloat(Enter_FW)) >= parseFloat(rowPA)) {
+                            afw += parseFloat(Enter_FW);
+
+                        }
+                        else {
+                            alert("Enter Actual Amount Is Equivalent or greater than Paid Amout !");
+                            row.find("TD").eq(7).find("input").val("");
+                            row.find("TD").eq(7).find("input").focus();
+                        }
+                    }
+                });
+                $("#Fee_Waiver").val(afw);
+            });
+
+        </script>
+
+        <script>
+            function isNumber(evt) {
+                evt = (evt) ? evt : window.event;
+                var charCode = (evt.which) ? evt.which : evt.keyCode;
+                if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+                    return false;
+                }
+                return true;
+            }
+        </script>
+        <script>
+            $(document).ready(function () {
+                $("#Reason").hide();
+                $("#Fee_Waiver").hide();
+                $("#Reason_Lbl").hide();
+                $("#Fee_Waiver_Lbl").hide();
+                $("#SaveAll").hide();
+            });
+
+            $(function () {
+                $('#RollNo').blur(function () {
+                    // debugger;
+                    $("#DataTable tr").remove();
+                    var id = $("#RollNo").val();
+                    if (id != "") {
+                        $("#loaderDiv").show();
+                        $.ajax({
+                            type: "GET",
+                            contentType: "application/json; charset=utf-8",
+                            url: '@Url.Action("StudentTutionFeeDetails", "Admin")',
+                            data: { "student": id },
+                            dataType: "json",
+                            beforeSend: function () {
+
+                            },
+                            success: function (data) {
+
+
+                                var sum_Actual = 0;
+                                var markup = "<tr><th width='5%'>S.No</th><th width='5%'>Id</th><th width='5%'>Year</th><th width='16%'>FeeName</th><th width='16%' align='right'>Actual</th><th align='right' width='20%'>Received</th><th width='18%' align='right'>Due</th><th width='20%' align='right'>Fee Waiver</th></tr>";
+                                $("#DataTable > thead").append(markup);
+                                var markupfooter;
+                                $.each(data, function (i, Rec) {
+                                    if (Rec.Due != 0) {
+                                        $("#Name").val(Rec.Name);
+                                        var markup = "<tr><td width='5%'>" + (i + 1) + "</td><td width='5%'>" + Rec.SFMId + "</td><td width='5%'>" + Rec.YearId + "</td><td width='10%'>" + Rec.FeeName + "</td><td width='20%' align='right'><input type='text'  id='Actual' value='" + Rec.Actual + "' name='Actual' class='form-control' onkeypress='return isNumber(event)' readonly  /></td><td width='20%' align='right'><input type='text' text-align='right' id='Received' value='" + Rec.Received + "' name='Received' class='form-control' onkeypress='return isNumber(event)' readonly  /></td><td width='20%' align='right'><input type='text' text-align='right' id='Due' value='" + Rec.Due + "' name='Due' class='form-control' onkeypress='return isNumber(event)' readonly  /></td><td width='15%' align='right'><div data-tip='After Enter Fee Waiver [Actual - Fee waiver] should be greater than or equal Received Amount !'><input type='text' text-align='right' id='txtFW' placeholder ='0' name='txtFW' class='form-control' onkeypress='return isNumber(event)'   /></div></td></tr>";
+                                        $("#DataTable > tbody").append(markup);
+                                        sum_Actual = sum_Actual + parseFloat(Rec.Actual);
+                                    }
+                                });
+                                $("#Reason").show();
+                                $("#Fee_Waiver").show();
+                                $("#Reason_Lbl").show();
+                                $("#Fee_Waiver_Lbl").show();
+                                $("#fee_WV").val(sum_Actual);
+                                $("#SaveAll").show();
+                            },
+                            error: function (result) {
+
+                                alert("Data Not Available check it !");
+                                $("#Name").val("");
+                                $("#Reason").val("");
+                                $("#Reason").hide();
+                                $("#Reason_Lbl").hide();
+                                $("#Fee_Waiver_Lbl").hide();
+                                $("#Fee_Waiver").val("");
+                                $("#Fee_Waiver").hide();
+                                $("#SaveAll").hide();
+
+                            }
+                        });
+                    }
+                    else {
+                        $("#DataTable tr").remove();
+
+                    }
+
+                    $("#loaderDiv").hide();
+                });
+
+            });
+
+
+        </script>
+        <script type="text/jscript">
+
+
+            $(document).on("click", "#SaveAll", function () {
+                debugger;
+                var RollNo = $("#RollNo").val();
+                var FW = $("#Fee_Waiver").val();
+                var Reason = $("#Reason").val();
+
+
+
+
+                if (RollNo == "") {
+                    alert("Please Enter Roll Number !");
+                    return;
+                }
+                else if (FW == "") {
+                    alert("Fee Waiver should not Empty !");
+                    return;
+                }
+                else if (FW == 0) {
+                    alert("Fee Waiver Must be greater than 0 !");
+                    return;
+                }
+                else if (Reason == "") {
+                    alert("Reason should not empty !");
+                    return;
+                }
+
+
+                $("#loaderDiv").show();
+
+                var StudentFeeWaiver = new Array();
+
+
+                $("#DataTable TBODY TR").each(function () {
+
+                    var row = $(this);
+                    var EnterAmount = row.find("TD").eq(4).find("input").val();
+                    if (!isNaN(EnterAmount) && EnterAmount.length !== 0) {
+
+                        var req = {};
+
+                        req.RollNo = $("#RollNo").val();
+                        //  req.Fee_Waiver = $("#Fee_Waiver").val();
+                        req.Reason = $("#Reason").val();
+                        req.UserName = "@Session["username"]";
+                        req.Id = $(this).closest("tr").find('td:eq(0)').text();
+                        req.SFMId = $(this).closest("tr").find('td:eq(1)').text();
+
+
+                        var rowActual = row.find("TD").eq(4).find("input").val();
+
+                        var Enter_FW = row.find("TD").eq(7).find("input").val();
+                        if (!isNaN(Enter_FW) && Enter_FW.length !== 0) {
+                            req.Actual = (parseFloat(rowActual) - parseFloat(Enter_FW));
+
+                        }
+                        else {
+                            req.Actual = rowActual;
+                        }
+
+
+                        //req.Actual = $(this).closest("tr").find("TD").eq(4).find("input").val();
+
+
+                        StudentFeeWaiver.push(req);
+
+                    }
+                });
+
+
+
+                StudentFeeWaiver = JSON.stringify({ 'StudentFeeWaiver': StudentFeeWaiver });
+
+                //Send the JSON array to Controller using AJAX.
+                $.ajax({
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+
+                    url: '@Url.Action("Regular_FeeWaiver_Save", "Admin")',
+                    data: StudentFeeWaiver,
+                    dataType: "json",
+                    success: function (r) {
+
+                        if (r == 0) {
+
+                            alert("Fee Viewer has not updated.!");
+                            $("#Reason").val("");
+                            $("#Reason").hide();
+                            $("#Fee_Waiver").val("");
+                            $("#Fee_Waiver").hide();
+                            $("#Reason_Lbl").hide();
+                            $("#Fee_Waiver_Lbl").hide();
+                            $("#loaderDiv").hide();
+                        }
+                        else {
+                            alert("Fee Viewer has updated.!");
+                            $("#RollNo").val("");
+                            $("#Name").val("");
+                            $("#DataTable tr").remove();
+                            $("#Reason").val("");
+                            $("#Reason").hide();
+                            $("#Fee_Waiver").val("");
+                            $("#Fee_Waiver").hide();
+                            $("#Reason_Lbl").hide();
+                            $("#Fee_Waiver_Lbl").hide();
+                            $("#SaveAll").hide();
+                            $("#loaderDiv").hide();
+                        }
+
+                    }
+                });
+            });
+
+
+
+
+
+        </script>
+
+    </section>
+
+</section>

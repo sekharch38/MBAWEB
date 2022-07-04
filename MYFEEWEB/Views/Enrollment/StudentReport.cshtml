@@ -1,0 +1,93 @@
+﻿@{
+    ViewBag.Title = "Student Report";
+    Layout = "~/Views/Shared/_StudentRegistration.cshtml";
+}
+
+
+
+<section id="" class="animated fadeInUp">
+    <section class="fuelux" style="border: 14px solid #57bee0; margin: 50px 50px;">
+        <div class="container py-4">
+            <br />
+            <h5>Student Registration Report</h5>
+            <br />
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+
+                    <input type="text" value="@Session["RollNo"].ToString()" id="RollNo" class="form-control" readonly="readonly" />
+
+                </div>
+
+                <div class="clearfix"></div>
+
+                <br />
+                <table class="table-css " style="width: 100%">
+                    <tr>
+                        <td style="width: 60%">
+
+                            <p>PLEASE CHECK YOUR DETAILS. IF YOU WANT EDIT CLICK EDIT BUTTON.</p>
+                        </td>
+                        <td style="width: 40%; text-align: right;">
+                            <button class="btn-default" type="button" onclick="window.location.href='@Url.Action("EditStudent","Enrollment")'">Edit Registration</button>
+                        </td>
+                        <td style="width: 10%"></td>
+                    </tr>
+
+
+                </table>
+                <br />
+                <table class="table-css " style="width: 100%">
+
+                    <tr>
+                        <td style="width: 60%">
+
+                            @if (ViewBag.PhotoDetails == "PHOTO NOT UPLOADED ! EDIT FOR UPLOAD PHOTO.")
+                                        {
+                                        <div class="alert-danger">
+                                            <span class="help-block">@ViewBag.PhotoDetails</span>
+                                        </div>
+
+                                        }
+
+                                        else if (ViewBag.PhotoDetails == "IF YOU WANT EDIT PHOTO GO AND CLICK EDIT PHOTO.")
+                                        {
+
+
+                                        <p> <span class="help-block">@ViewBag.PhotoDetails</span></p>
+                                        }
+
+                        </td>
+                        <td style="width: 40%; text-align: right;">
+                            <button class="btn-default" type="button" onclick="window.location.href='@Url.Action("PhotoUpload","Enrollment")'">Edit Photo</button>
+                        </td>
+                        <td style="width: 10%"></td>
+                    </tr>
+                </table>
+
+                <div class="clearfix"></div>
+                <div class="clearfix"></div>
+                <br />
+                <div align="center">
+
+                    @Html.Raw(TempData["Embed"])
+                </div>
+
+
+
+
+                @*@using (Html.BeginForm("ViewPDF", "Enrollment", FormMethod.Post))
+                    {
+                        <a href="javascript:;" onclick="document.forms[0].submit();">View PDF</a>
+                        <hr />
+
+                    }*@
+
+
+            </div>
+        </div>
+
+
+
+    </section>
+</section>
+

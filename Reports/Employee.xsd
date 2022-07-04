@@ -1,0 +1,1077 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="Employee" targetNamespace="http://tempuri.org/Employee.xsd" xmlns:mstns="http://tempuri.org/Employee.xsd" xmlns="http://tempuri.org/Employee.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="1" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections>
+          <Connection AppSettingsObjectName="MySettings" AppSettingsPropertyName="MYHRConnectionString" ConnectionStringObject="" IsAppSettingsProperty="true" Modifier="Assembly" Name="MYHRConnectionString (MySettings)" ParameterPrefix="@" PropertyReference="ApplicationSettings.Reports.My.MySettings.GlobalReference.Default.MYHRConnectionString" Provider="System.Data.SqlClient" />
+          <Connection AppSettingsObjectName="MySettings" AppSettingsPropertyName="FeesConnectionString" ConnectionStringObject="" IsAppSettingsProperty="true" Modifier="Assembly" Name="FeesConnectionString (MySettings)" ParameterPrefix="@" PropertyReference="ApplicationSettings.Reports.My.MySettings.GlobalReference.Default.FeesConnectionString" Provider="System.Data.SqlClient" />
+        </Connections>
+        <Tables>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="Vw_EmployeeListTableAdapter" GeneratorDataComponentClassName="Vw_EmployeeListTableAdapter" Name="Vw_EmployeeList" UserDataComponentName="Vw_EmployeeListTableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="MYHRConnectionString (MySettings)" DbObjectName="MYHR.dbo.Vw_EmployeeList" DbObjectType="View" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="false" UserGetMethodName="GetData" UserSourceName="Fill">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="true">
+                    <CommandText>SELECT        EmployeeCode, FirstName, MiddleName, LastName, DisplayName, Status, Gender, DepartmentCode, DesignationCode, DepartmentName, DesignationName, EDate, 
+                         BranchName, CategoryCode, CategoryName, CPhone, Email, DOB, F_Code
+FROM            Vw_EmployeeList</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="EmployeeCode" DataSetColumn="EmployeeCode" />
+              <Mapping SourceColumn="FirstName" DataSetColumn="FirstName" />
+              <Mapping SourceColumn="MiddleName" DataSetColumn="MiddleName" />
+              <Mapping SourceColumn="LastName" DataSetColumn="LastName" />
+              <Mapping SourceColumn="DisplayName" DataSetColumn="DisplayName" />
+              <Mapping SourceColumn="Status" DataSetColumn="Status" />
+              <Mapping SourceColumn="Gender" DataSetColumn="Gender" />
+              <Mapping SourceColumn="DepartmentCode" DataSetColumn="DepartmentCode" />
+              <Mapping SourceColumn="DesignationCode" DataSetColumn="DesignationCode" />
+              <Mapping SourceColumn="DepartmentName" DataSetColumn="DepartmentName" />
+              <Mapping SourceColumn="DesignationName" DataSetColumn="DesignationName" />
+              <Mapping SourceColumn="EDate" DataSetColumn="EDate" />
+              <Mapping SourceColumn="BranchName" DataSetColumn="BranchName" />
+              <Mapping SourceColumn="CategoryCode" DataSetColumn="CategoryCode" />
+              <Mapping SourceColumn="CategoryName" DataSetColumn="CategoryName" />
+              <Mapping SourceColumn="CPhone" DataSetColumn="CPhone" />
+              <Mapping SourceColumn="Email" DataSetColumn="Email" />
+              <Mapping SourceColumn="DOB" DataSetColumn="DOB" />
+              <Mapping SourceColumn="F_Code" DataSetColumn="F_Code" />
+            </Mappings>
+            <Sources />
+          </TableAdapter>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="Vw_CollegeTableAdapter" GeneratorDataComponentClassName="Vw_CollegeTableAdapter" Name="Vw_College" UserDataComponentName="Vw_CollegeTableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="FeesConnectionString (MySettings)" DbObjectName="NEWFEE.dbo.Vw_College" DbObjectType="View" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetData" UserSourceName="Fill">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="false">
+                    <CommandText>SELECT CollegeId, CollegeName, Description, Address, UniversityName FROM dbo.Vw_College</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="CollegeId" DataSetColumn="CollegeId" />
+              <Mapping SourceColumn="CollegeName" DataSetColumn="CollegeName" />
+              <Mapping SourceColumn="Description" DataSetColumn="Description" />
+              <Mapping SourceColumn="Address" DataSetColumn="Address" />
+              <Mapping SourceColumn="UniversityName" DataSetColumn="UniversityName" />
+            </Mappings>
+            <Sources />
+          </TableAdapter>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="Vw_LogoTableAdapter" GeneratorDataComponentClassName="Vw_LogoTableAdapter" Name="Vw_Logo" UserDataComponentName="Vw_LogoTableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="FeesConnectionString (MySettings)" DbObjectName="NEWFEE.dbo.Vw_Logo" DbObjectType="View" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetData" UserSourceName="Fill">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="false">
+                    <CommandText>SELECT Logo FROM dbo.Vw_Logo</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="Logo" DataSetColumn="Logo" />
+            </Mappings>
+            <Sources />
+          </TableAdapter>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="Vw_FeedbackTableAdapter" GeneratorDataComponentClassName="Vw_FeedbackTableAdapter" Name="Vw_Feedback" UserDataComponentName="Vw_FeedbackTableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="FeesConnectionString (MySettings)" DbObjectName="NEWFEE.dbo.Vw_Feedback" DbObjectType="View" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetData" UserSourceName="Fill">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="false">
+                    <CommandText>SELECT Fid, StudentId, BatchId, YearId, ProgramId, CourseId, SectionId, Description, Remarks, SemesterId, EmployeeCode, SId, PId, RId, DisplayName, RollNo, ProgramName, Parameter_Name, RName, SubjectCode, SubjectName, Faculty FROM dbo.Vw_Feedback</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="Fid" DataSetColumn="Fid" />
+              <Mapping SourceColumn="StudentId" DataSetColumn="StudentId" />
+              <Mapping SourceColumn="BatchId" DataSetColumn="BatchId" />
+              <Mapping SourceColumn="YearId" DataSetColumn="YearId" />
+              <Mapping SourceColumn="ProgramId" DataSetColumn="ProgramId" />
+              <Mapping SourceColumn="CourseId" DataSetColumn="CourseId" />
+              <Mapping SourceColumn="SectionId" DataSetColumn="SectionId" />
+              <Mapping SourceColumn="Description" DataSetColumn="Description" />
+              <Mapping SourceColumn="Remarks" DataSetColumn="Remarks" />
+              <Mapping SourceColumn="SemesterId" DataSetColumn="SemesterId" />
+              <Mapping SourceColumn="EmployeeCode" DataSetColumn="EmployeeCode" />
+              <Mapping SourceColumn="SId" DataSetColumn="SId" />
+              <Mapping SourceColumn="PId" DataSetColumn="PId" />
+              <Mapping SourceColumn="RId" DataSetColumn="RId" />
+              <Mapping SourceColumn="DisplayName" DataSetColumn="DisplayName" />
+              <Mapping SourceColumn="RollNo" DataSetColumn="RollNo" />
+              <Mapping SourceColumn="ProgramName" DataSetColumn="ProgramName" />
+              <Mapping SourceColumn="Parameter_Name" DataSetColumn="Parameter_Name" />
+              <Mapping SourceColumn="RName" DataSetColumn="RName" />
+              <Mapping SourceColumn="SubjectCode" DataSetColumn="SubjectCode" />
+              <Mapping SourceColumn="SubjectName" DataSetColumn="SubjectName" />
+              <Mapping SourceColumn="Faculty" DataSetColumn="Faculty" />
+            </Mappings>
+            <Sources>
+              <DbSource ConnectionRef="FeesConnectionString (MySettings)" DbObjectName="NEWFEE.dbo.Vw_Feedback" DbObjectType="View" FillMethodModifier="Public" FillMethodName="FillByStudent" GenerateMethods="Fill" GenerateShortCommands="true" GeneratorGetMethodName="GetDataBy" GeneratorSourceName="FillByStudent" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy" UserSourceName="FillByStudent">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="true">
+                    <CommandText>SELECT        Fid, StudentId, BatchId, YearId, ProgramId, CourseId, SectionId, Description, Remarks, SemesterId, EmployeeCode, SId, PId, RId, DisplayName, RollNo, 
+                         ProgramName, Parameter_Name, RName, SubjectCode, SubjectName, Faculty
+FROM            Vw_Feedback
+WHERE        (StudentId = @StudentId) AND (YearId = @YearId) AND (SemesterId = @SemesterId)</CommandText>
+                    <Parameters>
+                      <Parameter AllowDbNull="true" AutogeneratedName="StudentId" ColumnName="StudentId" DataSourceName="NEWFEE.dbo.Vw_Feedback" DataTypeServer="nvarchar(25)" DbType="String" Direction="Input" ParameterName="@StudentId" Precision="0" ProviderType="NVarChar" Scale="0" Size="25" SourceColumn="StudentId" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="YearId" ColumnName="YearId" DataSourceName="NEWFEE.dbo.Vw_Feedback" DataTypeServer="int" DbType="Int32" Direction="Input" ParameterName="@YearId" Precision="0" ProviderType="Int" Scale="0" Size="4" SourceColumn="YearId" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="SemesterId" ColumnName="SemesterId" DataSourceName="NEWFEE.dbo.Vw_Feedback" DataTypeServer="varchar(10)" DbType="AnsiString" Direction="Input" ParameterName="@SemesterId" Precision="0" ProviderType="VarChar" Scale="0" Size="10" SourceColumn="SemesterId" SourceColumnNullMapping="false" SourceVersion="Current" />
+                    </Parameters>
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </Sources>
+          </TableAdapter>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="Vw_FBAnalysisTableAdapter" GeneratorDataComponentClassName="Vw_FBAnalysisTableAdapter" Name="Vw_FBAnalysis" UserDataComponentName="Vw_FBAnalysisTableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="FeesConnectionString (MySettings)" DbObjectName="NEWFEE.dbo.Vw_FBAnalysis" DbObjectType="View" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="false" UserGetMethodName="GetData" UserSourceName="Fill">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="true">
+                    <CommandText>SELECT        ID, BatchId, YearId, ProgramId, CourseId, SectionId, SemesterId, EmployeeCode, DisplayName, SId, SubjectCode, SubjectName, Excellent, VeryGood, Good, 
+                         Satisfactory, Unsatisfactory, Total, NOS, ExcellentP, VeryGoodP, GoodP, SatisfactoryP, UnsatisfactoryP, TotalP, WAS, CG2, Score, DesignationCode, 
+                         DesignationName, ProgramName, Period, CourseName, SectionName, Result
+FROM            Vw_FBAnalysis
+ORDER BY SubjectCode</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="ID" DataSetColumn="ID" />
+              <Mapping SourceColumn="BatchId" DataSetColumn="BatchId" />
+              <Mapping SourceColumn="YearId" DataSetColumn="YearId" />
+              <Mapping SourceColumn="ProgramId" DataSetColumn="ProgramId" />
+              <Mapping SourceColumn="CourseId" DataSetColumn="CourseId" />
+              <Mapping SourceColumn="SectionId" DataSetColumn="SectionId" />
+              <Mapping SourceColumn="SemesterId" DataSetColumn="SemesterId" />
+              <Mapping SourceColumn="EmployeeCode" DataSetColumn="EmployeeCode" />
+              <Mapping SourceColumn="DisplayName" DataSetColumn="DisplayName" />
+              <Mapping SourceColumn="SId" DataSetColumn="SId" />
+              <Mapping SourceColumn="SubjectCode" DataSetColumn="SubjectCode" />
+              <Mapping SourceColumn="SubjectName" DataSetColumn="SubjectName" />
+              <Mapping SourceColumn="Excellent" DataSetColumn="Excellent" />
+              <Mapping SourceColumn="VeryGood" DataSetColumn="VeryGood" />
+              <Mapping SourceColumn="Good" DataSetColumn="Good" />
+              <Mapping SourceColumn="Satisfactory" DataSetColumn="Satisfactory" />
+              <Mapping SourceColumn="Unsatisfactory" DataSetColumn="Unsatisfactory" />
+              <Mapping SourceColumn="Total" DataSetColumn="Total" />
+              <Mapping SourceColumn="NOS" DataSetColumn="NOS" />
+              <Mapping SourceColumn="ExcellentP" DataSetColumn="ExcellentP" />
+              <Mapping SourceColumn="VeryGoodP" DataSetColumn="VeryGoodP" />
+              <Mapping SourceColumn="GoodP" DataSetColumn="GoodP" />
+              <Mapping SourceColumn="SatisfactoryP" DataSetColumn="SatisfactoryP" />
+              <Mapping SourceColumn="UnsatisfactoryP" DataSetColumn="UnsatisfactoryP" />
+              <Mapping SourceColumn="TotalP" DataSetColumn="TotalP" />
+              <Mapping SourceColumn="WAS" DataSetColumn="WAS" />
+              <Mapping SourceColumn="CG2" DataSetColumn="CG2" />
+              <Mapping SourceColumn="Score" DataSetColumn="Score" />
+              <Mapping SourceColumn="DesignationCode" DataSetColumn="DesignationCode" />
+              <Mapping SourceColumn="DesignationName" DataSetColumn="DesignationName" />
+              <Mapping SourceColumn="ProgramName" DataSetColumn="ProgramName" />
+              <Mapping SourceColumn="Period" DataSetColumn="Period" />
+              <Mapping SourceColumn="CourseName" DataSetColumn="CourseName" />
+              <Mapping SourceColumn="SectionName" DataSetColumn="SectionName" />
+              <Mapping SourceColumn="Result" DataSetColumn="Result" />
+            </Mappings>
+            <Sources>
+              <DbSource ConnectionRef="FeesConnectionString (MySettings)" DbObjectName="NEWFEE.dbo.Vw_FBAnalysis" DbObjectType="View" FillMethodModifier="Public" FillMethodName="FillByEmp" GenerateMethods="Fill" GenerateShortCommands="true" GeneratorSourceName="FillByEmp" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy" UserSourceName="FillByEmp">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="true">
+                    <CommandText>SELECT        ID, BatchId, YearId, ProgramId, CourseId, SectionId, SemesterId, EmployeeCode, DisplayName, SId, SubjectCode, SubjectName, Excellent, VeryGood, Good, 
+                         Satisfactory, Unsatisfactory, Total, NOS, ExcellentP, VeryGoodP, GoodP, SatisfactoryP, UnsatisfactoryP, TotalP, WAS, CG2, Score, DesignationCode, 
+                         DesignationName, ProgramName, Period, CourseName, SectionName, Result
+FROM            Vw_FBAnalysis where EmployeeCode=@EmployeeCode
+ORDER BY SubjectCode</CommandText>
+                    <Parameters>
+                      <Parameter AllowDbNull="true" AutogeneratedName="EmployeeCode" ColumnName="EmployeeCode" DataSourceName="NEWFEE.dbo.Vw_FBAnalysis" DataTypeServer="varchar(50)" DbType="AnsiString" Direction="Input" ParameterName="@EmployeeCode" Precision="0" ProviderType="VarChar" Scale="0" Size="50" SourceColumn="EmployeeCode" SourceColumnNullMapping="false" SourceVersion="Current" />
+                    </Parameters>
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+              <DbSource ConnectionRef="FeesConnectionString (MySettings)" DbObjectName="NEWFEE.dbo.Vw_FBAnalysis" DbObjectType="View" FillMethodModifier="Public" FillMethodName="FillByEmployee" GenerateMethods="Fill" GenerateShortCommands="true" GeneratorGetMethodName="GetDataBy1" GeneratorSourceName="FillByEmployee" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy1" UserSourceName="FillByEmployee">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="true">
+                    <CommandText>SELECT BatchId, CG2, CourseId, CourseName, DesignationCode, DesignationName, DisplayName, EmployeeCode, Excellent, ExcellentP, Good, GoodP, ID, NOS, Period, ProgramId, ProgramName, Result, SId, Satisfactory, SatisfactoryP, Score, SectionId, SectionName, SemesterId, SubjectCode, SubjectName, Total, TotalP, Unsatisfactory, UnsatisfactoryP, VeryGood, VeryGoodP, WAS, YearId FROM Vw_FBAnalysis WHERE (ID = @ID) ORDER BY SubjectCode</CommandText>
+                    <Parameters>
+                      <Parameter AllowDbNull="false" AutogeneratedName="ID" ColumnName="ID" DataSourceName="NEWFEE.dbo.Vw_FBAnalysis" DataTypeServer="int" DbType="Int32" Direction="Input" ParameterName="@ID" Precision="0" ProviderType="Int" Scale="0" Size="4" SourceColumn="ID" SourceColumnNullMapping="false" SourceVersion="Current" />
+                    </Parameters>
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+              <DbSource ConnectionRef="FeesConnectionString (MySettings)" DbObjectName="NEWFEE.dbo.Vw_FBAnalysis" DbObjectType="View" FillMethodModifier="Public" FillMethodName="FillByResult" GenerateMethods="Fill" GenerateShortCommands="true" GeneratorSourceName="FillByResult" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy2" UserSourceName="FillByResult">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="true">
+                    <CommandText>SELECT        ID, BatchId, YearId, ProgramId, CourseId, SectionId, SemesterId, EmployeeCode, DisplayName, SId, SubjectCode, SubjectName, Excellent, VeryGood, Good, 
+                         Satisfactory, Unsatisfactory, Total, NOS, ExcellentP, VeryGoodP, GoodP, SatisfactoryP, UnsatisfactoryP, TotalP, WAS, CG2, Score, DesignationCode, 
+                         DesignationName, ProgramName, Period, CourseName, SectionName, Result
+FROM            Vw_FBAnalysis WHERE (BatchId = @BatchId) AND (YearId = @YearId) AND (ProgramId = @ProgramId) AND (CourseId = @CourseId) and (Result=@Result)
+ORDER BY SubjectCode</CommandText>
+                    <Parameters>
+                      <Parameter AllowDbNull="true" AutogeneratedName="BatchId" ColumnName="BatchId" DataSourceName="NEWFEE.dbo.Vw_FBAnalysis" DataTypeServer="varchar(25)" DbType="AnsiString" Direction="Input" ParameterName="@BatchId" Precision="0" ProviderType="VarChar" Scale="0" Size="25" SourceColumn="BatchId" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="YearId" ColumnName="YearId" DataSourceName="NEWFEE.dbo.Vw_FBAnalysis" DataTypeServer="int" DbType="Int32" Direction="Input" ParameterName="@YearId" Precision="0" ProviderType="Int" Scale="0" Size="4" SourceColumn="YearId" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="ProgramId" ColumnName="ProgramId" DataSourceName="NEWFEE.dbo.Vw_FBAnalysis" DataTypeServer="nvarchar(25)" DbType="String" Direction="Input" ParameterName="@ProgramId" Precision="0" ProviderType="NVarChar" Scale="0" Size="25" SourceColumn="ProgramId" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="CourseId" ColumnName="CourseId" DataSourceName="NEWFEE.dbo.Vw_FBAnalysis" DataTypeServer="nvarchar(25)" DbType="String" Direction="Input" ParameterName="@CourseId" Precision="0" ProviderType="NVarChar" Scale="0" Size="25" SourceColumn="CourseId" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="Result" ColumnName="Result" DataSourceName="NEWFEE.dbo.Vw_FBAnalysis" DataTypeServer="varchar(25)" DbType="AnsiString" Direction="Input" ParameterName="@Result" Precision="0" ProviderType="VarChar" Scale="0" Size="25" SourceColumn="Result" SourceColumnNullMapping="false" SourceVersion="Current" />
+                    </Parameters>
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+              <DbSource ConnectionRef="FeesConnectionString (MySettings)" DbObjectName="NEWFEE.dbo.Vw_FBAnalysis" DbObjectType="View" FillMethodModifier="Public" FillMethodName="FillBySM" GenerateMethods="Fill" GenerateShortCommands="true" GeneratorGetMethodName="GetDataBy" GeneratorSourceName="FillBySM" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy3" UserSourceName="FillBySM">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="true">
+                    <CommandText>SELECT BatchId, CG2, CourseId, CourseName, DesignationCode, DesignationName, DisplayName, EmployeeCode, Excellent, ExcellentP, Good, GoodP, ID, NOS, Period, ProgramId, ProgramName, Result, SId, Satisfactory, SatisfactoryP, Score, SectionId, SectionName, SemesterId, SubjectCode, SubjectName, Total, TotalP, Unsatisfactory, UnsatisfactoryP, VeryGood, VeryGoodP, WAS, YearId FROM Vw_FBAnalysis WHERE (BatchId = @BatchId) AND (YearId = @YearId) AND (ProgramId = @ProgramId) AND (CourseId = @CourseId) AND (SectionId = @SectionId) AND (SemesterId = @SemesterId) ORDER BY SubjectCode</CommandText>
+                    <Parameters>
+                      <Parameter AllowDbNull="true" AutogeneratedName="BatchId" ColumnName="BatchId" DataSourceName="NEWFEE.dbo.Vw_FBAnalysis" DataTypeServer="varchar(25)" DbType="AnsiString" Direction="Input" ParameterName="@BatchId" Precision="0" ProviderType="VarChar" Scale="0" Size="25" SourceColumn="BatchId" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="YearId" ColumnName="YearId" DataSourceName="NEWFEE.dbo.Vw_FBAnalysis" DataTypeServer="int" DbType="Int32" Direction="Input" ParameterName="@YearId" Precision="0" ProviderType="Int" Scale="0" Size="4" SourceColumn="YearId" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="ProgramId" ColumnName="ProgramId" DataSourceName="NEWFEE.dbo.Vw_FBAnalysis" DataTypeServer="nvarchar(25)" DbType="String" Direction="Input" ParameterName="@ProgramId" Precision="0" ProviderType="NVarChar" Scale="0" Size="25" SourceColumn="ProgramId" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="CourseId" ColumnName="CourseId" DataSourceName="NEWFEE.dbo.Vw_FBAnalysis" DataTypeServer="nvarchar(25)" DbType="String" Direction="Input" ParameterName="@CourseId" Precision="0" ProviderType="NVarChar" Scale="0" Size="25" SourceColumn="CourseId" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="SectionId" ColumnName="SectionId" DataSourceName="NEWFEE.dbo.Vw_FBAnalysis" DataTypeServer="nvarchar(25)" DbType="String" Direction="Input" ParameterName="@SectionId" Precision="0" ProviderType="NVarChar" Scale="0" Size="25" SourceColumn="SectionId" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="SemesterId" ColumnName="SemesterId" DataSourceName="NEWFEE.dbo.Vw_FBAnalysis" DataTypeServer="varchar(10)" DbType="AnsiString" Direction="Input" ParameterName="@SemesterId" Precision="0" ProviderType="VarChar" Scale="0" Size="10" SourceColumn="SemesterId" SourceColumnNullMapping="false" SourceVersion="Current" />
+                    </Parameters>
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+              <DbSource ConnectionRef="FeesConnectionString (MySettings)" DbObjectName="NEWFEE.dbo.Vw_FBAnalysis" DbObjectType="View" FillMethodModifier="Public" FillMethodName="FillBySubject" GenerateMethods="Fill" GenerateShortCommands="true" GeneratorSourceName="FillBySubject" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy4" UserSourceName="FillBySubject">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="true">
+                    <CommandText>SELECT        ID, BatchId, YearId, ProgramId, CourseId, SectionId, SemesterId, EmployeeCode, DisplayName, SId, SubjectCode, SubjectName, Excellent, VeryGood, Good, 
+                         Satisfactory, Unsatisfactory, Total, NOS, ExcellentP, VeryGoodP, GoodP, SatisfactoryP, UnsatisfactoryP, TotalP, WAS, CG2, Score, DesignationCode, 
+                         DesignationName, ProgramName, Period, CourseName, SectionName, Result
+FROM            Vw_FBAnalysis where SubjectCode=@SubjectCode
+ORDER BY SubjectCode</CommandText>
+                    <Parameters>
+                      <Parameter AllowDbNull="false" AutogeneratedName="SubjectCode" ColumnName="SubjectCode" DataSourceName="NEWFEE.dbo.Vw_FBAnalysis" DataTypeServer="varchar(20)" DbType="AnsiString" Direction="Input" ParameterName="@SubjectCode" Precision="0" ProviderType="VarChar" Scale="0" Size="20" SourceColumn="SubjectCode" SourceColumnNullMapping="false" SourceVersion="Current" />
+                    </Parameters>
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+              <DbSource ConnectionRef="FeesConnectionString (MySettings)" DbObjectName="NEWFEE.dbo.Vw_FBAnalysis" DbObjectType="View" FillMethodModifier="Public" FillMethodName="FillByYearSemester" GenerateMethods="Fill" GenerateShortCommands="true" GeneratorSourceName="FillByYearSemester" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy5" UserSourceName="FillByYearSemester">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="true">
+                    <CommandText>SELECT        ID, BatchId, YearId, ProgramId, CourseId, SectionId, SemesterId, EmployeeCode, DisplayName, SId, SubjectCode, SubjectName, Excellent, VeryGood, Good, 
+                         Satisfactory, Unsatisfactory, Total, NOS, ExcellentP, VeryGoodP, GoodP, SatisfactoryP, UnsatisfactoryP, TotalP, WAS, CG2, Score, DesignationCode, 
+                         DesignationName, ProgramName, Period, CourseName, SectionName, Result
+FROM            Vw_FBAnalysis 
+WHERE (BatchId = @BatchId) AND (YearId = @YearId) AND (ProgramId = @ProgramId)  AND (SemesterId = @SemesterId) ORDER BY SubjectCode
+</CommandText>
+                    <Parameters>
+                      <Parameter AllowDbNull="true" AutogeneratedName="BatchId" ColumnName="BatchId" DataSourceName="NEWFEE.dbo.Vw_FBAnalysis" DataTypeServer="varchar(25)" DbType="AnsiString" Direction="Input" ParameterName="@BatchId" Precision="0" ProviderType="VarChar" Scale="0" Size="25" SourceColumn="BatchId" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="YearId" ColumnName="YearId" DataSourceName="NEWFEE.dbo.Vw_FBAnalysis" DataTypeServer="int" DbType="Int32" Direction="Input" ParameterName="@YearId" Precision="0" ProviderType="Int" Scale="0" Size="4" SourceColumn="YearId" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="ProgramId" ColumnName="ProgramId" DataSourceName="NEWFEE.dbo.Vw_FBAnalysis" DataTypeServer="nvarchar(25)" DbType="String" Direction="Input" ParameterName="@ProgramId" Precision="0" ProviderType="NVarChar" Scale="0" Size="25" SourceColumn="ProgramId" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="SemesterId" ColumnName="SemesterId" DataSourceName="NEWFEE.dbo.Vw_FBAnalysis" DataTypeServer="varchar(10)" DbType="AnsiString" Direction="Input" ParameterName="@SemesterId" Precision="0" ProviderType="VarChar" Scale="0" Size="10" SourceColumn="SemesterId" SourceColumnNullMapping="false" SourceVersion="Current" />
+                    </Parameters>
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </Sources>
+          </TableAdapter>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="tbl_fees_RatingMasterTableAdapter" GeneratorDataComponentClassName="tbl_fees_RatingMasterTableAdapter" Name="tbl_fees_RatingMaster" UserDataComponentName="tbl_fees_RatingMasterTableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="FeesConnectionString (MySettings)" DbObjectName="NEWFEE.dbo.tbl_fees_RatingMaster" DbObjectType="Table" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="true" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetData" UserSourceName="Fill">
+                <DeleteCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="false">
+                    <CommandText>DELETE FROM [dbo].[tbl_fees_RatingMaster] WHERE (([RId] = @Original_RId) AND ((@IsNull_Status = 1 AND [Status] IS NULL) OR ([Status] = @Original_Status)) AND ((@IsNull_Points = 1 AND [Points] IS NULL) OR ([Points] = @Original_Points)))</CommandText>
+                    <Parameters>
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@Original_RId" Precision="0" ProviderType="Int" Scale="0" Size="0" SourceColumn="RId" SourceColumnNullMapping="false" SourceVersion="Original" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@IsNull_Status" Precision="0" ProviderType="Int" Scale="0" Size="0" SourceColumn="Status" SourceColumnNullMapping="true" SourceVersion="Original" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="AnsiString" Direction="Input" ParameterName="@Original_Status" Precision="0" ProviderType="VarChar" Scale="0" Size="0" SourceColumn="Status" SourceColumnNullMapping="false" SourceVersion="Original" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@IsNull_Points" Precision="0" ProviderType="Int" Scale="0" Size="0" SourceColumn="Points" SourceColumnNullMapping="true" SourceVersion="Original" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@Original_Points" Precision="0" ProviderType="Int" Scale="0" Size="0" SourceColumn="Points" SourceColumnNullMapping="false" SourceVersion="Original" />
+                    </Parameters>
+                  </DbCommand>
+                </DeleteCommand>
+                <InsertCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="false">
+                    <CommandText>INSERT INTO [dbo].[tbl_fees_RatingMaster] ([RId], [RName], [Status], [Points]) VALUES (@RId, @RName, @Status, @Points);
+SELECT RId, RName, Status, Points FROM tbl_fees_RatingMaster WHERE (RId = @RId)</CommandText>
+                    <Parameters>
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@RId" Precision="0" ProviderType="Int" Scale="0" Size="0" SourceColumn="RId" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="AnsiString" Direction="Input" ParameterName="@RName" Precision="0" ProviderType="VarChar" Scale="0" Size="0" SourceColumn="RName" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="AnsiString" Direction="Input" ParameterName="@Status" Precision="0" ProviderType="VarChar" Scale="0" Size="0" SourceColumn="Status" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@Points" Precision="0" ProviderType="Int" Scale="0" Size="0" SourceColumn="Points" SourceColumnNullMapping="false" SourceVersion="Current" />
+                    </Parameters>
+                  </DbCommand>
+                </InsertCommand>
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="false">
+                    <CommandText>SELECT RId, RName, Status, Points FROM dbo.tbl_fees_RatingMaster</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+                <UpdateCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="false">
+                    <CommandText>UPDATE [dbo].[tbl_fees_RatingMaster] SET [RId] = @RId, [RName] = @RName, [Status] = @Status, [Points] = @Points WHERE (([RId] = @Original_RId) AND ((@IsNull_Status = 1 AND [Status] IS NULL) OR ([Status] = @Original_Status)) AND ((@IsNull_Points = 1 AND [Points] IS NULL) OR ([Points] = @Original_Points)));
+SELECT RId, RName, Status, Points FROM tbl_fees_RatingMaster WHERE (RId = @RId)</CommandText>
+                    <Parameters>
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@RId" Precision="0" ProviderType="Int" Scale="0" Size="0" SourceColumn="RId" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="AnsiString" Direction="Input" ParameterName="@RName" Precision="0" ProviderType="VarChar" Scale="0" Size="0" SourceColumn="RName" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="AnsiString" Direction="Input" ParameterName="@Status" Precision="0" ProviderType="VarChar" Scale="0" Size="0" SourceColumn="Status" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@Points" Precision="0" ProviderType="Int" Scale="0" Size="0" SourceColumn="Points" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@Original_RId" Precision="0" ProviderType="Int" Scale="0" Size="0" SourceColumn="RId" SourceColumnNullMapping="false" SourceVersion="Original" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@IsNull_Status" Precision="0" ProviderType="Int" Scale="0" Size="0" SourceColumn="Status" SourceColumnNullMapping="true" SourceVersion="Original" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="AnsiString" Direction="Input" ParameterName="@Original_Status" Precision="0" ProviderType="VarChar" Scale="0" Size="0" SourceColumn="Status" SourceColumnNullMapping="false" SourceVersion="Original" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@IsNull_Points" Precision="0" ProviderType="Int" Scale="0" Size="0" SourceColumn="Points" SourceColumnNullMapping="true" SourceVersion="Original" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@Original_Points" Precision="0" ProviderType="Int" Scale="0" Size="0" SourceColumn="Points" SourceColumnNullMapping="false" SourceVersion="Original" />
+                    </Parameters>
+                  </DbCommand>
+                </UpdateCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="RId" DataSetColumn="RId" />
+              <Mapping SourceColumn="RName" DataSetColumn="RName" />
+              <Mapping SourceColumn="Status" DataSetColumn="Status" />
+              <Mapping SourceColumn="Points" DataSetColumn="Points" />
+            </Mappings>
+            <Sources />
+          </TableAdapter>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="tbl_fees_ParameterMasterTableAdapter" GeneratorDataComponentClassName="tbl_fees_ParameterMasterTableAdapter" Name="tbl_fees_ParameterMaster" UserDataComponentName="tbl_fees_ParameterMasterTableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="FeesConnectionString (MySettings)" DbObjectName="NEWFEE.dbo.tbl_fees_ParameterMaster" DbObjectType="Table" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="true" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetData" UserSourceName="Fill">
+                <DeleteCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="false">
+                    <CommandText>DELETE FROM [dbo].[tbl_fees_ParameterMaster] WHERE (([PId] = @Original_PId) AND ((@IsNull_Status = 1 AND [Status] IS NULL) OR ([Status] = @Original_Status)))</CommandText>
+                    <Parameters>
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@Original_PId" Precision="0" ProviderType="Int" Scale="0" Size="0" SourceColumn="PId" SourceColumnNullMapping="false" SourceVersion="Original" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@IsNull_Status" Precision="0" ProviderType="Int" Scale="0" Size="0" SourceColumn="Status" SourceColumnNullMapping="true" SourceVersion="Original" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="AnsiString" Direction="Input" ParameterName="@Original_Status" Precision="0" ProviderType="VarChar" Scale="0" Size="0" SourceColumn="Status" SourceColumnNullMapping="false" SourceVersion="Original" />
+                    </Parameters>
+                  </DbCommand>
+                </DeleteCommand>
+                <InsertCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="false">
+                    <CommandText>INSERT INTO [dbo].[tbl_fees_ParameterMaster] ([PId], [Parameter_Name], [Status]) VALUES (@PId, @Parameter_Name, @Status);
+SELECT PId, Parameter_Name, Status FROM tbl_fees_ParameterMaster WHERE (PId = @PId)</CommandText>
+                    <Parameters>
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@PId" Precision="0" ProviderType="Int" Scale="0" Size="0" SourceColumn="PId" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="AnsiString" Direction="Input" ParameterName="@Parameter_Name" Precision="0" ProviderType="VarChar" Scale="0" Size="0" SourceColumn="Parameter_Name" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="AnsiString" Direction="Input" ParameterName="@Status" Precision="0" ProviderType="VarChar" Scale="0" Size="0" SourceColumn="Status" SourceColumnNullMapping="false" SourceVersion="Current" />
+                    </Parameters>
+                  </DbCommand>
+                </InsertCommand>
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="false">
+                    <CommandText>SELECT PId, Parameter_Name, Status FROM dbo.tbl_fees_ParameterMaster</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+                <UpdateCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="false">
+                    <CommandText>UPDATE [dbo].[tbl_fees_ParameterMaster] SET [PId] = @PId, [Parameter_Name] = @Parameter_Name, [Status] = @Status WHERE (([PId] = @Original_PId) AND ((@IsNull_Status = 1 AND [Status] IS NULL) OR ([Status] = @Original_Status)));
+SELECT PId, Parameter_Name, Status FROM tbl_fees_ParameterMaster WHERE (PId = @PId)</CommandText>
+                    <Parameters>
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@PId" Precision="0" ProviderType="Int" Scale="0" Size="0" SourceColumn="PId" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="AnsiString" Direction="Input" ParameterName="@Parameter_Name" Precision="0" ProviderType="VarChar" Scale="0" Size="0" SourceColumn="Parameter_Name" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="AnsiString" Direction="Input" ParameterName="@Status" Precision="0" ProviderType="VarChar" Scale="0" Size="0" SourceColumn="Status" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@Original_PId" Precision="0" ProviderType="Int" Scale="0" Size="0" SourceColumn="PId" SourceColumnNullMapping="false" SourceVersion="Original" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@IsNull_Status" Precision="0" ProviderType="Int" Scale="0" Size="0" SourceColumn="Status" SourceColumnNullMapping="true" SourceVersion="Original" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="AnsiString" Direction="Input" ParameterName="@Original_Status" Precision="0" ProviderType="VarChar" Scale="0" Size="0" SourceColumn="Status" SourceColumnNullMapping="false" SourceVersion="Original" />
+                    </Parameters>
+                  </DbCommand>
+                </UpdateCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="PId" DataSetColumn="PId" />
+              <Mapping SourceColumn="Parameter_Name" DataSetColumn="Parameter_Name" />
+              <Mapping SourceColumn="Status" DataSetColumn="Status" />
+            </Mappings>
+            <Sources />
+          </TableAdapter>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="Vw_FacultyAbsentTableAdapter" GeneratorDataComponentClassName="Vw_FacultyAbsentTableAdapter" Name="Vw_FacultyAbsent" UserDataComponentName="Vw_FacultyAbsentTableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="FeesConnectionString (MySettings)" DbObjectName="NEWFEE.dbo.Vw_FacultyAbsent" DbObjectType="View" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="false" UserGetMethodName="GetData" UserSourceName="Fill">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="true">
+                    <CommandText>SELECT        EmployeeCode, EDate, TId, YearId, CourseId, SectionId, IsGroupBased, GId, id, FACode, DisplayName, SubjectCode, SubjectName, ProgramId, PId, NOH, WId, 
+                         ProgramName, WeekName, PName, BatchId
+FROM            Vw_FacultyAbsent</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="EmployeeCode" DataSetColumn="EmployeeCode" />
+              <Mapping SourceColumn="EDate" DataSetColumn="EDate" />
+              <Mapping SourceColumn="TId" DataSetColumn="TId" />
+              <Mapping SourceColumn="YearId" DataSetColumn="YearId" />
+              <Mapping SourceColumn="CourseId" DataSetColumn="CourseId" />
+              <Mapping SourceColumn="SectionId" DataSetColumn="SectionId" />
+              <Mapping SourceColumn="IsGroupBased" DataSetColumn="IsGroupBased" />
+              <Mapping SourceColumn="GId" DataSetColumn="GId" />
+              <Mapping SourceColumn="id" DataSetColumn="id" />
+              <Mapping SourceColumn="FACode" DataSetColumn="FACode" />
+              <Mapping SourceColumn="DisplayName" DataSetColumn="DisplayName" />
+              <Mapping SourceColumn="SubjectCode" DataSetColumn="SubjectCode" />
+              <Mapping SourceColumn="SubjectName" DataSetColumn="SubjectName" />
+              <Mapping SourceColumn="ProgramId" DataSetColumn="ProgramId" />
+              <Mapping SourceColumn="PId" DataSetColumn="PId" />
+              <Mapping SourceColumn="NOH" DataSetColumn="NOH" />
+              <Mapping SourceColumn="WId" DataSetColumn="WId" />
+              <Mapping SourceColumn="ProgramName" DataSetColumn="ProgramName" />
+              <Mapping SourceColumn="WeekName" DataSetColumn="WeekName" />
+              <Mapping SourceColumn="PName" DataSetColumn="PName" />
+              <Mapping SourceColumn="BatchId" DataSetColumn="BatchId" />
+            </Mappings>
+            <Sources>
+              <DbSource ConnectionRef="FeesConnectionString (MySettings)" DbObjectName="NEWFEE.dbo.Vw_FacultyAbsent" DbObjectType="View" FillMethodModifier="Public" FillMethodName="FillByAbsentees" GenerateMethods="Fill" GenerateShortCommands="true" GeneratorGetMethodName="GetDataBy" GeneratorSourceName="FillByAbsentees" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy" UserSourceName="FillByAbsentees">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="true">
+                    <CommandText>SELECT BatchId, CourseId, DisplayName, EDate, EmployeeCode, FACode, GId, IsGroupBased, NOH, PId, PName, ProgramId, ProgramName, SectionId, SubjectCode, SubjectName, TId, WId, WeekName, YearId, id FROM Vw_FacultyAbsent WHERE (BatchId=@BatchId) AND  (YearId = @YearId) AND (ProgramId = @ProgramId) AND (CourseId = @CourseId) AND (id = @id) AND (EDate BETWEEN @EDate AND @EndDate)</CommandText>
+                    <Parameters>
+                      <Parameter AllowDbNull="true" AutogeneratedName="BatchId" ColumnName="BatchId" DataSourceName="NEWFEE.dbo.Vw_FacultyAbsent" DataTypeServer="varchar(25)" DbType="AnsiString" Direction="Input" ParameterName="@BatchId" Precision="0" ProviderType="VarChar" Scale="0" Size="25" SourceColumn="BatchId" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="YearId" ColumnName="YearId" DataSourceName="NEWFEE.dbo.Vw_FacultyAbsent" DataTypeServer="int" DbType="Int32" Direction="Input" ParameterName="@YearId" Precision="0" ProviderType="Int" Scale="0" Size="4" SourceColumn="YearId" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="ProgramId" ColumnName="ProgramId" DataSourceName="NEWFEE.dbo.Vw_FacultyAbsent" DataTypeServer="nvarchar(25)" DbType="String" Direction="Input" ParameterName="@ProgramId" Precision="0" ProviderType="NVarChar" Scale="0" Size="25" SourceColumn="ProgramId" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="CourseId" ColumnName="CourseId" DataSourceName="NEWFEE.dbo.Vw_FacultyAbsent" DataTypeServer="nvarchar(25)" DbType="String" Direction="Input" ParameterName="@CourseId" Precision="0" ProviderType="NVarChar" Scale="0" Size="25" SourceColumn="CourseId" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="id" ColumnName="id" DataSourceName="NEWFEE.dbo.Vw_FacultyAbsent" DataTypeServer="varchar(50)" DbType="AnsiString" Direction="Input" ParameterName="@id" Precision="0" ProviderType="VarChar" Scale="0" Size="50" SourceColumn="id" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="EDate" ColumnName="EDate" DataSourceName="NEWFEE.dbo.Vw_FacultyAbsent" DataTypeServer="datetime" DbType="DateTime" Direction="Input" ParameterName="@EDate" Precision="0" ProviderType="DateTime" Scale="0" Size="8" SourceColumn="EDate" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="EndDate" ColumnName="EDate" DataSourceName="NEWFEE.dbo.Vw_FacultyAbsent" DataTypeServer="datetime" DbType="DateTime" Direction="Input" ParameterName="@EndDate" Precision="0" ProviderType="DateTime" Scale="0" Size="8" SourceColumn="EDate" SourceColumnNullMapping="false" SourceVersion="Current" />
+                    </Parameters>
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+              <DbSource ConnectionRef="FeesConnectionString (MySettings)" DbObjectName="NEWFEE.dbo.Vw_FacultyAbsent" DbObjectType="View" FillMethodModifier="Public" FillMethodName="FillByEmployee" GenerateMethods="Fill" GenerateShortCommands="true" GeneratorGetMethodName="GetDataBy1" GeneratorSourceName="FillByEmployee" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy1" UserSourceName="FillByEmployee">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="true">
+                    <CommandText>SELECT        EmployeeCode, EDate, TId, YearId, CourseId, SectionId, IsGroupBased, GId, id, FACode, DisplayName, SubjectCode, SubjectName, ProgramId, PId, NOH, WId, 
+                         ProgramName, WeekName, PName, BatchId
+FROM            Vw_FacultyAbsent where EmployeeCode=@EmployeeCode order by EDate desc</CommandText>
+                    <Parameters>
+                      <Parameter AllowDbNull="true" AutogeneratedName="EmployeeCode" ColumnName="EmployeeCode" DataSourceName="NEWFEE.dbo.Vw_FacultyAbsent" DataTypeServer="nvarchar(50)" DbType="String" Direction="Input" ParameterName="@EmployeeCode" Precision="0" ProviderType="NVarChar" Scale="0" Size="50" SourceColumn="EmployeeCode" SourceColumnNullMapping="false" SourceVersion="Current" />
+                    </Parameters>
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </Sources>
+          </TableAdapter>
+        </Tables>
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="Employee" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:Generator_UserDSName="Employee" msprop:Generator_DataSetName="Employee" msprop:EnableTableAdapterManager="true">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="Vw_EmployeeList" msprop:Generator_UserTableName="Vw_EmployeeList" msprop:Generator_RowDeletedName="Vw_EmployeeListRowDeleted" msprop:Generator_RowChangedName="Vw_EmployeeListRowChanged" msprop:Generator_RowClassName="Vw_EmployeeListRow" msprop:Generator_RowChangingName="Vw_EmployeeListRowChanging" msprop:Generator_RowEvArgName="Vw_EmployeeListRowChangeEvent" msprop:Generator_RowEvHandlerName="Vw_EmployeeListRowChangeEventHandler" msprop:Generator_TableClassName="Vw_EmployeeListDataTable" msprop:Generator_TableVarName="tableVw_EmployeeList" msprop:Generator_RowDeletingName="Vw_EmployeeListRowDeleting" msprop:Generator_TablePropName="Vw_EmployeeList">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="EmployeeCode" msprop:Generator_UserColumnName="EmployeeCode" msprop:Generator_ColumnVarNameInTable="columnEmployeeCode" msprop:Generator_ColumnPropNameInRow="EmployeeCode" msprop:Generator_ColumnPropNameInTable="EmployeeCodeColumn">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="FirstName" msprop:Generator_UserColumnName="FirstName" msprop:Generator_ColumnVarNameInTable="columnFirstName" msprop:Generator_ColumnPropNameInRow="FirstName" msprop:Generator_ColumnPropNameInTable="FirstNameColumn">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="MiddleName" msprop:Generator_UserColumnName="MiddleName" msprop:Generator_ColumnVarNameInTable="columnMiddleName" msprop:Generator_ColumnPropNameInRow="MiddleName" msprop:Generator_ColumnPropNameInTable="MiddleNameColumn" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="LastName" msprop:Generator_UserColumnName="LastName" msprop:Generator_ColumnVarNameInTable="columnLastName" msprop:Generator_ColumnPropNameInRow="LastName" msprop:Generator_ColumnPropNameInTable="LastNameColumn">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="DisplayName" msprop:Generator_UserColumnName="DisplayName" msprop:Generator_ColumnVarNameInTable="columnDisplayName" msprop:Generator_ColumnPropNameInRow="DisplayName" msprop:Generator_ColumnPropNameInTable="DisplayNameColumn" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Status" msprop:Generator_UserColumnName="Status" msprop:Generator_ColumnVarNameInTable="columnStatus" msprop:Generator_ColumnPropNameInRow="Status" msprop:Generator_ColumnPropNameInTable="StatusColumn">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Gender" msprop:Generator_UserColumnName="Gender" msprop:Generator_ColumnVarNameInTable="columnGender" msprop:Generator_ColumnPropNameInRow="Gender" msprop:Generator_ColumnPropNameInTable="GenderColumn">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="7" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="DepartmentCode" msprop:Generator_UserColumnName="DepartmentCode" msprop:Generator_ColumnVarNameInTable="columnDepartmentCode" msprop:Generator_ColumnPropNameInRow="DepartmentCode" msprop:Generator_ColumnPropNameInTable="DepartmentCodeColumn" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="DesignationCode" msprop:Generator_UserColumnName="DesignationCode" msprop:Generator_ColumnVarNameInTable="columnDesignationCode" msprop:Generator_ColumnPropNameInRow="DesignationCode" msprop:Generator_ColumnPropNameInTable="DesignationCodeColumn" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="DepartmentName" msprop:Generator_UserColumnName="DepartmentName" msprop:Generator_ColumnVarNameInTable="columnDepartmentName" msprop:Generator_ColumnPropNameInRow="DepartmentName" msprop:Generator_ColumnPropNameInTable="DepartmentNameColumn" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="DesignationName" msprop:Generator_UserColumnName="DesignationName" msprop:Generator_ColumnVarNameInTable="columnDesignationName" msprop:Generator_ColumnPropNameInRow="DesignationName" msprop:Generator_ColumnPropNameInTable="DesignationNameColumn" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="EDate" msprop:Generator_UserColumnName="EDate" msprop:Generator_ColumnVarNameInTable="columnEDate" msprop:Generator_ColumnPropNameInRow="EDate" msprop:Generator_ColumnPropNameInTable="EDateColumn" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="BranchName" msprop:Generator_UserColumnName="BranchName" msprop:Generator_ColumnVarNameInTable="columnBranchName" msprop:Generator_ColumnPropNameInRow="BranchName" msprop:Generator_ColumnPropNameInTable="BranchNameColumn" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="CategoryCode" msprop:Generator_UserColumnName="CategoryCode" msprop:Generator_ColumnVarNameInTable="columnCategoryCode" msprop:Generator_ColumnPropNameInRow="CategoryCode" msprop:Generator_ColumnPropNameInTable="CategoryCodeColumn" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="CategoryName" msprop:Generator_UserColumnName="CategoryName" msprop:Generator_ColumnVarNameInTable="columnCategoryName" msprop:Generator_ColumnPropNameInRow="CategoryName" msprop:Generator_ColumnPropNameInTable="CategoryNameColumn" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="CPhone" msprop:Generator_UserColumnName="CPhone" msprop:Generator_ColumnPropNameInRow="CPhone" msprop:Generator_ColumnVarNameInTable="columnCPhone" msprop:Generator_ColumnPropNameInTable="CPhoneColumn" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Email" msprop:Generator_UserColumnName="Email" msprop:Generator_ColumnPropNameInRow="Email" msprop:Generator_ColumnVarNameInTable="columnEmail" msprop:Generator_ColumnPropNameInTable="EmailColumn" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="DOB" msprop:Generator_UserColumnName="DOB" msprop:Generator_ColumnPropNameInRow="DOB" msprop:Generator_ColumnVarNameInTable="columnDOB" msprop:Generator_ColumnPropNameInTable="DOBColumn" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="F_Code" msprop:Generator_UserColumnName="F_Code" msprop:Generator_ColumnVarNameInTable="columnF_Code" msprop:Generator_ColumnPropNameInRow="F_Code" msprop:Generator_ColumnPropNameInTable="F_CodeColumn" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="100" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Vw_College" msprop:Generator_UserTableName="Vw_College" msprop:Generator_RowDeletedName="Vw_CollegeRowDeleted" msprop:Generator_RowChangedName="Vw_CollegeRowChanged" msprop:Generator_RowClassName="Vw_CollegeRow" msprop:Generator_RowChangingName="Vw_CollegeRowChanging" msprop:Generator_RowEvArgName="Vw_CollegeRowChangeEvent" msprop:Generator_RowEvHandlerName="Vw_CollegeRowChangeEventHandler" msprop:Generator_TableClassName="Vw_CollegeDataTable" msprop:Generator_TableVarName="tableVw_College" msprop:Generator_RowDeletingName="Vw_CollegeRowDeleting" msprop:Generator_TablePropName="Vw_College">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="CollegeId" msprop:Generator_UserColumnName="CollegeId" msprop:Generator_ColumnVarNameInTable="columnCollegeId" msprop:Generator_ColumnPropNameInRow="CollegeId" msprop:Generator_ColumnPropNameInTable="CollegeIdColumn">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="25" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="CollegeName" msprop:Generator_UserColumnName="CollegeName" msprop:Generator_ColumnVarNameInTable="columnCollegeName" msprop:Generator_ColumnPropNameInRow="CollegeName" msprop:Generator_ColumnPropNameInTable="CollegeNameColumn" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Description" msprop:Generator_UserColumnName="Description" msprop:Generator_ColumnVarNameInTable="columnDescription" msprop:Generator_ColumnPropNameInRow="Description" msprop:Generator_ColumnPropNameInTable="DescriptionColumn" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Address" msprop:Generator_UserColumnName="Address" msprop:Generator_ColumnVarNameInTable="columnAddress" msprop:Generator_ColumnPropNameInRow="Address" msprop:Generator_ColumnPropNameInTable="AddressColumn" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="UniversityName" msprop:Generator_UserColumnName="UniversityName" msprop:Generator_ColumnVarNameInTable="columnUniversityName" msprop:Generator_ColumnPropNameInRow="UniversityName" msprop:Generator_ColumnPropNameInTable="UniversityNameColumn" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Vw_Logo" msprop:Generator_UserTableName="Vw_Logo" msprop:Generator_RowDeletedName="Vw_LogoRowDeleted" msprop:Generator_RowChangedName="Vw_LogoRowChanged" msprop:Generator_RowClassName="Vw_LogoRow" msprop:Generator_RowChangingName="Vw_LogoRowChanging" msprop:Generator_RowEvArgName="Vw_LogoRowChangeEvent" msprop:Generator_RowEvHandlerName="Vw_LogoRowChangeEventHandler" msprop:Generator_TableClassName="Vw_LogoDataTable" msprop:Generator_TableVarName="tableVw_Logo" msprop:Generator_RowDeletingName="Vw_LogoRowDeleting" msprop:Generator_TablePropName="Vw_Logo">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Logo" msprop:Generator_UserColumnName="Logo" msprop:Generator_ColumnVarNameInTable="columnLogo" msprop:Generator_ColumnPropNameInRow="Logo" msprop:Generator_ColumnPropNameInTable="LogoColumn" type="xs:base64Binary" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Vw_Feedback" msprop:Generator_UserTableName="Vw_Feedback" msprop:Generator_RowDeletedName="Vw_FeedbackRowDeleted" msprop:Generator_RowChangedName="Vw_FeedbackRowChanged" msprop:Generator_RowClassName="Vw_FeedbackRow" msprop:Generator_RowChangingName="Vw_FeedbackRowChanging" msprop:Generator_RowEvArgName="Vw_FeedbackRowChangeEvent" msprop:Generator_RowEvHandlerName="Vw_FeedbackRowChangeEventHandler" msprop:Generator_TableClassName="Vw_FeedbackDataTable" msprop:Generator_TableVarName="tableVw_Feedback" msprop:Generator_RowDeletingName="Vw_FeedbackRowDeleting" msprop:Generator_TablePropName="Vw_Feedback">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Fid" msprop:Generator_UserColumnName="Fid" msprop:Generator_ColumnPropNameInRow="Fid" msprop:Generator_ColumnVarNameInTable="columnFid" msprop:Generator_ColumnPropNameInTable="FidColumn" type="xs:int" />
+              <xs:element name="StudentId" msprop:Generator_UserColumnName="StudentId" msprop:Generator_ColumnPropNameInRow="StudentId" msprop:Generator_ColumnVarNameInTable="columnStudentId" msprop:Generator_ColumnPropNameInTable="StudentIdColumn" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="25" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="BatchId" msprop:Generator_UserColumnName="BatchId" msprop:Generator_ColumnPropNameInRow="BatchId" msprop:Generator_ColumnVarNameInTable="columnBatchId" msprop:Generator_ColumnPropNameInTable="BatchIdColumn" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="25" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="YearId" msprop:Generator_UserColumnName="YearId" msprop:Generator_ColumnPropNameInRow="YearId" msprop:Generator_ColumnVarNameInTable="columnYearId" msprop:Generator_ColumnPropNameInTable="YearIdColumn" type="xs:int" minOccurs="0" />
+              <xs:element name="ProgramId" msprop:Generator_UserColumnName="ProgramId" msprop:Generator_ColumnPropNameInRow="ProgramId" msprop:Generator_ColumnVarNameInTable="columnProgramId" msprop:Generator_ColumnPropNameInTable="ProgramIdColumn" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="25" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="CourseId" msprop:Generator_UserColumnName="CourseId" msprop:Generator_ColumnPropNameInRow="CourseId" msprop:Generator_ColumnVarNameInTable="columnCourseId" msprop:Generator_ColumnPropNameInTable="CourseIdColumn" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="25" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="SectionId" msprop:Generator_UserColumnName="SectionId" msprop:Generator_ColumnPropNameInRow="SectionId" msprop:Generator_ColumnVarNameInTable="columnSectionId" msprop:Generator_ColumnPropNameInTable="SectionIdColumn" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="25" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Description" msprop:Generator_UserColumnName="Description" msprop:Generator_ColumnPropNameInRow="Description" msprop:Generator_ColumnVarNameInTable="columnDescription" msprop:Generator_ColumnPropNameInTable="DescriptionColumn" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Remarks" msprop:Generator_UserColumnName="Remarks" msprop:Generator_ColumnPropNameInRow="Remarks" msprop:Generator_ColumnVarNameInTable="columnRemarks" msprop:Generator_ColumnPropNameInTable="RemarksColumn" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="SemesterId" msprop:Generator_UserColumnName="SemesterId" msprop:Generator_ColumnPropNameInRow="SemesterId" msprop:Generator_ColumnVarNameInTable="columnSemesterId" msprop:Generator_ColumnPropNameInTable="SemesterIdColumn" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="10" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="EmployeeCode" msprop:Generator_UserColumnName="EmployeeCode" msprop:Generator_ColumnPropNameInRow="EmployeeCode" msprop:Generator_ColumnVarNameInTable="columnEmployeeCode" msprop:Generator_ColumnPropNameInTable="EmployeeCodeColumn" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="SId" msprop:Generator_UserColumnName="SId" msprop:Generator_ColumnPropNameInRow="SId" msprop:Generator_ColumnVarNameInTable="columnSId" msprop:Generator_ColumnPropNameInTable="SIdColumn" type="xs:int" minOccurs="0" />
+              <xs:element name="PId" msprop:Generator_UserColumnName="PId" msprop:Generator_ColumnPropNameInRow="PId" msprop:Generator_ColumnVarNameInTable="columnPId" msprop:Generator_ColumnPropNameInTable="PIdColumn" type="xs:int" minOccurs="0" />
+              <xs:element name="RId" msprop:Generator_UserColumnName="RId" msprop:Generator_ColumnPropNameInRow="RId" msprop:Generator_ColumnVarNameInTable="columnRId" msprop:Generator_ColumnPropNameInTable="RIdColumn" type="xs:int" minOccurs="0" />
+              <xs:element name="DisplayName" msprop:Generator_UserColumnName="DisplayName" msprop:Generator_ColumnPropNameInRow="DisplayName" msprop:Generator_ColumnVarNameInTable="columnDisplayName" msprop:Generator_ColumnPropNameInTable="DisplayNameColumn" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="RollNo" msprop:Generator_UserColumnName="RollNo" msprop:Generator_ColumnPropNameInRow="RollNo" msprop:Generator_ColumnVarNameInTable="columnRollNo" msprop:Generator_ColumnPropNameInTable="RollNoColumn" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="ProgramName" msprop:Generator_UserColumnName="ProgramName" msprop:Generator_ColumnPropNameInRow="ProgramName" msprop:Generator_ColumnVarNameInTable="columnProgramName" msprop:Generator_ColumnPropNameInTable="ProgramNameColumn" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="100" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Parameter_Name" msprop:Generator_UserColumnName="Parameter_Name" msprop:Generator_ColumnPropNameInRow="Parameter_Name" msprop:Generator_ColumnVarNameInTable="columnParameter_Name" msprop:Generator_ColumnPropNameInTable="Parameter_NameColumn" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="RName" msprop:Generator_UserColumnName="RName" msprop:Generator_ColumnPropNameInRow="RName" msprop:Generator_ColumnVarNameInTable="columnRName" msprop:Generator_ColumnPropNameInTable="RNameColumn" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="SubjectCode" msprop:Generator_UserColumnName="SubjectCode" msprop:Generator_ColumnPropNameInRow="SubjectCode" msprop:Generator_ColumnVarNameInTable="columnSubjectCode" msprop:Generator_ColumnPropNameInTable="SubjectCodeColumn">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="20" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="SubjectName" msprop:Generator_UserColumnName="SubjectName" msprop:Generator_ColumnPropNameInRow="SubjectName" msprop:Generator_ColumnVarNameInTable="columnSubjectName" msprop:Generator_ColumnPropNameInTable="SubjectNameColumn" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Faculty" msprop:Generator_UserColumnName="Faculty" msprop:Generator_ColumnPropNameInRow="Faculty" msprop:Generator_ColumnVarNameInTable="columnFaculty" msprop:Generator_ColumnPropNameInTable="FacultyColumn" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Vw_FBAnalysis" msprop:Generator_UserTableName="Vw_FBAnalysis" msprop:Generator_RowDeletedName="Vw_FBAnalysisRowDeleted" msprop:Generator_RowChangedName="Vw_FBAnalysisRowChanged" msprop:Generator_RowClassName="Vw_FBAnalysisRow" msprop:Generator_RowChangingName="Vw_FBAnalysisRowChanging" msprop:Generator_RowEvArgName="Vw_FBAnalysisRowChangeEvent" msprop:Generator_RowEvHandlerName="Vw_FBAnalysisRowChangeEventHandler" msprop:Generator_TableClassName="Vw_FBAnalysisDataTable" msprop:Generator_TableVarName="tableVw_FBAnalysis" msprop:Generator_RowDeletingName="Vw_FBAnalysisRowDeleting" msprop:Generator_TablePropName="Vw_FBAnalysis">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="ID" msprop:Generator_UserColumnName="ID" msprop:Generator_ColumnVarNameInTable="columnID" msprop:Generator_ColumnPropNameInRow="ID" msprop:Generator_ColumnPropNameInTable="IDColumn" type="xs:int" />
+              <xs:element name="BatchId" msprop:Generator_UserColumnName="BatchId" msprop:Generator_ColumnVarNameInTable="columnBatchId" msprop:Generator_ColumnPropNameInRow="BatchId" msprop:Generator_ColumnPropNameInTable="BatchIdColumn" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="25" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="YearId" msprop:Generator_UserColumnName="YearId" msprop:Generator_ColumnVarNameInTable="columnYearId" msprop:Generator_ColumnPropNameInRow="YearId" msprop:Generator_ColumnPropNameInTable="YearIdColumn" type="xs:int" minOccurs="0" />
+              <xs:element name="ProgramId" msprop:Generator_UserColumnName="ProgramId" msprop:Generator_ColumnVarNameInTable="columnProgramId" msprop:Generator_ColumnPropNameInRow="ProgramId" msprop:Generator_ColumnPropNameInTable="ProgramIdColumn" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="25" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="CourseId" msprop:Generator_UserColumnName="CourseId" msprop:Generator_ColumnVarNameInTable="columnCourseId" msprop:Generator_ColumnPropNameInRow="CourseId" msprop:Generator_ColumnPropNameInTable="CourseIdColumn" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="25" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="SectionId" msprop:Generator_UserColumnName="SectionId" msprop:Generator_ColumnVarNameInTable="columnSectionId" msprop:Generator_ColumnPropNameInRow="SectionId" msprop:Generator_ColumnPropNameInTable="SectionIdColumn" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="25" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="SemesterId" msprop:Generator_UserColumnName="SemesterId" msprop:Generator_ColumnVarNameInTable="columnSemesterId" msprop:Generator_ColumnPropNameInRow="SemesterId" msprop:Generator_ColumnPropNameInTable="SemesterIdColumn" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="10" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="EmployeeCode" msprop:Generator_UserColumnName="EmployeeCode" msprop:Generator_ColumnVarNameInTable="columnEmployeeCode" msprop:Generator_ColumnPropNameInRow="EmployeeCode" msprop:Generator_ColumnPropNameInTable="EmployeeCodeColumn" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="DisplayName" msprop:Generator_UserColumnName="DisplayName" msprop:Generator_ColumnVarNameInTable="columnDisplayName" msprop:Generator_ColumnPropNameInRow="DisplayName" msprop:Generator_ColumnPropNameInTable="DisplayNameColumn" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="SId" msprop:Generator_UserColumnName="SId" msprop:Generator_ColumnVarNameInTable="columnSId" msprop:Generator_ColumnPropNameInRow="SId" msprop:Generator_ColumnPropNameInTable="SIdColumn" type="xs:int" minOccurs="0" />
+              <xs:element name="SubjectCode" msprop:Generator_UserColumnName="SubjectCode" msprop:Generator_ColumnVarNameInTable="columnSubjectCode" msprop:Generator_ColumnPropNameInRow="SubjectCode" msprop:Generator_ColumnPropNameInTable="SubjectCodeColumn">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="20" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="SubjectName" msprop:Generator_UserColumnName="SubjectName" msprop:Generator_ColumnVarNameInTable="columnSubjectName" msprop:Generator_ColumnPropNameInRow="SubjectName" msprop:Generator_ColumnPropNameInTable="SubjectNameColumn" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Excellent" msprop:Generator_UserColumnName="Excellent" msprop:Generator_ColumnVarNameInTable="columnExcellent" msprop:Generator_ColumnPropNameInRow="Excellent" msprop:Generator_ColumnPropNameInTable="ExcellentColumn" type="xs:int" minOccurs="0" />
+              <xs:element name="VeryGood" msprop:Generator_UserColumnName="VeryGood" msprop:Generator_ColumnVarNameInTable="columnVeryGood" msprop:Generator_ColumnPropNameInRow="VeryGood" msprop:Generator_ColumnPropNameInTable="VeryGoodColumn" type="xs:int" minOccurs="0" />
+              <xs:element name="Good" msprop:Generator_UserColumnName="Good" msprop:Generator_ColumnVarNameInTable="columnGood" msprop:Generator_ColumnPropNameInRow="Good" msprop:Generator_ColumnPropNameInTable="GoodColumn" type="xs:int" minOccurs="0" />
+              <xs:element name="Satisfactory" msprop:Generator_UserColumnName="Satisfactory" msprop:Generator_ColumnVarNameInTable="columnSatisfactory" msprop:Generator_ColumnPropNameInRow="Satisfactory" msprop:Generator_ColumnPropNameInTable="SatisfactoryColumn" type="xs:int" minOccurs="0" />
+              <xs:element name="Unsatisfactory" msprop:Generator_UserColumnName="Unsatisfactory" msprop:Generator_ColumnVarNameInTable="columnUnsatisfactory" msprop:Generator_ColumnPropNameInRow="Unsatisfactory" msprop:Generator_ColumnPropNameInTable="UnsatisfactoryColumn" type="xs:int" minOccurs="0" />
+              <xs:element name="Total" msprop:Generator_UserColumnName="Total" msprop:Generator_ColumnVarNameInTable="columnTotal" msprop:Generator_ColumnPropNameInRow="Total" msprop:Generator_ColumnPropNameInTable="TotalColumn" type="xs:int" minOccurs="0" />
+              <xs:element name="NOS" msprop:Generator_UserColumnName="NOS" msprop:Generator_ColumnVarNameInTable="columnNOS" msprop:Generator_ColumnPropNameInRow="NOS" msprop:Generator_ColumnPropNameInTable="NOSColumn" type="xs:int" minOccurs="0" />
+              <xs:element name="ExcellentP" msprop:Generator_UserColumnName="ExcellentP" msprop:Generator_ColumnVarNameInTable="columnExcellentP" msprop:Generator_ColumnPropNameInRow="ExcellentP" msprop:Generator_ColumnPropNameInTable="ExcellentPColumn" type="xs:decimal" minOccurs="0" />
+              <xs:element name="VeryGoodP" msprop:Generator_UserColumnName="VeryGoodP" msprop:Generator_ColumnVarNameInTable="columnVeryGoodP" msprop:Generator_ColumnPropNameInRow="VeryGoodP" msprop:Generator_ColumnPropNameInTable="VeryGoodPColumn" type="xs:decimal" minOccurs="0" />
+              <xs:element name="GoodP" msprop:Generator_UserColumnName="GoodP" msprop:Generator_ColumnVarNameInTable="columnGoodP" msprop:Generator_ColumnPropNameInRow="GoodP" msprop:Generator_ColumnPropNameInTable="GoodPColumn" type="xs:decimal" minOccurs="0" />
+              <xs:element name="SatisfactoryP" msprop:Generator_UserColumnName="SatisfactoryP" msprop:Generator_ColumnVarNameInTable="columnSatisfactoryP" msprop:Generator_ColumnPropNameInRow="SatisfactoryP" msprop:Generator_ColumnPropNameInTable="SatisfactoryPColumn" type="xs:decimal" minOccurs="0" />
+              <xs:element name="UnsatisfactoryP" msprop:Generator_UserColumnName="UnsatisfactoryP" msprop:Generator_ColumnVarNameInTable="columnUnsatisfactoryP" msprop:Generator_ColumnPropNameInRow="UnsatisfactoryP" msprop:Generator_ColumnPropNameInTable="UnsatisfactoryPColumn" type="xs:decimal" minOccurs="0" />
+              <xs:element name="TotalP" msprop:Generator_UserColumnName="TotalP" msprop:Generator_ColumnVarNameInTable="columnTotalP" msprop:Generator_ColumnPropNameInRow="TotalP" msprop:Generator_ColumnPropNameInTable="TotalPColumn" type="xs:int" minOccurs="0" />
+              <xs:element name="WAS" msprop:Generator_UserColumnName="WAS" msprop:Generator_ColumnVarNameInTable="columnWAS" msprop:Generator_ColumnPropNameInRow="WAS" msprop:Generator_ColumnPropNameInTable="WASColumn" type="xs:decimal" minOccurs="0" />
+              <xs:element name="CG2" msprop:Generator_UserColumnName="CG2" msprop:Generator_ColumnVarNameInTable="columnCG2" msprop:Generator_ColumnPropNameInRow="CG2" msprop:Generator_ColumnPropNameInTable="CG2Column" type="xs:decimal" minOccurs="0" />
+              <xs:element name="Score" msprop:Generator_UserColumnName="Score" msprop:Generator_ColumnVarNameInTable="columnScore" msprop:Generator_ColumnPropNameInRow="Score" msprop:Generator_ColumnPropNameInTable="ScoreColumn" type="xs:int" minOccurs="0" />
+              <xs:element name="DesignationCode" msprop:Generator_UserColumnName="DesignationCode" msprop:Generator_ColumnPropNameInRow="DesignationCode" msprop:Generator_ColumnVarNameInTable="columnDesignationCode" msprop:Generator_ColumnPropNameInTable="DesignationCodeColumn">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="DesignationName" msprop:Generator_UserColumnName="DesignationName" msprop:Generator_ColumnPropNameInRow="DesignationName" msprop:Generator_ColumnVarNameInTable="columnDesignationName" msprop:Generator_ColumnPropNameInTable="DesignationNameColumn">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="ProgramName" msprop:Generator_UserColumnName="ProgramName" msprop:Generator_ColumnPropNameInRow="ProgramName" msprop:Generator_ColumnVarNameInTable="columnProgramName" msprop:Generator_ColumnPropNameInTable="ProgramNameColumn" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="100" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Period" msprop:Generator_UserColumnName="Period" msprop:Generator_ColumnPropNameInRow="Period" msprop:Generator_ColumnVarNameInTable="columnPeriod" msprop:Generator_ColumnPropNameInTable="PeriodColumn" type="xs:int" minOccurs="0" />
+              <xs:element name="CourseName" msprop:Generator_UserColumnName="CourseName" msprop:Generator_ColumnPropNameInRow="CourseName" msprop:Generator_ColumnVarNameInTable="columnCourseName" msprop:Generator_ColumnPropNameInTable="CourseNameColumn" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="100" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="SectionName" msprop:Generator_UserColumnName="SectionName" msprop:Generator_ColumnPropNameInRow="SectionName" msprop:Generator_ColumnVarNameInTable="columnSectionName" msprop:Generator_ColumnPropNameInTable="SectionNameColumn" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="100" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Result" msprop:Generator_UserColumnName="Result" msprop:Generator_ColumnPropNameInRow="Result" msprop:Generator_ColumnVarNameInTable="columnResult" msprop:Generator_ColumnPropNameInTable="ResultColumn" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="25" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="tbl_fees_RatingMaster" msprop:Generator_UserTableName="tbl_fees_RatingMaster" msprop:Generator_RowDeletedName="tbl_fees_RatingMasterRowDeleted" msprop:Generator_RowChangedName="tbl_fees_RatingMasterRowChanged" msprop:Generator_RowClassName="tbl_fees_RatingMasterRow" msprop:Generator_RowChangingName="tbl_fees_RatingMasterRowChanging" msprop:Generator_RowEvArgName="tbl_fees_RatingMasterRowChangeEvent" msprop:Generator_RowEvHandlerName="tbl_fees_RatingMasterRowChangeEventHandler" msprop:Generator_TableClassName="tbl_fees_RatingMasterDataTable" msprop:Generator_TableVarName="tabletbl_fees_RatingMaster" msprop:Generator_RowDeletingName="tbl_fees_RatingMasterRowDeleting" msprop:Generator_TablePropName="tbl_fees_RatingMaster">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="RId" msprop:Generator_UserColumnName="RId" msprop:Generator_ColumnPropNameInRow="RId" msprop:Generator_ColumnVarNameInTable="columnRId" msprop:Generator_ColumnPropNameInTable="RIdColumn" type="xs:int" />
+              <xs:element name="RName" msprop:Generator_UserColumnName="RName" msprop:Generator_ColumnPropNameInRow="RName" msprop:Generator_ColumnVarNameInTable="columnRName" msprop:Generator_ColumnPropNameInTable="RNameColumn" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Status" msprop:Generator_UserColumnName="Status" msprop:Generator_ColumnPropNameInRow="Status" msprop:Generator_ColumnVarNameInTable="columnStatus" msprop:Generator_ColumnPropNameInTable="StatusColumn" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="25" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Points" msprop:Generator_UserColumnName="Points" msprop:Generator_ColumnPropNameInRow="Points" msprop:Generator_ColumnVarNameInTable="columnPoints" msprop:Generator_ColumnPropNameInTable="PointsColumn" type="xs:int" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="tbl_fees_ParameterMaster" msprop:Generator_UserTableName="tbl_fees_ParameterMaster" msprop:Generator_RowDeletedName="tbl_fees_ParameterMasterRowDeleted" msprop:Generator_RowChangedName="tbl_fees_ParameterMasterRowChanged" msprop:Generator_RowClassName="tbl_fees_ParameterMasterRow" msprop:Generator_RowChangingName="tbl_fees_ParameterMasterRowChanging" msprop:Generator_RowEvArgName="tbl_fees_ParameterMasterRowChangeEvent" msprop:Generator_RowEvHandlerName="tbl_fees_ParameterMasterRowChangeEventHandler" msprop:Generator_TableClassName="tbl_fees_ParameterMasterDataTable" msprop:Generator_TableVarName="tabletbl_fees_ParameterMaster" msprop:Generator_RowDeletingName="tbl_fees_ParameterMasterRowDeleting" msprop:Generator_TablePropName="tbl_fees_ParameterMaster">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="PId" msprop:Generator_UserColumnName="PId" msprop:Generator_ColumnPropNameInRow="PId" msprop:Generator_ColumnVarNameInTable="columnPId" msprop:Generator_ColumnPropNameInTable="PIdColumn" type="xs:int" />
+              <xs:element name="Parameter_Name" msprop:Generator_UserColumnName="Parameter_Name" msprop:Generator_ColumnPropNameInRow="Parameter_Name" msprop:Generator_ColumnVarNameInTable="columnParameter_Name" msprop:Generator_ColumnPropNameInTable="Parameter_NameColumn" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Status" msprop:Generator_UserColumnName="Status" msprop:Generator_ColumnPropNameInRow="Status" msprop:Generator_ColumnVarNameInTable="columnStatus" msprop:Generator_ColumnPropNameInTable="StatusColumn" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="25" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Vw_FacultyAbsent" msprop:Generator_UserTableName="Vw_FacultyAbsent" msprop:Generator_RowDeletedName="Vw_FacultyAbsentRowDeleted" msprop:Generator_RowChangedName="Vw_FacultyAbsentRowChanged" msprop:Generator_RowClassName="Vw_FacultyAbsentRow" msprop:Generator_RowChangingName="Vw_FacultyAbsentRowChanging" msprop:Generator_RowEvArgName="Vw_FacultyAbsentRowChangeEvent" msprop:Generator_RowEvHandlerName="Vw_FacultyAbsentRowChangeEventHandler" msprop:Generator_TableClassName="Vw_FacultyAbsentDataTable" msprop:Generator_TableVarName="tableVw_FacultyAbsent" msprop:Generator_RowDeletingName="Vw_FacultyAbsentRowDeleting" msprop:Generator_TablePropName="Vw_FacultyAbsent">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="EmployeeCode" msprop:Generator_UserColumnName="EmployeeCode" msprop:Generator_ColumnVarNameInTable="columnEmployeeCode" msprop:Generator_ColumnPropNameInRow="EmployeeCode" msprop:Generator_ColumnPropNameInTable="EmployeeCodeColumn" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="EDate" msprop:Generator_UserColumnName="EDate" msprop:Generator_ColumnVarNameInTable="columnEDate" msprop:Generator_ColumnPropNameInRow="EDate" msprop:Generator_ColumnPropNameInTable="EDateColumn" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="TId" msprop:Generator_UserColumnName="TId" msprop:Generator_ColumnVarNameInTable="columnTId" msprop:Generator_ColumnPropNameInRow="TId" msprop:Generator_ColumnPropNameInTable="TIdColumn" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="YearId" msprop:Generator_UserColumnName="YearId" msprop:Generator_ColumnVarNameInTable="columnYearId" msprop:Generator_ColumnPropNameInRow="YearId" msprop:Generator_ColumnPropNameInTable="YearIdColumn" type="xs:int" minOccurs="0" />
+              <xs:element name="CourseId" msprop:Generator_UserColumnName="CourseId" msprop:Generator_ColumnVarNameInTable="columnCourseId" msprop:Generator_ColumnPropNameInRow="CourseId" msprop:Generator_ColumnPropNameInTable="CourseIdColumn" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="25" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="SectionId" msprop:Generator_UserColumnName="SectionId" msprop:Generator_ColumnVarNameInTable="columnSectionId" msprop:Generator_ColumnPropNameInRow="SectionId" msprop:Generator_ColumnPropNameInTable="SectionIdColumn" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="25" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="IsGroupBased" msprop:Generator_UserColumnName="IsGroupBased" msprop:Generator_ColumnVarNameInTable="columnIsGroupBased" msprop:Generator_ColumnPropNameInRow="IsGroupBased" msprop:Generator_ColumnPropNameInTable="IsGroupBasedColumn" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="10" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="GId" msprop:Generator_UserColumnName="GId" msprop:Generator_ColumnVarNameInTable="columnGId" msprop:Generator_ColumnPropNameInRow="GId" msprop:Generator_ColumnPropNameInTable="GIdColumn" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="20" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="id" msprop:Generator_UserColumnName="id" msprop:Generator_ColumnVarNameInTable="columnid" msprop:Generator_ColumnPropNameInRow="id" msprop:Generator_ColumnPropNameInTable="idColumn" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="FACode" msprop:Generator_UserColumnName="FACode" msprop:Generator_ColumnVarNameInTable="columnFACode" msprop:Generator_ColumnPropNameInRow="FACode" msprop:Generator_ColumnPropNameInTable="FACodeColumn" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="DisplayName" msprop:Generator_UserColumnName="DisplayName" msprop:Generator_ColumnVarNameInTable="columnDisplayName" msprop:Generator_ColumnPropNameInRow="DisplayName" msprop:Generator_ColumnPropNameInTable="DisplayNameColumn" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="SubjectCode" msprop:Generator_UserColumnName="SubjectCode" msprop:Generator_ColumnVarNameInTable="columnSubjectCode" msprop:Generator_ColumnPropNameInRow="SubjectCode" msprop:Generator_ColumnPropNameInTable="SubjectCodeColumn">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="20" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="SubjectName" msprop:Generator_UserColumnName="SubjectName" msprop:Generator_ColumnVarNameInTable="columnSubjectName" msprop:Generator_ColumnPropNameInRow="SubjectName" msprop:Generator_ColumnPropNameInTable="SubjectNameColumn" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="ProgramId" msprop:Generator_UserColumnName="ProgramId" msprop:Generator_ColumnVarNameInTable="columnProgramId" msprop:Generator_ColumnPropNameInRow="ProgramId" msprop:Generator_ColumnPropNameInTable="ProgramIdColumn" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="25" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="PId" msprop:Generator_UserColumnName="PId" msprop:Generator_ColumnVarNameInTable="columnPId" msprop:Generator_ColumnPropNameInRow="PId" msprop:Generator_ColumnPropNameInTable="PIdColumn" type="xs:int" minOccurs="0" />
+              <xs:element name="NOH" msprop:Generator_UserColumnName="NOH" msprop:Generator_ColumnVarNameInTable="columnNOH" msprop:Generator_ColumnPropNameInRow="NOH" msprop:Generator_ColumnPropNameInTable="NOHColumn" type="xs:int" minOccurs="0" />
+              <xs:element name="WId" msprop:Generator_UserColumnName="WId" msprop:Generator_ColumnVarNameInTable="columnWId" msprop:Generator_ColumnPropNameInRow="WId" msprop:Generator_ColumnPropNameInTable="WIdColumn" type="xs:int" minOccurs="0" />
+              <xs:element name="ProgramName" msprop:Generator_UserColumnName="ProgramName" msprop:Generator_ColumnVarNameInTable="columnProgramName" msprop:Generator_ColumnPropNameInRow="ProgramName" msprop:Generator_ColumnPropNameInTable="ProgramNameColumn" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="100" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="WeekName" msprop:Generator_UserColumnName="WeekName" msprop:Generator_ColumnVarNameInTable="columnWeekName" msprop:Generator_ColumnPropNameInRow="WeekName" msprop:Generator_ColumnPropNameInTable="WeekNameColumn" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="PName" msprop:Generator_UserColumnName="PName" msprop:Generator_ColumnVarNameInTable="columnPName" msprop:Generator_ColumnPropNameInRow="PName" msprop:Generator_ColumnPropNameInTable="PNameColumn" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="100" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="BatchId" msprop:Generator_UserColumnName="BatchId" msprop:Generator_ColumnPropNameInRow="BatchId" msprop:Generator_ColumnVarNameInTable="columnBatchId" msprop:Generator_ColumnPropNameInTable="BatchIdColumn" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="25" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+    <xs:unique name="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:Vw_EmployeeList" />
+      <xs:field xpath="mstns:EmployeeCode" />
+    </xs:unique>
+  </xs:element>
+</xs:schema>

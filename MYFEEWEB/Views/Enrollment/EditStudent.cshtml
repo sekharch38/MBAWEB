@@ -1,0 +1,833 @@
+﻿@model MYFEELIB.Entities.Student
+@{
+    ViewBag.Title = "Student Edit Registration";
+    Layout = "~/Views/Shared/_StudentRegistration.cshtml";
+}
+}
+
+
+
+
+
+<script type="text/jscript">
+
+    $(document).ready(function () {
+        var entry = "@Session["Entry"]";
+
+        if (entry != "2") {
+            $(".table_bg").hide("fast")
+
+        }
+        else {
+            $(".table_bg").show("fast");
+
+        }
+    });
+
+
+    $(function () {
+
+        $('#Entry').change(function () {
+            //  debugger;
+            var id = $("#Entry :selected").val();
+            if (id != "") {
+                $.ajax({
+                    type: "GET",
+                    contentType: "application/json; charset=utf-8",
+                    url: '@Url.Action("FillProgram", "Enrollment")',
+                    data: { "mEntry": id },
+                    dataType: "json",
+                    beforeSend: function () {
+                        //alert(id);
+                    },
+                    success: function (data) {
+                        var items = "";
+                        $.each(data, function (i, program) {
+                            items += "<option value='" + program.Value + "'>" + program.Text + "</option>";
+                        });
+                        $('#Program').html(items);
+
+                        if (id != "2") {
+                            $(".table_bg").hide("fast")
+                        } else {
+                            $(".table_bg").show("fast")
+                        }
+
+                    },
+                    error: function (result) {
+
+                        alert('Service call failed: ' + result.status + ' Type :' + result.statusText);
+                    }
+                });
+            }
+            else {
+                var items = '<option value="">Select</option>';
+                $('#Program').html(items);
+            }
+        });
+
+    });
+
+
+
+    $(function () {
+
+        $('#Program').change(function () {
+            //  debugger;
+            var id = $("#Program :selected").val();
+            if (id != "") {
+                $.ajax({
+                    type: "GET",
+                    contentType: "application/json; charset=utf-8",
+                    url: '@Url.Action("FillCourse", "Enrollment")',
+                    data: { "PId": id },
+                    dataType: "json",
+                    beforeSend: function () {
+                        //alert(id);
+                    },
+                    success: function (data) {
+                        var items = "";
+                        $.each(data, function (i, Course) {
+                            items += "<option value='" + Course.Value + "'>" + Course.Text + "</option>";
+                        });
+                        $('#Course').html(items);
+
+                    },
+                    error: function (result) {
+
+                        alert('Service call failed: ' + result.status + ' Type :' + result.statusText);
+                    }
+                });
+            }
+            else {
+                var items = '<option value="">Select</option>';
+                $('#Course').html(items);
+            }
+        });
+
+    });
+
+
+    $(function () {
+
+        $('#Course').change(function () {
+            //  debugger;
+            var id = $("#Course :selected").val();
+            if (id != "") {
+                $.ajax({
+                    type: "GET",
+                    contentType: "application/json; charset=utf-8",
+                    url: '@Url.Action("FillSection", "Enrollment")',
+                    data: { "CId": id },
+                    dataType: "json",
+                    beforeSend: function () {
+                        //alert(id);
+                    },
+                    success: function (data) {
+                        var items = "";
+                        $.each(data, function (i, Section) {
+                            items += "<option value='" + Section.Value + "'>" + Section.Text + "</option>";
+                        });
+                        $('#Section').html(items);
+
+                    },
+                    error: function (result) {
+
+                        alert('Service call failed: ' + result.status + ' Type :' + result.statusText);
+                    }
+                });
+            }
+            else {
+                var items = '<option value="">Select</option>';
+                $('#Section').html(items);
+            }
+        });
+
+    });
+
+
+    $(function () {
+
+        $('#Section').change(function () {
+            //  debugger;
+            var id = $("#Section :selected").val();
+            if (id != "") {
+                $.ajax({
+                    type: "GET",
+                    contentType: "application/json; charset=utf-8",
+                    url: '@Url.Action("FillQuota", "Enrollment")',
+                    data: { "SId": id },
+                    dataType: "json",
+                    beforeSend: function () {
+                        //alert(id);
+                    },
+                    success: function (data) {
+                        var items = "";
+                        $.each(data, function (i, Qota) {
+                            items += "<option value='" + Qota.Value + "'>" + Qota.Text + "</option>";
+                        });
+                        $('#Quota').html(items);
+
+                    },
+                    error: function (result) {
+
+                        alert('Service call failed: ' + result.status + ' Type :' + result.statusText);
+                    }
+                });
+            }
+            else {
+                var items = '<option value="">Select</option>';
+                $('#Quota').html(items);
+            }
+        });
+
+    });
+
+
+
+    $(function () {
+
+        $('#Quota').change(function () {
+            //  debugger;
+            var id = $("#Quota :selected").val();
+            if (id != "") {
+                $.ajax({
+                    type: "GET",
+                    contentType: "application/json; charset=utf-8",
+                    url: '@Url.Action("QuotaCatList", "Enrollment")',
+                    data: { "mQuota": id },
+                    dataType: "json",
+                    beforeSend: function () {
+                        //alert(id);
+                    },
+                    success: function (data) {
+                        var items = "";
+                        $.each(data, function (i, QC) {
+                            items += "<option value='" + QC.Value + "'>" + QC.Text + "</option>";
+                        });
+                        $('#QuotaCategory').html(items);
+
+                    },
+                    error: function (result) {
+
+                        alert('Service call failed: ' + result.status + ' Type :' + result.statusText);
+                    }
+                });
+            }
+            else {
+                var items = '<option value="">Select</option>';
+                $('#QuotaCategory').html(items);
+            }
+        });
+
+    });
+
+
+
+    $(function () {
+
+        $('#QuotaCategory').change(function () {
+            //  debugger;
+            var id = $("#QuotaCategory :selected").val();
+            if (id != "") {
+                $.ajax({
+                    type: "GET",
+                    contentType: "application/json; charset=utf-8",
+                    url: '@Url.Action("YearList", "Enrollment")',
+                    data: { "QC": id },
+                    dataType: "json",
+                    beforeSend: function () {
+                        //alert(id);
+                    },
+                    success: function (data) {
+                        var items = "";
+                        $.each(data, function (i, yr) {
+                            items += "<option value='" + yr.Value + "'>" + yr.Text + "</option>";
+                        });
+                        $('#Year').html(items);
+
+                    },
+                    error: function (result) {
+
+                        alert('Service call failed: ' + result.status + ' Type :' + result.statusText);
+                    }
+                });
+            }
+            else {
+                var items = '<option value="">Select</option>';
+                $('#Year').html(items);
+            }
+        });
+
+    });
+
+</script>
+
+<script language="javascript" type="text/javascript">
+    $(document).ready(function () {
+        try {
+            $("input[type='text']").each(function () {
+                $(this).attr("autocomplete", "off");
+            });
+        }
+        catch (e)
+        { }
+    });
+</script>
+
+
+<script>
+    $(function () {
+
+        $('#State').change(function () {
+            //  debugger;
+            var id = $("#State :selected").val();
+            if (id != "") {
+                $.ajax({
+                    type: "GET",
+                    contentType: "application/json; charset=utf-8",
+                    url: '@Url.Action("FillDistrict", "Enrollment")',
+                    data: { "SId": id },
+                    dataType: "json",
+                    beforeSend: function () {
+                        //alert(id);
+                    },
+                    success: function (data) {
+                        var items = "";
+                        $.each(data, function (i, State) {
+                            items += "<option value='" + State.Value + "'>" + State.Text + "</option>";
+                        });
+                        $('#District').html(items);
+
+                    },
+                    error: function (result) {
+
+                        alert('Service call failed: ' + result.status + ' Type :' + result.statusText);
+                    }
+                });
+            }
+            else {
+                var items = '<option value="">Select</option>';
+                $('#District').html(items);
+            }
+        });
+
+    });
+
+</script>
+
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script>
+    $(function () {
+        $("#PresentAddress").blur(function () {
+            $("#PermenantAddress").val($("#PresentAddress").val());
+        });
+    })
+
+    $(function () {
+        $("#RegistrationDate").blur(function () {
+            $("#DateOfJoining").val($("#RegistrationDate").val());
+        });
+    })
+
+    $(function () {
+        $("#LastName").blur(function () {
+            $("#FullName").val($("#FirstName").val() + ' ' + $("#MiddleName").val() + ' ' + $("#LastName").val());
+        });
+    })
+    $(function () {
+        $("#MiddleName").blur(function () {
+            $("#FullName").val($("#FirstName").val() + ' ' + $("#MiddleName").val() + ' ' + $("#LastName").val());
+        });
+    })
+
+</script>
+
+
+
+
+
+
+<section id="" class="animated fadeInUp">
+    <section class="fuelux" style="border: 14px solid #57bee0; margin: 50px 50px;">
+        @if (Model.Status == "Success")
+        {
+            <div class="alert alert-success">
+                <strong>Success!</strong> Thanks for Update, Please start use MYFEE.COM Services.<a href="~/Account/Login">Login</a>.
+            </div>
+        }
+        else if (Model.Status == "Error")
+        {
+            <div class="alert alert-danger">
+                <strong>Error!</strong> There was an error in Registration. Please contact MYFEE.COM Technical Team.
+            </div>
+        }
+
+
+
+        @using (Html.BeginForm("UpdateRegistration", "Enrollment"))
+        {
+
+            @Html.AntiForgeryToken()
+            
+            <form class="form-horizontal " method="get">
+                <div class="step-content" style="margin-bottom: 0px; background: #fff; text-align: center; border-top: 1px solid #D4D4D4;">
+                    <div class="step-pane active" id="step1">
+
+                        <div class="col-md-offset-1 col-sm-12 col-md-9 col-lg-9 preauth_font  ">
+                            <div class="clear" style="clear: both;"></div>
+
+
+                            <input type="hidden" value="@Model.StudentId" id="StudentId" name="StudentId" />
+                            <div class="form-group col-sm-12 col-md-12 col-lg-12 text-left ">
+                                @Html.LabelFor(m => m.RollNo, new { @class = "col-md-12 control-label" })
+                                <div class="col-sm-12">
+                                    @Html.TextBoxFor(m => m.RollNo, new { @class = "form-control"})
+                                    @Html.ValidationMessageFor(m => m.RollNo, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-left">
+                                <div class="panel panel-default chat-widget">
+                                    <div class="panel-heading">
+                                        <h3 class="panel-title"><i class="glyphicon glyphicon-th-list" style="padding: 8px;"></i>Enrollment Details</h3>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group col-sm-12 col-md-6 col-lg-4 text-left ">
+                                @Html.LabelFor(m => m.RegistrationDate, new { @class = "col-sm-12 control-label" })
+                                <div class="col-sm-12">
+
+                                    @Html.TextBoxFor(m => m.RegistrationDate, "{0:yyyy-MM-dd}", new { @class = "form-control", @type = "date", @min = @DateTime.Now.AddYears(-50).ToString("yyyy-MM-dd"), @max = @DateTime.Now.ToString("yyyy-MM-dd") })
+                                    @Html.ValidationMessageFor(model => model.RegistrationDate, "", new { @class = "text-danger" })
+
+                                </div>
+                            </div>
+
+                            <div class="form-group col-sm-12 col-md-6 col-lg-4 text-left ">
+                                @Html.LabelFor(m => m.DateOfJoining, new { @class = "col-sm-12 control-label" })
+                                <div class="col-sm-12">
+                                    @Html.TextBoxFor(m => m.DateOfJoining, "{0:yyyy-MM-dd}", new { @class = "form-control", @type = "date", @min = @DateTime.Now.AddYears(-50).ToString("yyyy-MM-dd"), @max = @DateTime.Now.ToString("yyyy-MM-dd") })
+                                    @Html.ValidationMessageFor(m => m.DateOfJoining, "", new { @class = "text-danger" })
+
+                                </div>
+                            </div>
+
+
+                            <div class="form-group col-sm-12 col-md-6 col-lg-4 text-left ">
+                                @Html.LabelFor(m => m.EamcetRank, new { @class = "col-md-12 control-label" })
+                                <div class="col-sm-12">
+                                    @Html.TextBoxFor(m => m.EamcetRank, new { @class = "form-control", placeholder = "EAMCET / ECET Rank" })
+                                    @Html.ValidationMessageFor(m => m.EamcetRank, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group col-sm-12 col-md-6 col-lg-4 text-left ">
+                                @Html.LabelFor(m => m.Batch, new { @class = "col-md-12 control-label" })
+                                <div class="col-sm-12">
+                                    @Html.TextBoxFor(m => m.Batch, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(m => m.Batch, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+
+
+                            <div class="form-group col-sm-12 col-md-6 col-lg-4 text-left ">
+                                @Html.LabelFor(m => m.Entry, new { @class = "col-sm-12 control-label" })
+                                <div class="col-sm-12">
+                                    @Html.DropDownListFor(m => m.Entry, Model.Entries, "SELECT ENTRY",
+                                              new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(m => m.Entry, "", new { @class = "text-danger" })
+                                </div>
+
+
+                            </div>
+
+
+
+                            <div class="form-group col-sm-12 col-md-6 col-lg-4 text-left ">
+                                @Html.LabelFor(m => m.Program, new { @class = "col-sm-12 control-label" })
+                                <div class="col-sm-12">
+                                    @Html.DropDownListFor(m => m.Program, Model.Programs, "SELECT PROGRAM",
+                                              new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(m => m.Program, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+
+                            <div class="form-group col-sm-12 col-md-6 col-lg-4 text-left ">
+                                @Html.LabelFor(m => m.Course, new { @class = "col-sm-12 control-label" })
+                                <div class="col-sm-12">
+                                    @Html.DropDownListFor(m => m.Course, Model.Courses, "SELECT COURSE",
+                                              new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(m => m.Course, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+
+                            <div class="form-group col-sm-12 col-md-6 col-lg-4 text-left ">
+                                @Html.LabelFor(m => m.Section, new { @class = "col-sm-12 control-label" })
+                                <div class="col-sm-12">
+                                    @Html.DropDownListFor(m => m.Section, Model.Sections, "SELECT SECTION",
+                                              new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(m => m.Section, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+
+                            <div class="form-group col-sm-12 col-md-6 col-lg-4 text-left ">
+                                @Html.LabelFor(m => m.Category, new { @class = "col-sm-12 control-label" })
+                                <div class="col-sm-12">
+                                    @Html.DropDownListFor(m => m.Category, Model.Categories, "SELECT CATEGORY",
+                                              new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(m => m.Category, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group col-sm-12 col-md-6 col-lg-4 text-left ">
+                                @Html.LabelFor(m => m.SpecialCategory, new { @class = "col-sm-12 control-label" })
+                                <div class="col-sm-12">
+                                    @Html.DropDownListFor(m => m.SpecialCategory, Model.SpecialCategories, "SELECT SPECIAL CATEGORY",
+                                              new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(m => m.SpecialCategory, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+
+                            <div class="form-group col-sm-12 col-md-6 col-lg-4 text-left ">
+                                @Html.LabelFor(m => m.Quota, new { @class = "col-sm-12 control-label" })
+                                <div class="col-sm-12">
+                                    @Html.DropDownListFor(m => m.Quota, Model.Quotas, "SELECT QUOTA",
+                                              new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(m => m.Quota, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+
+
+                            <div class="form-group col-sm-12 col-md-6 col-lg-4 text-left ">
+                                @Html.LabelFor(m => m.QuotaCategory, new { @class = "col-sm-12 control-label" })
+                                <div class="col-sm-12">
+                                    @Html.DropDownListFor(m => m.QuotaCategory, Model.QuotaCategories, "SELECT QUOTA CATEGORY",
+                                              new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(m => m.QuotaCategory, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+
+
+                            <div class="form-group col-sm-12 col-md-6 col-lg-4 text-left ">
+                                @Html.LabelFor(m => m.Year, new { @class = "col-sm-12 control-label" })
+                                <div class="col-sm-12">
+                                    @Html.DropDownListFor(m => m.Year, Model.Years, "SELECT YEAR",
+                                              new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(m => m.Year, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+
+
+
+
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-left">
+                                <div class="panel panel-default chat-widget">
+                                    <div class="panel-heading">
+                                        <h3 class="panel-title"><i class="glyphicon glyphicon-th-list" style="padding: 8px;"></i>Personal Details</h3>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group col-sm-12 col-md-6 col-lg-4 text-left">
+
+                                @Html.LabelFor(m => m.FirstName, new { @class = "col-sm-12 control-label" })
+                                <div class="col-sm-12">
+                                    @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control ucase", placeholder = "First Name" })
+                                    @Html.ValidationMessageFor(m => m.FirstName, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group col-sm-12 col-md-6 col-lg-4 text-left">
+
+                                @Html.LabelFor(m => m.MiddleName, new { @class = "col-sm-12 control-label" })
+                                <div class="col-sm-12">
+                                    @Html.TextBoxFor(m => m.MiddleName, new { @class = "form-control ucase", placeholder = "Middle Name" })
+                                    @Html.ValidationMessageFor(m => m.MiddleName, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group col-sm-12 col-md-6 col-lg-4 text-left">
+
+                                @Html.LabelFor(m => m.LastName, new { @class = "col-sm-12 control-label" })
+                                <div class="col-sm-12">
+                                    @Html.TextBoxFor(m => m.LastName, new { @class = "form-control ucase", placeholder = "Last Name" })
+                                    @Html.ValidationMessageFor(m => m.LastName, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group col-sm-12 col-md-6 col-lg-4 text-left">
+
+                                @Html.LabelFor(m => m.FullName, new { @class = "col-sm-12 control-label" })
+                                <div class="col-sm-12">
+                                    @Html.TextBoxFor(m => m.FullName, new { @class = "form-control ucase", placeholder = "Student Name [As Per SSC Certificate]" })
+                                    @Html.ValidationMessageFor(m => m.FullName, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+
+                            <div class="form-group col-sm-12 col-md-6 col-lg-4 text-left">
+
+                                @Html.LabelFor(m => m.FatherName, new { @class = "col-sm-12 control-label" })
+                                <div class="col-sm-12">
+                                    @Html.TextBoxFor(m => m.FatherName, new { @class = "form-control ucase", placeholder = "Father Name [As Per SSC Certificate]" })
+                                    @Html.ValidationMessageFor(m => m.FatherName, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+
+                            <div class="form-group col-sm-12 col-md-6 col-lg-4 text-left">
+
+                                @Html.LabelFor(m => m.MotherName, new { @class = "col-sm-12 control-label" })
+                                <div class="col-sm-12">
+                                    @Html.TextBoxFor(m => m.MotherName, new { @class = "form-control ucase", placeholder = "Mother Name" })
+                                    @Html.ValidationMessageFor(m => m.MotherName, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group col-sm-12 col-md-6 col-lg-4 text-left ">
+                                @Html.LabelFor(m => m.Gender, new { @class = "col-sm-6 control-label" })
+                                <div class="col-sm-12">
+                                    @if (Model.Gender == "Male")
+                                    {
+                                        @Html.RadioButtonFor(model => model.Gender, "Male", new { @checked = true })
+                                        @Html.Label("Male")
+                                        @Html.RadioButtonFor(model => model.Gender, "Female")
+                                        @Html.Label("Female")
+                                    }
+                                    else
+                                    {
+                                        @Html.RadioButtonFor(model => model.Gender, "Male")
+                                        @Html.Label("Male")
+                                        @Html.RadioButtonFor(model => model.Gender, "Female", new { @checked = true })
+                                        @Html.Label("Female")
+                                    }
+                                    @Html.ValidationMessageFor(m => m.Gender, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+
+
+                            <div class="form-group col-sm-12 col-md-6 col-lg-4 text-left">
+                                @Html.LabelFor(model => model.DateOfBirth, htmlAttributes: new { @class = "col-sm-12 control-label" })
+                                <div class="col-sm-12">
+                                    @Html.TextBoxFor(m => m.DateOfBirth, "{0:yyyy-MM-dd}", new { @class = "form-control date", @type = "date", @min = @DateTime.Now.AddYears(-50).ToString("yyyy-MM-dd"), @max = @DateTime.Now.ToString("yyyy-MM-dd") })
+                                    @Html.ValidationMessageFor(model => model.DateOfBirth, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                    
+
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-left">
+                                <div class="panel panel-default chat-widget">
+                                    <div class="panel-heading">
+                                        <h3 class="panel-title"><i class="glyphicon glyphicon-phone-alt" style="padding: 8px;"></i>Address For Communication</h3>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group col-sm-12 col-md-12 col-lg-12 text-left ">
+                                @Html.LabelFor(m => m.PresentAddress, new { @class = "col-sm-12 control-label" })
+                                <div class="col-sm-12">
+                                    @Html.TextBoxFor(m => m.PresentAddress, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(m => m.PresentAddress, "", new { @class = "text-danger" })
+
+                                </div>
+                            </div>
+
+                            <div class="form-group col-sm-12 col-md-12 col-lg-12 text-left ">
+                                @Html.LabelFor(m => m.PermenantAddress, new { @class = "col-sm-12 control-label" })
+                                <div class="col-sm-12">
+                                    @Html.TextBoxFor(m => m.PermenantAddress, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(m => m.PermenantAddress, "", new { @class = "text-danger" })
+
+                                </div>
+                            </div>
+
+
+
+
+                            <div class="form-group col-sm-12 col-md-6 col-lg-4 text-left ">
+                                @Html.LabelFor(m => m.S_MobileNo, new { @class = "col-sm-12 control-label" })
+                                <div class="col-sm-12">
+                                    @Html.TextBoxFor(m => m.S_MobileNo, new { @class = "form-control", placeholder = "Student Mobile No", maxlength = "10" })
+                                    @Html.ValidationMessageFor(m => m.S_MobileNo, "", new { @class = "text-danger" })
+
+                                </div>
+                            </div>
+
+                            <div class="form-group col-sm-12 col-md-6 col-lg-4 text-left ">
+                                @Html.LabelFor(m => m.P_MobileNo, new { @class = "col-sm-12 control-label" })
+                                <div class="col-sm-12">
+                                    @Html.TextBoxFor(m => m.P_MobileNo, new { @class = "form-control", placeholder = "Parent Mobile No", maxlength = "10" })
+                                    @Html.ValidationMessageFor(m => m.P_MobileNo, "", new { @class = "text-danger" })
+
+                                </div>
+                            </div>
+                            <div class="form-group col-sm-12 col-md-6 col-lg-4 text-left ">
+                                @Html.LabelFor(m => m.State, new { @class = "col-sm-12 control-label" })
+                                <div class="col-sm-12">
+                                    @Html.DropDownListFor(m => m.State, Model.States, "SELECT STATE",
+                                              new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(m => m.State, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+
+                            <div class="form-group col-sm-12 col-md-6 col-lg-4 text-left ">
+                                @Html.LabelFor(m => m.District, new { @class = "col-sm-12 control-label" })
+                                <div class="col-sm-12">
+                                    @Html.DropDownListFor(m => m.District, Model.Districts, "SELECT DISTRICT",
+                                              new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(m => m.District, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group col-sm-12 col-md-6 col-lg-4 text-left ">
+                                @Html.LabelFor(m => m.EMail, new { @class = "col-sm-12 control-label" })
+                                <div class="col-sm-12">
+                                    @Html.TextBoxFor(m => m.EMail, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(m => m.EMail, "", new { @class = "text-danger" })
+
+                                </div>
+                            </div>
+
+                            <div class="form-group col-sm-12 col-md-6 col-lg-4 text-left ">
+                                @Html.LabelFor(m => m.ParentEMail, new { @class = "col-sm-12 control-label" })
+                                <div class="col-sm-12">
+                                    @Html.TextBoxFor(m => m.ParentEMail, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(m => m.ParentEMail, "", new { @class = "text-danger" })
+
+                                </div>
+                            </div>
+
+                            <div class="form-group col-sm-12 col-md-6 col-lg-4 text-left ">
+                                @Html.LabelFor(m => m.AdhaarCardNo, new { @class = "col-sm-12 control-label" })
+                                <div class="col-sm-12">
+                                    @Html.TextBoxFor(m => m.AdhaarCardNo, new { @class = "form-control ucase", placeholder = "Adhaar Card Number", maxlength = "12" })
+                                    @Html.ValidationMessageFor(m => m.AdhaarCardNo, "", new { @class = "text-danger" })
+
+                                </div>
+                            </div>
+
+                            <div class="form-group col-sm-12 col-md-6 col-lg-4 text-left ">
+                                @Html.LabelFor(m => m.Nationality, new { @class = "col-sm-12 control-label" })
+                                <div class="col-sm-12">
+                                    @Html.TextBoxFor(m => m.Nationality, new { @class = "form-control ucase", placeholder = "Nationality" })
+                                    @Html.ValidationMessageFor(m => m.Nationality, "", new { @class = "text-danger" })
+
+                                </div>
+                            </div>
+
+                            <div class="form-group col-sm-12 col-md-6 col-lg-4 text-left ">
+                                @Html.LabelFor(m => m.Religion, new { @class = "col-sm-12 control-label" })
+                                <div class="col-sm-12">
+                                    @Html.DropDownListFor(m => m.Religion, Model.Religions, "SELECT RELIGION",
+                                              new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(m => m.Religion, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                          
+
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-left">
+                                <div class="panel panel-default chat-widget">
+                                    <div class="panel-heading">
+                                        <h3 class="panel-title"><i class="glyphicon glyphicon-user" style="padding: 8px;"></i>Identification Details</h3>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group col-sm-12 col-md-6 col-lg-4 text-left ">
+                                @Html.LabelFor(m => m.IdentificationMark1, new { @class = "col-sm-12 control-label" })
+                                <div class="col-sm-12">
+                                    @Html.TextBoxFor(m => m.IdentificationMark1, new { @class = "form-control ucase" })
+                                    @Html.ValidationMessageFor(m => m.IdentificationMark1, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group col-sm-12 col-md-6 col-lg-4 text-left ">
+                                @Html.LabelFor(m => m.IdentificationMark2, new { @class = "col-sm-12 control-label" })
+                                <div class="col-sm-12">
+                                    @Html.TextBoxFor(m => m.IdentificationMark2, new { @class = "form-control ucase" })
+                                    @Html.ValidationMessageFor(m => m.IdentificationMark2, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+
+                            <div class="table_bg">
+                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-left">
+                                    <div class="panel panel-default chat-widget">
+                                        <div class="panel-heading">
+                                            <h3 class="panel-title"><i class="glyphicon glyphicon-th-list" style="padding: 8px;"></i>Lateral Entry Details</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-sm-12 col-md-6 col-lg-4 text-left ">
+                                    @Html.LabelFor(m => m.UniversityOrderNo, new { @class = "col-sm-12 control-label" })
+
+                                    <div class="col-sm-12">
+                                        @Html.TextBoxFor(m => m.UniversityOrderNo, new { @class = "form-control", placeholder = "UniversityOrderNo" })
+                                    </div>
+                                </div>
+                                <div class="form-group col-sm-12 col-md-6 col-lg-4 text-left ">
+                                    @Html.LabelFor(m => m.UniversityOrderIssuedDate, new { @class = "col-sm-12 control-label" })
+                                    <div class="col-sm-12">
+
+                                        @Html.TextBoxFor(m => m.UniversityOrderIssuedDate, "{0:yyyy-MM-dd}", new { @class = "form-control", @type = "date", @min = @DateTime.Now.AddYears(-50).ToString("yyyy-MM-dd"), @max = @DateTime.Now.ToString("yyyy-MM-dd") })
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-sm-12 col-md-6 col-lg-4 text-left ">
+                                    @Html.LabelFor(m => m.UniversityLastQualifiedTCNo, new { @class = "col-sm-12 control-label" })
+
+                                    <div class="col-sm-12">
+                                        @Html.TextBoxFor(m => m.UniversityLastQualifiedTCNo, new { @class = "form-control ucase", placeholder = "UniversityLastQualifiedTCNo" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-sm-12 col-md-6 col-lg-4 text-left ">
+                                    @Html.LabelFor(m => m.UniversityLastQualifiedTCIssuedDate, new { @class = "col-sm-12 control-label" })
+                                    <div class="col-sm-12">
+                                        @Html.TextBoxFor(m => m.UniversityLastQualifiedTCIssuedDate, "{0:yyyy-MM-dd}", new { @class = "form-control", @type = "date", @min = @DateTime.Now.AddYears(-50).ToString("yyyy-MM-dd"), @max = @DateTime.Now.ToString("yyyy-MM-dd") })
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-sm-12 col-md-6 col-lg-4 text-left ">
+                                    @Html.LabelFor(m => m.TypeOfSecondaryEducation, new { @class = "col-sm-12 control-label" })
+
+
+                                    <div class="col-sm-12">
+
+                                        @Html.TextBoxFor(m => m.TypeOfSecondaryEducation, new { @class = "form-control ucase", placeholder = "TypeOfSecondaryEducation" })
+                                    </div>
+
+                                </div>
+
+
+
+                            </div>
+
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div id="MyWizard" class="wizard">
+
+
+                        <input type="submit" value="Next" class="btn btn-success   btn-block" />
+                    </div>
+                </div>
+            </form>
+        }
+
+    </section>
+</section>

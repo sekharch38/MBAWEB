@@ -1,0 +1,80 @@
+﻿@{
+    ViewData["Title"] = "Financial Year Close";
+}
+
+<script type="text/jscript">
+    $(document).on('click', '#btnsubmit', function () {
+        debugger;
+        var YearCode = $("#YearCode").text();
+
+
+        $("#ProcessDiv").show();
+
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("FinancialYearClosed", "Process")',
+            data: { "YearCode": YearCode },
+            success: function (r) {
+                alert(r);
+                alert("Financial Period Closed Successfully .You have to open New Financial Year for Process !");
+                $("#ProcessDiv").hide();
+            },
+            error: function (result) {
+                alert('Service call failed: ' + result.status + ' Type :' + result.statusText);
+                $("#ProcessDiv").hide();
+            }
+
+        });
+    });
+</script>
+<section id="" class="animated min-height-brow fadeInUp">
+    <section class="fuelux" style="border: 1px solid #cccccc; margin: 50px 50px; background: #fff;">
+
+        <div class="step-content" style="margin-bottom: 0px; background: #fff; text-align: center; border-top: 1px solid #D4D4D4;">
+            <div class="step-pane active" id="step1">
+
+                <div class="col-md-offset-1 col-sm-12 col-md-9 col-lg-9 preauth_font  ">
+                    <div class="clear" style="clear: both;"></div>
+                    <div class="form-group col-sm-12 col-md-6 col-lg-6 text-left ">
+                        <span class="col-sm-6 control-label">From Date</span>
+                        <div class="">
+                            @Html.TextBoxFor(m => @Session["FD"], new { @class = "form-control", @type = "date", @readonly = "readonly" })
+
+                        </div>
+                    </div>
+
+                    <div class="form-group col-sm-12 col-md-6 col-lg-6 text-left ">
+                        <span class="col-sm-6 control-label">To Date</span>
+                        <div class="">
+                            @Html.TextBoxFor(m => @Session["ED"], new { @class = "form-control", @type = "date", @readonly = "readonly" })
+
+                        </div>
+                    </div>
+                    <div class="form-group col-sm-12 col-md-6 col-lg-6 text-left ">
+                        <span class="col-sm-6 control-label">YearCode</span>
+                        <div class="">
+                            <span id="YearCode" class="col-sm-6 control-label">@Session["YearCode"]</span>
+                            @*@Html.LabelFor(m => @Session["YearCode"], new { @class = "col-sm-6 control-label" })*@
+                        </div>
+                    </div>
+
+
+
+                    <div class="wizard col-sm-12">
+                        <div class="pull-right" style="padding: 5px;">
+
+                            <button type="submit" id="btnsubmit" class="btn btn-success btn-default">Close Financial Year</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+
+
+            </div>
+            <div class="clearfix"></div>
+        </div>
+
+
+    </section>
+
+</section>

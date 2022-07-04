@@ -1,0 +1,260 @@
+﻿@model MYFEELIB.Entities.RequireElements
+@{
+    ViewData["Title"] = "Student Report";
+}
+
+<script type="text/jscript">
+
+    $(document).ready(function () {
+     
+        $("#SD").hide();
+        $("#RF").hide();
+
+        $('input[type=radio][name=groupType]').change(function () {
+            if (this.value == 'SelectMonth') {
+                $("#PM").show();
+                $("#SD").hide();
+            }
+            else if (this.value == 'SelectDate') {
+                $("#PM").hide();
+                $("#SD").show();
+            }
+
+        });
+
+
+
+        $('input[type=radio][name=groupReporttype]').change(function () {
+            if (this.value == 'SelectRF') {
+                $("#RF").show();
+            }
+            else {
+                $("#RF").hide();
+            }
+
+        });
+
+    });
+
+    $(document).on("click", "#BtnGenerate", function () {
+      //  debugger;
+        if ($("#Program :selected").val() == "") {
+            alert("Please Select Program !");
+            return;
+        }
+        else if ($("#Year :selected").val() == "") {
+            alert("Please Select Year !");
+            return;
+        }
+
+        var radReportType = $('input[name="groupType"]:checked').val();
+        var radReport = $('input[name="groupReporttype"]:checked').val();
+
+        if (radReportType == "SelectMonth") {
+            if ($("#ProcessMonth :selected").val() == "") {
+                alert("Please Select Process Month !");
+                return;
+            }
+            if (radReport != "SelectRF") {
+                $("#ReportModal").modal('show');
+                var route = '@Url.Action("GenerateTransactionReport", "Reports")?Param=' + $("#Program :selected").val() + '/' + $("#Year :selected").val() + '/' + radReportType  + '/' + radReport + '/' + $("#ProcessMonth :selected").val()
+                $('#Report_Form').load(route);
+            }
+            else {
+                $("#ReportModal").modal('show');
+                var route = '@Url.Action("GenerateTransactionReport", "Reports")?Param=' + $("#Program :selected").val() + '/' + $("#Year :selected").val() + '/' + radReportType + '/' + radReport + '/' + $("#ProcessMonth :selected").val() + '/' + $("#DueFrom :selected").val()
+                $('#Report_Form').load(route);
+            }
+        }
+
+
+
+
+        if (radReportType == "SelectDate") {
+
+            if (!Date.parse($("#PaymentDate").val())) {
+                alert("Please Enter Valid From Date !")
+                return;
+            }
+
+
+            if (!Date.parse($("#EntryDate").val())) {
+                alert("Please Enter Valid To Date !")
+                return;
+            }
+            if (radReport != "SelectRF") {
+                $("#ReportModal").modal('show');
+                var route = '@Url.Action("GenerateTransactionReport", "Reports")?Param=' + $("#Program :selected").val() + '/' + $("#Year :selected").val() + '/' + radReportType + '/' + radReport + '/' + $("#PaymentDate").val() + '/' + $("#EntryDate").val()
+                $('#Report_Form').load(route);
+            }
+            else {
+                $("#ReportModal").modal('show');
+                var route = '@Url.Action("GenerateTransactionReport", "Reports")?Param=' + $("#Program :selected").val() + '/' + $("#Year :selected").val() + '/' + radReportType + '/' + radReport + '/' + $("#PaymentDate").val() + '/' + $("#EntryDate").val() + '/' + $("#DueFrom :selected").val()
+                $('#Report_Form').load(route);
+            }
+
+        }
+
+
+
+
+
+    });
+
+    $(function () {
+
+        $('#Program').change(function () {
+            //  debugger;
+            var id = $("#Program :selected").val();
+            if (id != "") {
+                $.ajax({
+                    type: "GET",
+                    contentType: "application/json; charset=utf-8",
+                    url: '@Url.Action("YearList", "Reports")',
+                    data: { "PId": id },
+                    dataType: "json",
+                    beforeSend: function () {
+                        //alert(id);
+                    },
+                    success: function (data) {
+                        var items = "";
+                        $.each(data, function (i, Year) {
+                            items += "<option value='" + Year.Value + "'>" + Year.Text + "</option>";
+                        });
+                        $('#Year').html(items);
+
+                    },
+                    error: function (result) {
+
+                        alert('Service call failed: ' + result.status + ' Type :' + result.statusText);
+                    }
+                });
+            }
+            else {
+                var items = '<option value="">Select</option>';
+                $('#Year').html(items);
+            }
+        });
+
+    });
+
+    var Clear = function () {
+        $("#Year").val("All");
+        $("#Program").val("");
+        $("#ProcessMonth").val("");
+        $("#PaymentDate").val("");
+        $("#EntryDate").val("");
+    }
+</script>
+
+<section id="" class="animated fadeInUp">
+    <section class="fuelux" style="border: 0px solid #57bee0; margin: 50px 50px;">
+        <div class="step-content" style="margin-bottom: 0px; background: #fff; text-align: center; border-top: 1px solid #D4D4D4;">
+            <div class="step-pane active" id="step1">
+
+                <div class="col-md-offset-0  preauth_font">
+                    <div class="clear" style="clear: both;"></div>
+
+                    <div class="form-group col-sm-12 col-md-6 col-lg-3 text-left ">
+                        @Html.LabelFor(m => m.Program, new { @class = "control-label" })
+                        <div>
+                            @Html.DropDownListFor(m => m.Program, Model.Programs, "SELECT PROGRAM",
+                                              new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.Program, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group col-sm-12 col-md-6 col-lg-3 text-left ">
+                        @Html.LabelFor(m => m.Year, new { @class = "control-label" })
+                        <div>
+                            @Html.DropDownListFor(m => m.Year, Model.Years, "SELECT YEAR",
+                                              new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.Year, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+
+
+
+
+
+
+                    <div class="form-group col-sm-12 col-md-6 col-lg-3 text-left ">
+                        <label class="control-label" for="Select Type">Select Type</label>
+                        <div id="groupType">
+                            <input type="radio" value="SelectMonth" checked="checked" name="groupType">Select Month<br>
+                            <input type="radio" value="SelectDate" name="groupType">Select Date<br>
+
+                        </div>
+                    </div>
+
+                    <div class="form-group col-sm-12 col-md-6 col-lg-3 text-left " id="PM">
+
+                        @Html.LabelFor(m => m.ProcessMonth, new { @class = "control-label" })
+                        <div>
+                            @Html.DropDownListFor(m => m.ProcessMonth, Model.ProcessMonths, "SELECT PROCESS MONTH",
+                                                                new { @class = "form-control", placeholder = "SELECT PROCESS MONTH" })
+                            @Html.ValidationMessageFor(m => m.ProcessMonth, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+
+
+                    <div id="SD">
+                        <div class="form-group col-sm-12 col-md-6 col-lg-3 text-left ">
+                            <span id="PD" class="control-label">From Date</span>
+                            <div>
+                                @Html.TextBoxFor(m => m.PaymentDate, "{0:yyyy-MM-dd}", new { @class = "form-control", @type = "date", @min = @Session["FD"], @max = @Session["ED"] })
+                                @Html.ValidationMessageFor(m => m.PaymentDate, "", new { @class = "text-danger" })
+
+                            </div>
+                        </div>
+
+                        <div class="form-group col-sm-12 col-md-6 col-lg-3 text-left ">
+                            <span id="ED" class="control-label">To Date</span>
+                            <div>
+                                @Html.TextBoxFor(m => m.EntryDate, "{0:yyyy-MM-dd}", new { @class = "form-control", @type = "date", @min = @Session["FD"], @max = @Session["ED"] })
+                                @Html.ValidationMessageFor(model => model.EntryDate, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-sm-12 col-md-6 col-lg-3 text-left ">
+                        <label class="control-label" for="Select Type">Select Type Of Report</label>
+                        <div id="groupReporttype">
+                            <input type="radio" value="SelectTransaction" checked="checked" name="groupReporttype">Transaction<br>
+                            <input type="radio" value="SelectRF" name="groupReporttype">Received From<br>
+                            <input type="radio" value="OD" name="groupReporttype">Out Of Data<br>
+                            <input type="radio" value="Suspense" name="groupReporttype">Suspense<br>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group col-sm-12 col-md-6 col-lg-3 text-left " id="RF">
+                        <label class="control-label" for="Select Type">Select Received From</label>
+                        <div>
+                            @Html.DropDownListFor(m => m.DueFrom, Model.DuesFrom, "SELECT RECEIVED FROM",
+                                                                         new { @class = "form-control", placeholder = "SELECT VOUCHER TYPE" })
+                            @Html.ValidationMessageFor(m => m.PayMode, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+
+
+
+
+
+                    <div class="wizard col-sm-12">
+                        <div class="pull-right" style="padding: 5px;">
+                            <button id="btnClear" onclick="Clear()" class="btn btn-default">Clear</button>
+                            <button type="submit" id="BtnGenerate" class="btn btn-success btn-default">Generate Report</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+
+        </div>
+    </section>
+
+</section>

@@ -1,0 +1,355 @@
+﻿@model MYFEEWEB.Models.ExtrPaidModel
+@{
+    ViewData["Title"] = "Extra Paid";
+}
+
+<style>
+    .sidebar-mini .sidebar + .main-content-wrapper section {
+        height: 78vh;
+    }
+</style>
+
+<section id="" class="animated fadeInUp">
+    <section class="fuelux" style="border: 1px solid #cccccc; margin: 50px 50px; background: #fff;">
+        <br />
+        <div>
+            <table style="width:100%">
+                <tr>
+                    <td style="width:10%"></td>
+                    <td style="width:40% ; text-align:right"><span class="col-sm-6 control-label">SELECT TRANSACTION TYPE</span></td>
+                    <td align="left" style="width: 40%; text-align:left">
+                        <select id="TranType" class="form-control">
+                            <option value="SELECT">SELECT</option>
+                            <option value="REGULAR">REGULAR</option>
+                            <option value="Refund">Refund</option>
+                        </select>
+                    </td>
+                    <td style="width:10%"></td>
+                </tr>
+
+            </table>
+        </div>
+        <br />
+
+        <div class="clearfix"></div>
+        <div>
+            <table id="tblExtraPaid" class="table table-bordered" style="width:100%">
+                <thead>
+                    <tr>
+                        <th style="width:10%">Roll No</th>
+                        <th style="width:20%">Name</th>
+                        <th style="width:10%">Year</th>
+                        <th style="width:10%">Challan / DD No</th>
+                        <th style="width:10%">Challan Date</th>
+                        <th style="width:10%">Amount</th>
+                        <th style="width:10%">Payment Mode</th>
+                        <th style="width:10%">&nbsp;</th>
+                        <th style="width:10%">&nbsp;</th>
+
+                    </tr>
+                </thead>
+                <tbody style="width:100%">
+                    @*@if (Model.ExtraPaids != null)
+                        {
+                            foreach (var item in Model.ExtraPaids)
+                            {
+                                <tr>
+                                    <td style="width:10%">@item.RollNo   </td>
+                                    <td style="width:20%">@item.Name  </td>
+                                    <td style="width:10%">@item.Year  </td>
+                                    <td style="width:10%">@item.ChallanNo </td>
+                                    <td style="width:10%">@item.ChallanDate  </td>
+                                    <td style="width:10%">@item.Amount </td>
+                                    <td style="width:10%">@item.PayMode </td>
+                                    <td style="width:10%"><input type="button" value="Remove" onclick="Remove(this)" /></td>
+                                    <td style="width:10%">Saveall</td>
+                                </tr>
+                            }
+                        }*@
+
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td style="width:10%"><input type="text" id="txtRollNo" class="form-control" /></td>
+                        <td style="width:20%"><input type="text" id="Name" class="form-control" /></td>
+                        <td style="width:10%"><input type="text" id="Year" class="form-control" onkeypress="return isNumber(event)" /></td>
+                        <td style="width:10%"><input type="text" id="txtChallanNo" class="form-control" /></td>
+                        <td style="width:10%"><input type="date" id="txtChallanDate" class="form-control" min=@Session["FD"] max=@Session["ED"] /></td>
+                        <td style="width:18%"><input type="text" id="txtAmount" class="form-control" onkeypress="return isNumber(event)" /></td>
+
+                        <td style="width: 17%">
+                            @Html.DropDownListFor(m => m.PayMode, Model.PayModes, "SELECT PAYMENT MODE",
+                                              new { @class = "form-control" })
+                        </td>
+
+                        <td style="width: 3%"><input type="button" class="btn btn-info" id="btnAdd" value="Add" /></td>
+                        <td style="width:6%"><input type="button" class="btn  btn-info"  id=" btnextrapaid" value="Save All" /></td>
+                    </tr>
+                </tfoot>
+            </table>
+
+
+        </div>
+
+        <script>
+            function isNumber(evt) {
+                evt = (evt) ? evt : window.event;
+                var charCode = (evt.which) ? evt.which : evt.keyCode;
+                if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+                    return false;
+                }
+                return true;
+            }
+        </script>
+
+
+        <script type="text/javascript">
+
+            $(document).ready(function () {
+                $("#btnExtraPaid").hide();
+            });
+
+
+            $(document).on("click", "#btnExtraPaid", function () {
+
+                if ($("#TranType").val() == "SELECT") {
+                    alert("Please Select Transaction Type !");
+                    return;
+                }
+
+                var ExtraPaids = new Array();
+                $("#tblExtraPaid TBODY TR").each(function () {
+                    var row = $(this);
+                    var EP = {};
+
+                    EP.RollNo = row.find("TD").eq(0).html();
+                    EP.Year = row.find("TD").eq(2).html();
+                    EP.ChallanNo = row.find("TD").eq(3).html();
+                    EP.ChallanDate = row.find("TD").eq(4).html();
+                    EP.Amount = row.find("TD").eq(5).html();
+                    EP.PayMode = row.find("TD").eq(6).html();
+                    EP.EnterBy = "@Session["username"]";
+                    EP.Status = $("#TranType :selected").val();
+
+                    ExtraPaids.push(EP);
+
+                });
+
+
+                if (ExtraPaids.length == 0) {
+                    alert("Please Add Extra Paids and click Save All !");
+                    return;
+                }
+
+                ExtraPaids = JSON.stringify({ 'ExtraPaids': ExtraPaids });
+
+                //Send the JSON array to Controller using AJAX.
+                $.ajax({
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    url: '@Url.Action("InsertExtraPaids", "Academic")',
+                    data: ExtraPaids,
+                    dataType: "json",
+                    success: function (r) {
+                        alert(r + " record(s) inserted.");
+
+
+                    }
+                });
+            });
+
+
+
+
+            $(document).on("click", "#btnAdd", function () {
+                var RollNo = $("#txtRollNo");
+                var Year = $("#Year");
+                var Name = $("#Name");
+                var ChallanNo = $("#txtChallanNo");
+                var ChallanDate = $("#txtChallanDate");
+                var Amount = $("#txtAmount");
+
+                var PM = $("#PayMode :selected").val();
+                //debugger;
+
+                //alert(PM);
+
+                if (RollNo.val() == "") {
+                    alert("Please Enter Roll Number !")
+                    return;
+                }
+                else if (Year.val() == "") {
+
+                    alert("Please Enter Year !")
+                    return;
+                }
+                else if (ChallanNo.val() == "") {
+
+                    alert("Please Enter Challan No !")
+                    return;
+                }
+                else if (ChallanDate.val() == "") {
+
+                    alert("Please Challan Date !")
+                    return;
+                }
+
+                else if (Amount.val() == "") {
+
+                    alert("Please Enter Amount !")
+                    return;
+                }
+
+                else if (PM == "") {
+
+                    alert("Please Select Payment Mode !")
+                    return;
+                }
+
+
+
+
+
+
+                //Get the reference of the Table's TBODY element.
+                var tBody = $("#tblExtraPaid > TBODY")[0];
+
+                //Add Row.
+                // tBody.css('width', '100%');
+                var row = tBody.insertRow(-1);
+
+                //Add Hallticket cell.
+                var cell = $(row.insertCell(-1));
+                // cell.css('width', '10%');
+                cell.html(RollNo.val());
+
+                cell = $(row.insertCell(-1));
+                cell.html(Name.val());
+
+                //Add Department cell.
+                cell = $(row.insertCell(-1));
+                cell.html(Year.val());
+
+
+                //Add Passedout cell.
+                cell = $(row.insertCell(-1));
+                cell.html(ChallanNo.val());
+
+
+
+                //Add MaxMarks cell.
+                cell = $(row.insertCell(-1));
+                cell.html(ChallanDate.val());
+
+
+                //Add Secured_Marks cell.
+                cell = $(row.insertCell(-1));
+                cell.html(Amount.val());
+
+
+                //Add Division cell.
+                cell = $(row.insertCell(-1));
+                cell.html(PM);
+
+
+
+
+
+
+
+                //Add Button cell.
+                cell = $(row.insertCell(-1));
+                var btnRemove = $("<input  />");
+                btnRemove.attr("type", "button");
+                btnRemove.attr("class", "btn btn-danger");
+                btnRemove.attr("onclick", "Remove(this);");
+                btnRemove.val("Remove");
+                cell.append(btnRemove);
+
+                cell = $(row.insertCell(-1));
+                cell.html("&nbsp;");
+
+                //Clear the TextBoxes.
+                $("#txtRollNo").val("");
+                $("#Year").val("");
+                $("#txtChallanNo").val("");
+                $("#txtChallanDate").val("");
+                $("#txtAmount").val("");
+                $("#PayMode").val("");
+                $("#btnExtraPaid").show();
+            });
+
+            function Remove(button) {
+                //Determine the reference of the Row using the Button.
+                var row = $(button).closest("TR");
+                var name = $("TD", row).eq(0).html();
+                if (confirm("Do you want to Remove: " + name)) {
+                    //Get the reference of the Table.
+                    var table = $("#tblExtraPaid")[0];
+
+                    //Delete the Table row using it's Index.
+                    table.deleteRow(row[0].rowIndex);
+                }
+            };
+
+
+            $(function () {
+                $("#txtChallanDate").blur(function () {
+
+                    var dtmin = "@Session["FD"]";
+                    var dtmax = "@Session["ED"]";
+                    var PaymentDate = $("#txtChallanDate").val();
+
+                    if (!(dtmin <= PaymentDate && dtmax >= PaymentDate)) {
+                        alert("Payment Date should be with in financial Period !");
+                        $("#txtChallanDate").val("");
+
+                    }
+
+
+                });
+            })
+
+
+            $("#txtRollNo").blur(function () {
+                // debugger;
+
+                var RollNo = $("#txtRollNo").val();
+                if (RollNo != "") {
+                    $.ajax({
+                        type: "GET",
+                        contentType: "application/json; charset=utf-8",
+                        url: '@Url.Action("verifyRollNo", "Academic")',
+                        data: { "RollNo": RollNo },
+                        dataType: "json",
+                        beforeSend: function () {
+                            //alert(id);
+                        },
+                        success: function (data) {
+                            $.each(data, function (i, Rec) {
+                                $('#Name').val(Rec.Name);
+                                $('#Year').val(Rec.Year);
+                            });
+                        },
+                        error: function (result) {
+                            $('#Name').val("");
+                            $('#Year').val("");
+                            alert('Invalid RollNo !');
+                            $("#txtRollNo").val("");
+                            $("#txtRollNo").focus();
+                        }
+                    });
+                }
+
+
+            });
+
+
+        </script>
+        @*</div>*@
+        @*</div>*@
+
+
+
+    </section>
+</section>

@@ -1,0 +1,200 @@
+﻿@model MYFEELIB.Entities.JournalVoucher
+@{
+    ViewData["Title"] = "Sub Modules";
+}
+
+<script>
+    $(document).ready(function () {
+        $("#UserName").prop("readonly", false);
+        $("#UserPwd").prop("readonly", false);
+        $.ajax({
+            type: "GET",
+            contentType: "application/json; charset=utf-8",
+            url: '@Url.Action("JournalVoucherTransactionDetails", "Master")',
+            dataType: "json",
+            beforeSend: function () {
+            },
+            success: function (data) {
+                var markup = "<tr><th width='10%'>S.No</th><th width='30%'>Transaction Name</th><th width='10%'>Date</th><th width='20%' align='right'>Amount Credit</th><th width='20%' align='right'>Amount Debit</th><th width='20%' align='right'>Transaction Type</th><th width='10%' align='right'>Balance</th></tr>";
+                $("#DataTable").append(markup);
+                var markupfooter;
+                var i = 0;
+                $.each(data, function (i, Rec) {
+                    var markup = "<tr><td width='10%'>" + (i + 1) + "</td><td width='20%'>" + Rec.TId + "</td><td width='20%' class='hidetext'>" + Rec.Select_Date + "</td><td width='20%' align='left'>" + Rec.AmountCredit + "</td><td width='20%' align='left'>" + Rec.AmountDebit + "</td><td width='20%' align='left'>" + Rec.TransactionType + "</td><td width='20%' align='left'>" + Rec.Balance + "</td></tr>";
+                    $("#DataTable").append(markup);
+                });
+            }
+        });
+    });
+
+   
+
+    $(document).on("click", "#btnsubmit", function () {
+
+    
+        var TId = $("#TId").val();
+        var TransactionType = $("#TranType").val();
+        var NOS = $("#NOS").val();
+        var TransDate = $("#TransDate").val();
+
+        var Amount = $("#Amount").val();
+    
+        if (TId == "") {
+            alert("Enter Transaction !");
+            $("#TId").focus();
+            return false;
+        }
+        if (TransactionType == "") {
+            alert("Enter Transaction Type !");
+            $("#TranType").focus();
+            return false;
+        }
+        if (NOS == "") {
+            alert("Enter NOS !");
+            $("#NOS").focus();
+            return false;
+        }
+        if (TransDate == "") {
+            alert("Enter TransDate !");
+            $("#TransDate").focus();
+            return false;
+        }
+        if (Amount == "") {
+            alert("Enter Amount !");
+            $("#Amount").focus();
+            return false;
+        }
+
+    
+
+        var data = {};
+        data.TId = TId;
+        data.TransactionType = TransactionType;
+        data.NOS = NOS;
+        data.TransDate = TransDate;
+        data.Amount = Amount;
+        data.UserName= "@Session["username"]";
+
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("JV_Save", "Master")',
+            data: data,
+            success: function (r) {
+                if (r == "Error") {
+                    alert("Journal entry Not Saved !");
+                }
+                else {
+                    alert("Journal Entry Saved Successfully !");
+                    $("#TId").val("");
+                    $("#TransactionType").val("");
+                    $("#NOS").val("");
+                    $("#TransDate").val("");
+                    $("#Amount").val("");
+                }
+            },
+            error: function (result) {
+                alert('Service call failed: ' + result.status + ' Type :' + result.statusText);
+            }
+        });
+    });
+
+    $(document).on("click", "#btnClear", function () {
+        $("#TId").val("");
+        $("#TransactionType").val("");
+        $("#NOS").val("");
+        $("#TransDate").val("");
+        $("#Amount").val("");      
+    });
+
+
+
+
+</script>
+<section id="" class="animated fadeInUp">
+    <section class="fuelux" style=" margin: 50px 50px;">
+
+        @*<form id="MyModuleForm">*@
+        <div class="step-content" style="margin-bottom: 0px; background: #fff; text-align: center; border-top: 1px solid #D4D4D4;">
+
+
+            <div class="step-pane active" id="step1">
+
+                <div class="col-md-offset-0  preauth_font">
+                    <div class="clear" style="clear: both;"></div>
+
+                    <div class="form-group col-sm-12 col-md-6 col-lg-3 text-left ">
+                        @Html.LabelFor(m => m.TId, new { @class = "control-label" })
+                        <div class="">
+                            @*@Html.DropDownListFor(m => m.TId, Model.TNames, "SELECT JOURNAL ENTRY", new { @class = "form-control" })*@
+                            @Html.TextBoxFor(m => m.TId, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.TId, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+
+                    <div class="form-group col-sm-12 col-md-6 col-lg-3 text-left">
+                        @Html.LabelFor(m => m.TransactionType, new { @class = "control-label" })
+                        <div class="">
+                            <select id="TranType" class="form-control">
+                                <option value="Credit">Credit</option>
+                                <option value="Debit">Debit</option>
+                            </select>
+                            @Html.ValidationMessageFor(m => m.TransactionType, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group col-sm-12 col-md-6 col-lg-3 text-left">
+                        @Html.LabelFor(m => m.NOS, new { @class = "control-label" })
+                        <div class="">
+                            @Html.TextBoxFor(m => m.NOS, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.NOS, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group col-sm-12 col-md-6 col-lg-3 text-left">
+                        @Html.LabelFor(m => m.TransDate, new { @class = "control-label" })
+                        <div class="">
+                            @Html.TextBoxFor(m => m.TransDate, new { @type = "date", @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.TransDate, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+
+                    <div class="form-group col-sm-12 col-md-6 col-lg-3 text-left">
+                        @Html.LabelFor(m => m.Amount, new { @class = "control-label" })
+                        <div class="">
+                            @Html.TextBoxFor(m => m.Amount, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.Amount, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+
+                    <div class="wizard col-sm-12">
+                        <div class="pull-right" style="padding: 5px;">
+                            <button id="btnClear" class="btn btn-default">Clear</button>
+                            <button type="submit" id="btnsubmit" class="btn btn-success btn-default">Submit</button>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="clearfix"></div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+        @*</form>*@
+
+
+        <div align="center">
+            <table id="DataTable" style="width:100%;" class="table table-bordered">
+                <thead>
+
+                </thead>
+                <tbody></tbody>
+                <tfoot></tfoot>
+            </table>
+
+        </div>
+
+    </section>
+</section>

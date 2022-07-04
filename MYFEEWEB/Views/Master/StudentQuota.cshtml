@@ -1,0 +1,233 @@
+﻿@model MYFEELIB.Entities.StudentQuota
+@{
+    ViewData["Title"] = "Student Quota";
+}
+
+
+<style>
+    .hidetext {
+        -webkit-text-security: disc; /* Default */
+    }
+</style>
+
+<script>
+
+        $(document).ready(function () {
+      //  debugger;
+        $.ajax({
+            type: "GET",
+            contentType: "application/json; charset=utf-8",
+            url: '@Url.Action("StudentQuotaDetails", "Master")',
+            dataType: "json",
+            beforeSend: function () {
+
+            },
+            success: function (data) {
+
+                var markup = "<tr><th width='5%'>S.No</th><th width='5%'>QuotaId</th><th width='8%'>QuotaName</th><th width='24%' align='right'>Description</th><th width='15%' align='right'>Program</th><th width='15%' align='right'>ScholarshipApplicable</th><th width='15%' align='right'>IsOtherFeeRestrict</th> <th align='right'></th></tr>";
+                $("#DataTable").append(markup);
+                var markupfooter;
+                $.each(data, function (i, Rec) {
+                    var markup = "<tr><td width='5%'>" + (i + 1) + "</td><td width='5%'>" + Rec.QuotaId + "</td><td width='5%' >" + Rec.QuotaName + "</td><td width='20%' align='left'>" + Rec.Description + "</td><td width='20%' align='left'>" + Rec.Program + "</td><td width='20%' align='left'>" + Rec.ScholarshipApplicable + "</td><td width='20%' align='left'>" + Rec.IsOtherFeeRestrict + "</td><td><a data-value=" + Rec.QuotaId + " href='javascript:void(0)' class='btnEdit'>Edit</a></td></tr>";
+                    $("#DataTable").append(markup);
+                });
+
+            }
+        });            
+    });
+
+    $(document).on('click', '.btnEdit', function () {
+        // debugger;
+         var id = $(this).attr("data-value");
+         $("#QuotaId").val(id);
+         $("#QuotaId").prop("readonly", true);
+         $("#QuotaName").val($(this).closest("tr").find('td:eq(2)').text());
+         $("#Description").val($(this).closest("tr").find('td:eq(3)').text());
+         $("#Program").val($(this).closest("tr").find('td:eq(4)').text());
+         $("#ScholarshipApplicable").val($(this).closest("tr").find('td:eq(5)').text());
+         var ScholarshipApplicable = $(this).closest("tr").find('td:eq(5)').text();
+         if (ScholarshipApplicable == "Yes") {
+             $("#Yes").prop("checked", true);
+         }
+         else
+         {
+             $("#No").prop("checked", true);
+         }
+         $("#IsOtherFeeRestrict").val($(this).closest("tr").find('td:eq(6)').text());
+         var IsOtherFeeRestrict = $(this).closest("tr").find('td:eq(6)').text();
+         if (IsOtherFeeRestrict == "Yes") {
+             $("#FeeYes").prop("checked", true);
+         }
+         else {
+             $("#FeeNo").prop("checked", true);
+         }
+        
+
+    });
+
+    var QuotaSave = function () {
+
+        var data = $("#MyStudentQuotaForm").serialize();
+
+        var FeeId = $("#FeeId").val();
+        var FeeName = $("#FeeName").val();
+        var Description = $("#Description").val();
+        var Program = $("#Program").val();
+
+
+        if (QuotaId == "") {
+            alert("Enter QuotaId !");
+            $("#QuotaId").focus();
+            return false;
+        }
+        if (QuotaName == "") {
+            alert("Select QuotaName !");
+            $("#QuotaName").focus();
+            return false;
+        }       
+        if (Program == "") {
+            alert("Select Program !");
+            $("#Program").focus();
+            return false;
+        }
+
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("StudentQuotaSave", "Master")',
+            data: data,
+            success: function (r) {
+
+                if (r == "Error") {
+
+                    alert("StudentQuota Not Saved !");
+
+                }
+                else {
+                    alert("StudentQuota Saved Successfully !");
+                    $("#QuotaId").val("");
+                    $("#QuotaName").val("");
+                    $("#Description").val("");
+                    $("#Program").val("");
+                    $("#ScholarshipApplicable").val("");
+                    $("#IsOtherFeeRestrict").val("");
+                }
+            }
+        });
+    }
+
+    var Clear = function () {
+        $("#QuotaId").val("");
+        $("#QuotaName").val("");
+        $("#Description").val("");
+        $("#Program").val("");
+        $("#ScholarshipApplicable").val("");
+        $("#IsOtherFeeRestrict").val("");
+        $(".text-danger field-validation-error").empty();
+    }
+
+    //function onchangeevent() {
+    //    $("#QuotaName").val(($("#QuotaName").val()).toUpperCase());
+    //}
+
+</script>
+
+<section id="" class="animated fadeInUp">
+    <section class="fuelux" style=" margin: 50px 50px;">
+
+        <form id="MyStudentQuotaForm" >
+            <div class="step-content" style="margin-bottom: 0px; background: #fff; text-align: center; border-top: 1px solid #D4D4D4;">
+
+
+                <div class="step-pane active" id="step1">
+
+                    <div class="col-md-offset-0  preauth_font">
+                        <div class="clear" style="clear: both;"></div>
+
+
+
+
+                        <div class="form-group col-sm-12 col-md-6 col-lg-3 text-left ">
+                            @Html.LabelFor(m => m.QuotaId, new { @class = "control-label" })
+                            <div class="">
+                                @Html.TextBoxFor(m => m.QuotaId, new { @class = "form-control ucase" })
+                                @Html.ValidationMessageFor(m => m.QuotaId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group col-sm-12 col-md-6 col-lg-3 text-left ">
+                            @Html.LabelFor(m => m.QuotaName, new { @class = "control-label" })
+                            <div class="">
+                                @Html.TextBoxFor(m => m.QuotaName, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.QuotaName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                       
+                        <div class="form-group col-sm-12 col-md-6 col-lg-3 text-left ">
+                            @Html.LabelFor(m => m.Description, new { @class = " control-label" })
+                            <div class="">
+                                @Html.TextBoxFor(m => m.Description, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.Description, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-12 col-md-6 col-lg-3 text-left ">
+                            @Html.LabelFor(m => m.Program, new { @class = "col-sm-6 control-label" })
+                            <div class="">
+                                @Html.DropDownListFor(m => m.Program, Model.Programs, "SELECT PROGRAM",
+                                              new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.Program, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-12 col-md-6 col-lg-4 text-left ">
+                            @Html.LabelFor(m => m.ScholarshipApplicable, new { @class = "col-sm-12 control-label" })
+                            <div class="col-sm-12">
+
+                                @Html.RadioButtonFor(m => m.ScholarshipApplicable, "Yes", new { id = "Yes" })
+                                @Html.Label("Yes", new { @for = "Yes" })
+                                @Html.RadioButtonFor(m => m.ScholarshipApplicable, "No", new { id = "No", @checked = "checked" })
+                                @Html.Label("No", new { @for = "No" })
+                            </div>
+                        </div> 
+
+                        <div class="form-group col-sm-12 col-md-6 col-lg-4 text-left ">
+                            @Html.LabelFor(m => m.IsOtherFeeRestrict, new { @class = "col-sm-12 control-label" })
+                            <div class="col-sm-12">
+                                @Html.RadioButtonFor(m => m.IsOtherFeeRestrict, "Yes", new { id = "FeeYes" })
+                                @Html.Label("Yes", new { @for = "FeeYes" })
+                                @Html.RadioButtonFor(m => m.IsOtherFeeRestrict, "No", new { id = "FeeNo", @checked = "checked" })
+                                @Html.Label("No", new { @for = "FeeNo" })
+                                @Html.ValidationMessageFor(m => m.IsOtherFeeRestrict, "", new { @class = "text-danger" })
+
+                            </div>
+                        </div>
+                       
+                           
+
+                        <div class="wizard col-sm-12">
+                            <div class="pull-right" style="padding: 5px;">
+                                <button id="btnClear" onclick="Clear()" class="btn btn-default">Clear</button>
+                                <button type="submit" id="btnsubmit" onclick="QuotaSave()" class="btn btn-success btn-default">Submit</button>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="clearfix"></div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </form>
+
+
+        <div align="center">
+            <table id="DataTable" style="width:100%;" class="table table-bordered">
+                <thead>
+
+                </thead>
+                <tbody></tbody>
+                <tfoot></tfoot>
+            </table>
+
+        </div>
+
+    </section>
+</section>

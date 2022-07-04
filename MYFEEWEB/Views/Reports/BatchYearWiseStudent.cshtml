@@ -1,0 +1,246 @@
+﻿@model MYFEELIB.Entities.RequireElements
+@{
+    ViewData["Title"] = "Student Report";
+}
+
+<script type="text/jscript">
+
+    $(document).ready(function () {
+    });
+    $(document).on("click", "#BtnGenerate", function () {
+        debugger;
+        if ($("#Batch :selected").val() == "") {
+            alert("Please Select Batch !");
+            return;
+        }
+        else if ($("#Year :selected").val() == "") {
+            alert("Please Select Year !");
+            return;
+        }
+        else if ($("#Program :selected").val() == "") {
+            alert("Please Select Program !");
+            return;
+        }
+
+        else if ($("#Status :selected").val() == "") {
+            alert("Please Select Status !");
+            return;
+        }
+        else if ($("#ReportType :selected").val() == "") {
+            alert("Please Select Report Type !");
+            return;
+        }
+
+
+        var radvalue = $('input[name="group1"]:checked').val();
+        var radStatusvalue = $('input[name="groupStatus"]:checked').val();
+
+
+
+        $("#ReportModal").modal('show');
+        var route = '@Url.Action("GenerateBatchYearWiseStudent", "Reports")?Param=' + $("#Batch :selected").val() + '/' + $("#Year :selected").val() + '/' + $("#Program :selected").val() + '/' + $("#Status :selected").val() + '/' + $("#ReportType :selected").val() + '/' + radvalue + '/' + radStatusvalue + '/' + $("#Quota :selected").val()
+        $('#Report_Form').load(route);
+
+
+    });
+
+
+
+
+
+    $(function () {
+
+        $('#Batch').change(function () {
+            //  debugger;
+            var id = $("#Batch :selected").val();
+            if (id != "") {
+                $.ajax({
+                    type: "GET",
+                    contentType: "application/json; charset=utf-8",
+                    url: '@Url.Action("FillYears", "Academic")',
+                    data: { "Batch": id },
+                    dataType: "json",
+                    beforeSend: function () {
+                        //alert(id);
+                    },
+                    success: function (data) {
+                        var items = "";
+                        $.each(data, function (i, yr) {
+                            items += "<option value='" + yr.Value + "'>" + yr.Text + "</option>";
+                        });
+                        $('#Year').html(items);
+
+                    },
+                    error: function (result) {
+
+                        alert('Service call failed: ' + result.status + ' Type :' + result.statusText);
+                    }
+                });
+            }
+            else {
+                var items = '<option value="">Select</option>';
+                $('#Year').html(items);
+            }
+        });
+
+    });
+
+    $(function () {
+
+        $('#Program').change(function () {
+            //  debugger;
+            var id = $("#Program :selected").val();
+            if (id != "") {
+                $.ajax({
+                    type: "GET",
+                    contentType: "application/json; charset=utf-8",
+                    url: '@Url.Action("FillQuota", "Reports")',
+                    data: { "PId": id },
+                    dataType: "json",
+                    beforeSend: function () {
+                        //alert(id);
+                    },
+                    success: function (data) {
+                        var items = "";
+                        $.each(data, function (i, Qota) {
+                            items += "<option value='" + Qota.Value + "'>" + Qota.Text + "</option>";
+                        });
+                        $('#Quota').html(items);
+
+                    },
+                    error: function (result) {
+
+                        alert('Service call failed: ' + result.status + ' Type :' + result.statusText);
+                    }
+                });
+            }
+            else {
+                var items = '<option value="">Select</option>';
+                $('#Quota').html(items);
+            }
+        });
+
+    });
+
+    var Clear = function () {
+        $("#Batch").val("");
+        $("#Year").val("");
+        $("#Program").val("");
+        $("#Status").val("");
+        $("#ReportType").val("");
+        $("#Quota").val("");
+    }
+
+
+
+
+</script>
+
+<section id="" class="animated fadeInUp">
+    <section class="fuelux" style="border: 0px solid #57bee0; margin: 50px 50px;">
+        <div class="step-content" style="margin-bottom: 0px; background: #fff; text-align: center; border-top: 1px solid #D4D4D4;">
+            <div class="step-pane active" id="step1">
+
+                <div class="col-md-offset-0  preauth_font">
+                    <div class="clear" style="clear: both;"></div>
+
+                    <div class="form-group col-sm-12 col-md-6 col-lg-6 text-left ">
+                        @Html.LabelFor(m => m.ReportType, new { @class = "control-label" })
+                        <div>
+                            @Html.DropDownListFor(m => m.ReportType, Model.ReportTypes, "SELECT FEE TYPE",
+                                              new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.Status, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+
+
+                    <div class="form-group col-sm-12 col-md-6 col-lg-6 text-left ">
+                        <label class="control-label" for="Batch">Select Status Type</label>
+                        <div id="groupStatus">
+                            <input type="radio" value="YearStatus" checked="checked" name="groupStatus">Year Status<br>
+                            <input type="radio" value="CurrentStatus" name="groupStatus">Current Status<br>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-sm-12 col-md-6 col-lg-6 text-left ">
+                        @Html.LabelFor(m => m.Status, new { @class = "control-label" })
+                        <div>
+                            @Html.DropDownListFor(m => m.Status, Model.Statuses, "SELECT YEAR STATUS",
+                                              new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.Status, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group col-sm-12 col-md-6 col-lg-6 text-left ">
+                        <label class="control-label" for="Batch">Select Report / Receivables</label>
+                        <div id="group1">
+                            <input type="radio" value="WR" checked="checked" name="group1">With Re Admission<br>
+                            <input type="radio" value="WOR" name="group1">With out Re Admission<br>
+                            <label class="control-label" for="Batch">Select Receivables</label><br>
+                            <input type="radio" value="TotalSudents" name="group1">Total Sudents<br>
+                            <input type="radio" value="Convenor" name="group1">Convenor<br>
+                            <input type="radio" value="TSMFC" name="group1">TSMFC<br>
+                            <input type="radio" value="StudentsWithQuota" name="group1">Students With Quota<br>
+                            <input type="radio" value="StudentsWithOutQuota" name="group1">Students With Out Quota<br>
+                            <input type="radio" value="UFRO" name="group1">UFRO<br>
+
+                        </div>
+                    </div>
+
+                    <div class="form-group col-sm-12 col-md-6 col-lg-6 text-left ">
+                        @Html.LabelFor(m => m.Program, new { @class = "control-label" })
+                        <div>
+                            @Html.DropDownListFor(m => m.Program, Model.Programs, "SELECT PROGRAM",
+                                              new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.Program, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group col-sm-12 col-md-6 col-lg-6 text-left ">
+                        @Html.LabelFor(m => m.Batch, new { @class = "control-label" })
+                        <div>
+                            @Html.DropDownListFor(m => m.Batch, Model.Batches, "SELECT BATCH",
+                                              new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.Batch, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group col-sm-12 col-md-6 col-lg-6 text-left ">
+                        @Html.LabelFor(m => m.Year, new { @class = "control-label" })
+                        <div>
+                            @Html.DropDownListFor(m => m.Year, Model.Years, "SELECT YEAR",
+                                              new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.Year, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+
+                    <div class="form-group col-sm-12 col-md-6 col-lg-6 text-left ">
+                        @Html.LabelFor(m => m.Quota, new { @class = "col-sm-12 control-label" })
+                        <div>
+                            @Html.DropDownListFor(m => m.Quota, Model.Quotas, "SELECT QUOTA",
+                                              new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.Quota, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="wizard col-sm-12">
+                        <div class="pull-right" style="padding: 5px;">
+                            <button id="btnClear" onclick="Clear()" class="btn btn-default">Clear</button>
+                            <button type="submit" id="BtnGenerate" class="btn btn-success btn-default">Generate Report</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+
+        </div>
+
+
+
+
+
+
+
+    </section>
+
+</section>

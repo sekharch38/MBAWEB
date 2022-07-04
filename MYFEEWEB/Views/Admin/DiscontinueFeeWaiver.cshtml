@@ -1,0 +1,338 @@
+﻿@model MYFEELIB.Entities.FeeWaiver
+@{
+    ViewData["Title"] = "Discontinue Fee Waiver";
+}
+
+
+<section id="" class="animated fadeInUp">
+    <section class="fuelux" style="margin: 50px 50px;">
+        <div class="step-content" style="margin-bottom: 0px; background: #fff; text-align: center; border-top: 1px solid #D4D4D4;">
+            <div class="step-pane active" id="step1">
+                <div class="col-md-offset-1 col-sm-12 col-md-9 col-lg-9 preauth_font  ">
+                    <div class="clear" style="clear: both;"></div>
+
+                    <div class="form-group col-sm-12 col-md-6 col-lg-6 text-left ">
+                        @Html.LabelFor(m => m.RollNo, new { @class = "col-md-6 control-label" })
+                        <div class="col-sm-6">
+
+                            @Html.TextBoxFor(m => m.RollNo, new { @class = "form-control", placeholder = "Roll No" })
+                            @Html.ValidationMessageFor(m => m.RollNo, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group col-sm-12 col-md-6 col-lg-6 text-left ">
+
+                        @Html.LabelFor(m => m.Name, new { @class = "col-md-6 control-label" })
+                        <div class="col-sm-6">
+                            @Html.TextBoxFor(m => m.Name, new { @class = "form-control", placeholder = "Name", @readonly = "readonly" })
+                            @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="clearfix"></div>
+                    <div align="center">
+                        <input type='hidden' id='StudentId' name='StudentId' value=''>
+                        <table id="DataTable" style="width:100%;" class="table table-bordered">
+                            <thead>
+
+                            </thead>
+                            <tbody></tbody>
+                            <tfoot></tfoot>
+                        </table>
+
+                    </div>
+
+                    <div class="form-group col-sm-12 col-md-12 col-lg-12 text-left">
+
+                        <div class="col-sm-12">
+                            @Html.TextBoxFor(m => m.Remarks, new { @class = "form-control", placeholder = "Enter Reamarks" })
+
+                        </div>
+                    </div>
+
+                    <div class="wizard col-sm-12">
+                        <div class="pull-right" style="padding: 5px;">
+
+                            <button type="submit" id="SaveAll" onclick="return confirm('Are you sure?')" class="btn btn-success btn-default">Submit</button>
+                        </div>
+                    </div>
+
+                </div>
+
+
+
+            </div>
+            <div class="clearfix"></div>
+
+        </div>
+
+
+        <script>
+            function isNumber(evt) {
+                evt = (evt) ? evt : window.event;
+                var charCode = (evt.which) ? evt.which : evt.keyCode;
+                if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+                    return false;
+                }
+                return true;
+            }
+        </script>
+
+
+        <script>
+            $(document).ready(function () {
+                $("#Remarks").hide();
+                $("#SaveAll").hide();
+            });
+
+            $(document).on("blur", "#Final_Collected", function () {
+
+                var Fee_Waiver = 0;
+                var TD = $("#Total_Due").val();
+                var FC = $("#Final_Collected").val();
+                if (FC != "") {
+                    if (parseFloat(FC) <= parseFloat(TD)) {
+                        Fee_Waiver = (parseFloat(TD) - parseFloat(FC));
+                        $('#Fee_Waiver').val(Fee_Waiver);
+
+                    }
+                    else {
+                        $('#Fee_Waiver').val("");
+                        alert('Final Collected Amount Must be Less than Total Due !')
+                        $("#Final_Collected").val("");
+                        $("#Final_Collected").focus();
+
+                    }
+                }
+
+            });
+
+            $(function () {
+                $('#RollNo').blur(function () {
+
+                    $("#DataTable tr").remove();
+                    var id = $("#RollNo").val();
+                    if (id != "") {
+                        $("#loaderDiv").show();
+
+
+                        //Discontinue Fee
+                        $.ajax({
+                            type: "GET",
+                            contentType: "application/json; charset=utf-8",
+                            url: '@Url.Action("StudentFeeDetails", "Admin")',
+                            data: { "student": id },
+                            dataType: "json",
+                            beforeSend: function () {
+
+                            },
+                            success: function (data) {
+                                $.ajax({
+                                    type: "GET",
+                                    contentType: "application/json; charset=utf-8",
+                                    url: '@Url.Action("FutureAmount", "Admin")',
+                                    data: { "student": id },
+                                    dataType: "json",
+                                    beforeSend: function () {
+
+                                    },
+                                    success: function (fdata) {
+
+
+                                        var sum_due = 0;
+                                        var markup = "<tr><th width='10%'>Year</th><th width='30%'>FeeName</th><th width='20%' style='text-align:right;'>Amount</th><th style='text-align:right;' width='20%'>Received</th><th width='20%' style='text-align:right;'>Due</th</tr>";
+                                        $("#DataTable > thead").append(markup);
+                                        var markupfooter;
+                                        $.each(data, function (i, Rec) {
+
+                                            $("#StudentId").val(Rec.StudentId);
+                                            $("#Name").val(Rec.Name);
+                                            var markup = "<tr><td width='10%'>" + Rec.YearId + "</td><td width='30%'>" + Rec.FeeName + "</td><td width='20%' align='right'>" + Rec.Actual + "</td><td width='20%' align='right'>" + Rec.Received + "</td><td width='20%' align='right'>" + Rec.Due + "</td></tr>";
+                                            $("#DataTable > tbody").append(markup);
+                                            sum_due = sum_due + parseFloat(Rec.Due);
+
+                                        });
+                                        markupfooter = "<tr><td></td><td></td><td></td><td>Due Amount</td><td align='right'><input type='text' style='text-align:right;' id='FeeDue' value='" + sum_due + "' name='FeeDue' class='form-control' readonly/></td></tr>";
+                                        $("#DataTable > tfoot").append(markupfooter);
+
+
+
+                                        markup = "<tr><td></td><td></td><td></td><td >Future Amounts</td><td><input type='text' style='text-align:right;' id='Future_Amount' value='" + fdata + "' name='Future_Amount' class='form-control' readonly/></td></tr>";
+                                        $("#DataTable > tfoot").append(markup);
+
+                                        var total_Due = 0;
+                                        var duefee = $("#FeeDue").val();
+                                        var FAFee = $("#Future_Amount").val();
+                                        if (!isNaN(duefee) && duefee.length !== 0) {
+                                            total_Due += parseFloat(duefee);
+
+                                        }
+
+                                        if (!isNaN(FAFee) && FAFee.length !== 0) {
+                                            total_Due += parseFloat(FAFee);
+
+                                        }
+
+
+
+                                        markup = "<tr><td></td><td></td><td></td><td>Total Due</td><td align='right'><input type='text' style='text-align:right;' id='Total_Due' value='" + total_Due + "' name='Total_Due' class='form-control' readonly/></td></tr>";
+                                        $("#DataTable > tfoot").append(markup);
+
+                                        markup = "<tr><td></td><td></td><td></td><td>Final Collected</td><td align='right'><input type='text' style='text-align:right;' id='Final_Collected' value='0' name='Final_Collected' class='form-control' onkeypress='return isNumber(event)' /></td></tr>";
+                                        $("#DataTable > tfoot").append(markup);
+
+                                        markup = "<tr><td></td><td></td><td></td><td>Fee Waiver</td><td align='right'><input type='text' style='text-align:right;' id='Fee_Waiver' value='' name='Fee_Waiver' class='form-control' onkeypress='return isNumber(event)' readonly /></td></tr>";
+                                        $("#DataTable > tfoot").append(markup);
+
+
+                                        $("#Remarks").show();
+                                        $("#SaveAll").show();
+
+
+                                    },
+                                    error: function (result) {
+                                        $("#Remarks").hide()
+                                        $("#SaveAll").hide();
+                                        alert('Service call failed: ' + result.status + ' Type :' + result.statusText);
+
+                                    }
+                                });
+
+
+
+                            },
+                            error: function (result) {
+
+
+                                $("#Name").val("");
+                                $("#Remarks").val("");
+                                $("#Remarks").hide();
+                                $("#SaveAll").hide();
+                                alert("This Student has not in Discontinued List [or] Discontinue Fee Waiver has done ! check it !");
+                                $("#RollNo").val("");
+                                $("#RollNo").focus();
+
+                            }
+                        });
+
+                        //Discontinue End Fee
+
+
+
+                    }
+                    else {
+                        $("#DataTable tr").remove();
+
+                    }
+
+                    $("#loaderDiv").hide();
+                });
+
+            });
+
+
+        </script>
+        <script type="text/jscript">
+
+
+            $(document).on("click", "#SaveAll", function () {
+                debugger;
+                var RollNo = $("#RollNo").val();
+                var CD = $("#FeeDue").val();
+                var FA = $("#Future_Amount").val();
+                var FC = $("#Final_Collected").val();
+                var FW = $("#Fee_Waiver").val();
+                var Rem = $("#Remarks").val();
+
+
+
+                if (RollNo == "") {
+                    alert("Please Enter Roll Number !");
+                    return;
+                }
+                else if (CD == "") {
+                    alert("Current Due has not Empty !");
+                    return;
+                }
+                else if (FA == "") {
+                    alert("Future Amount has not empty !");
+                    return;
+                }
+                else if (FC == "") {
+
+                    alert("Final Collected has not empty !")
+                    return;
+                }
+                else if (FW == "") {
+
+                    alert("FeeWaiver has not empty or Nan !")
+                    return;
+                }
+                else if (Rem == "") {
+
+                    alert("Please Enter Description / Remarks !")
+                    return;
+                }
+
+                else if (isNaN(FW)) {
+                    alert("FeeWaiver has not empty or Nan !")
+                    return;
+                }
+
+                $("#loaderDiv").show();
+
+                var StudentFeeWaiver = new Array();
+                var req = {};
+
+                req.RollNo = $("#RollNo").val();
+                req.Current_Due = $("#FeeDue").val();
+                req.Future_Amount = $("#Future_Amount").val();
+                req.Final_Collected = $("#Final_Collected").val();
+                req.Fee_Waiver = $("#Fee_Waiver").val();
+                req.UserName = "@Session["username"]";
+                req.Remarks = $("#Remarks").val();
+                StudentFeeWaiver.push(req);
+
+                StudentFeeWaiver = JSON.stringify({ 'StudentFeeWaiver': StudentFeeWaiver });
+
+                //Send the JSON array to Controller using AJAX.
+                $.ajax({
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+
+                    url: '@Url.Action("DiscontinueFeeWaiver", "Admin")',
+                    data: StudentFeeWaiver,
+                    dataType: "json",
+                    success: function (r) {
+
+                        if (r == 0) {
+
+                            alert("Fee Viewer has not updated !");
+                            $("#loaderDiv").hide();
+                        }
+                        else {
+                            alert("Discontinued and Fee Viewer has updated.");
+                            $("#RollNo").val("");
+                            $("#Name").val("");
+                            $("#DataTable tr").remove();
+                            $("#Remarks").val("");
+                            $("#Remarks").hide();
+                            $("#SaveAll").hide();
+                            $("#loaderDiv").hide();
+                        }
+
+                    }
+                });
+            });
+
+
+
+
+
+        </script>
+
+    </section>
+
+
+
+</section>

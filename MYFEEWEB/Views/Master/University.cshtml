@@ -1,0 +1,159 @@
+﻿@model MYFEELIB.Entities.University
+@{
+    ViewData["Title"] = "University";
+}
+
+
+<style>
+    .hidetext {
+        -webkit-text-security: disc; /* Default */
+    }
+</style>
+
+<script>
+
+    $(document).ready(function () {
+      //  debugger;
+        $.ajax({
+            type: "GET",
+            contentType: "application/json; charset=utf-8",
+            url: '@Url.Action("UniversityDetails", "Master")',
+            dataType: "json",
+            beforeSend: function () {
+
+            },
+            success: function (data) {
+                debugger;
+                var markup = "<tr><th width='5%'>S.No</th><th width='5%'>UniversityId</th><th width='8%'>UniversityName</th> <th align='right'></th></tr>";
+                $("#DataTable").append(markup);
+                var markupfooter;
+                $.each(data, function (i, Rec) {
+                    var markup = "<tr><td width='5%'>" + (i + 1) + "</td><td width='5%'>" + Rec.UniversityId + "</td><td width='5%' >" + Rec.UniversityName + "</td><td><a data-value=" + Rec.UniversityId + " href='javascript:void(0)' class='btnEdit'>Edit</a></td></tr>";
+                    $("#DataTable").append(markup);
+
+                });
+            }
+        });
+
+    });
+
+    $(document).on('click', '.btnEdit', function () {
+       // debugger;
+         var id = $(this).attr("data-value");
+         $("#UniversityId").val(id);
+         $("#UniversityId").prop("readonly", true);
+         $("#UniversityName").val($(this).closest("tr").find('td:eq(2)').text());
+    });
+
+    var UniversitySave = function () {
+
+        var data = $("#MyUniversityForm").serialize();
+
+        var CertificateId = $("#UniversityId").val();
+        var CertificateName = $("#UniversityName").val();
+
+        if (CertificateId == "") {
+            alert("Enter UniversityId !");
+            $("#UniversityId").focus();
+            return false;
+        }
+        if (CertificateName == "") {
+            alert("Select UniversityName !");
+            $("#UniversityName").focus();
+            return false;
+        }
+
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("UniversitySave", "Master")',
+            data: data,
+            success: function (r) {
+
+                if (r == "Error") {
+
+                    alert("University Not Saved !");
+
+                }
+                else {
+                    alert("University Saved Successfully !");
+                    $("#UniversityId").val("");
+                    $("#UniversityName").val("");
+                }
+            }
+        });
+    }
+
+    var Clear = function () {
+        $("#UniversityId").val("");
+        $("#UniversityName").val("");
+        $(".text-danger field-validation-error").empty();
+    }
+
+
+
+</script>
+<section id="" class="animated fadeInUp">
+    <section class="fuelux" style=" margin: 50px 50px;">
+
+        <form id="MyUniversityForm">
+            <div class="step-content" style="margin-bottom: 0px; background: #fff; text-align: center; border-top: 1px solid #D4D4D4;">
+
+
+                <div class="step-pane active" id="step1">
+
+                    <div class="col-md-offset-0  preauth_font">
+                        <div class="clear" style="clear: both;"></div>
+
+
+                        <div class="form-group col-sm-12 col-md-6 col-lg-3 text-left ">
+                            @Html.LabelFor(m => m.UniversityId, new { @class = "control-label" })
+                            <div class="">
+                                @Html.TextBoxFor(m => m.UniversityId, new { @class = "form-control ucase" })
+                                @Html.ValidationMessageFor(m => m.UniversityId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group col-sm-12 col-md-6 col-lg-3 text-left ">
+                            @Html.LabelFor(m => m.UniversityName, new { @class = "control-label" })
+                            <div class="">
+                                @Html.TextBoxFor(m => m.UniversityName, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.UniversityName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-12 col-md-6 col-lg-3 text-left ">
+                            @Html.LabelFor(m => m.Description, new { @class = "control-label" })
+                            <div class="">
+                                @Html.TextBoxFor(m => m.Description, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.Description, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="wizard col-sm-12">
+                            <div class="pull-right" style="padding: 5px;">
+                                <button id="btnClear" onclick="Clear()" class="btn btn-default">Clear</button>
+                                <button type="submit" id="btnsubmit" onclick="UniversitySave()" class="btn btn-success btn-default">Submit</button>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="clearfix"></div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </form>
+
+
+        <div align="center">
+            <table id="DataTable" style="width:100%;" class="table table-bordered">
+                <thead>
+
+                </thead>
+                <tbody></tbody>
+                <tfoot></tfoot>
+            </table>
+
+        </div>
+
+    </section>
+</section>

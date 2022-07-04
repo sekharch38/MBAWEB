@@ -1,0 +1,291 @@
+﻿@model MYFEELIB.Entities.StudentQuotaCategory
+@{
+    ViewData["Title"] = "StudentQuotaCategory";
+
+}
+
+
+<style>
+    .hidetext {
+        -webkit-text-security: disc; /* Default */
+    }
+</style>
+
+<script>
+
+    $(function () {
+
+        $('#Program').change(function () {
+            //debugger;
+            var id = $("#Program :selected").val();
+            if (id != "") {
+                $.ajax({
+                    type: "GET",
+                    contentType: "application/json; charset=utf-8",
+                    url: '@Url.Action("FillQuota", "Master")',
+                    data: { "SId": id },
+                    dataType: "json",
+                    beforeSend: function () {
+                        //alert(id);
+                    },
+                    success: function (data) {
+                        var items = "";
+                        $.each(data, function (i, Qota) {
+                            items += "<option value='" + Qota.Value + "'>" + Qota.Text + "</option>";
+                        });
+                        $('#Quota').html(items);
+
+                    },
+                    error: function (result) {
+
+                        alert('Service call failed: ' + result.status + ' Type :' + result.statusText);
+                    }
+                });
+            }
+            else {
+                var items = '<option value="">Select</option>';
+                $('#Course').html(items);
+            }
+        });
+
+    });
+
+
+        $(document).ready(function () {
+      //  debugger;
+        $.ajax({
+            type: "GET",
+            contentType: "application/json; charset=utf-8",
+            url: '@Url.Action("StudentQuotaCategoryDetails", "Master")',
+            dataType: "json",
+            beforeSend: function () {
+
+            },
+            success: function (data) {
+
+                var markup = "<tr><th width='5%'>S.No</th><th width='5%'>QuotaCategoryId</th><th width='8%'>QuotaCategoryName</th><th width='24%' align='right'>IsReAdmit</th><th width='15%' align='right'>Program</th><th width='24%' align='right'>Quota</th><th width='15%' align='right'>Description</th> <th align='right'></th></tr>";
+                $("#DataTable").append(markup);
+                var markupfooter;
+                $.each(data, function (i, Rec) {
+                    var markup = "<tr><td width='5%'>" + (i + 1) + "</td><td width='5%'>" + Rec.QuotaCategoryId + "</td><td width='15%' >" + Rec.QuotaCategoryName + "</td><td width='5%' align='left'>" + Rec.IsReAdmit + "</td><td width='20%' align='left'>" + Rec.Program + "</td><td width='10%'>" + Rec.Quota + "</td><td width='20%'>" + Rec.Description + "</td><td><a data-value=" + Rec.QuotaCategoryId + " href='javascript:void(0)' class='btnEdit'>Edit</a></td></tr>";
+                    $("#DataTable").append(markup);
+
+                });
+
+            }
+        });
+
+
+
+    });
+
+    $(document).on('click', '.btnEdit', function () {
+        // debugger;
+         var id = $(this).attr("data-value");
+         $("#QuotaCategoryId").val(id);
+         $("#QuotaCategoryId").prop("readonly", true);
+         $("#QuotaCategoryName").val($(this).closest("tr").find('td:eq(2)').text());        
+         //$("#IsReAdmit").val($(this).closest("tr").find('td:eq(3)').text());
+         $("#Program").val($(this).closest("tr").find('td:eq(4)').text());
+         var QuotaString = $(this).closest("tr").find('td:eq(5)').text();
+         var id1 = $("#Program :selected").val();
+         if (id1 != "") {
+             $.ajax({
+                 type: "GET",
+                 contentType: "application/json; charset=utf-8",
+                 url: '@Url.Action("FillQuota", "Master")',
+                 data: { "SId": id1 },
+                 dataType: "json",
+                 beforeSend: function () {
+                     //alert(id);
+                 },
+                 success: function (data) {
+                     var items = "";
+                     $.each(data, function (i, Qota) {
+                         items += "<option value='" + Qota.Value + "'>" + Qota.Text + "</option>";
+                     });
+                     $('#Quota').html(items);
+                     $('#Quota').val(QuotaString);
+                 },
+                 error: function (result) {
+
+                     alert('Service call failed: ' + result.status + ' Type :' + result.statusText);
+                 }
+             });
+         }
+         else {
+             var items = '<option value="">Select</option>';
+             $('#Quota').html(items);
+         }
+        // $("#Quota").val($(this).closest("tr").find('td:eq(5)').text());
+         $("#Description").val($(this).closest("tr").find('td:eq(6)').text());
+
+         var IsReAdmit = $(this).closest("tr").find('td:eq(3)').text();
+         if (IsReAdmit == "Yes") {
+             $("#Yes").prop("checked", true);
+         }
+         else
+         {
+             $("#No").prop("checked", true);
+         }        
+         
+        
+    });
+
+    var StudentQuotaCategorySave = function () {
+
+        var data = $("#MyStudentQuotaCategoryForm").serialize();
+
+        var QuotaCategoryId = $("#QuotaCategoryId").val();
+        var QuotaCategoryName = $("#QuotaCategoryName").val();
+        var Description = $("#Description").val();
+        var Quota = $("#Quota").val();
+
+
+        if (QuotaCategoryId == "") {
+            alert("Enter QuotaCategoryId !");
+            $("#QuotaCategoryId").focus();
+            return false;
+        }
+        if (QuotaCategoryName == "") {
+            alert("Select QuotaCategoryName !");
+            $("#QuotaCategoryName").focus();
+            return false;
+        }
+        if (Quota == "") {
+            alert("Select Quota !");
+            $("#Quota").focus();
+            return false;
+        }
+
+
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("StudentQuotaCategorySave", "Master")',
+            data: data,
+            success: function (r) {
+
+                if (r == "Error") {
+
+                    alert("StudentQuotaCategory Not Saved !");
+
+                }
+                else {
+                    alert("StudentQuotaCategory Saved Successfully !");
+                    $("#QuotaCategoryId").val("");
+                    $("#QuotaCategoryName").val("");
+                    $("#IsReAdmit").val("");
+                    $("#Program").val("");
+                    $("#Quota").val("");
+                }
+            }
+        });
+    }
+
+    var Clear = function () {
+        $("#QuotaCategoryId").val("");
+        $("#QuotaCategoryName").val("");
+        $("#IsReAdmit").val("");
+        $("#Program").val("");
+        $("#Quota").val("");
+        $(".text-danger field-validation-error").empty();
+    }
+
+
+
+</script>
+<section id="" class="animated fadeInUp">
+    <section class="fuelux" style=" margin: 50px 50px;">
+
+        <form id="MyStudentQuotaCategoryForm" >
+            <div class="step-content" style="margin-bottom: 0px; background: #fff; text-align: center; border-top: 1px solid #D4D4D4;">
+
+
+                <div class="step-pane active" id="step1">
+
+                    <div class="col-md-offset-0  preauth_font">
+                        <div class="clear" style="clear: both;"></div>
+
+
+
+
+                        <div class="form-group col-sm-12 col-md-6 col-lg-3 text-left ">
+                            @Html.LabelFor(m => m.QuotaCategoryId, new { @class = "control-label" })
+                            <div class="">
+                                @Html.TextBoxFor(m => m.QuotaCategoryId, new { @class = "form-control ucase" })
+                                @Html.ValidationMessageFor(m => m.QuotaCategoryId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group col-sm-12 col-md-6 col-lg-3 text-left ">
+                            @Html.LabelFor(m => m.QuotaCategoryName, new { @class = "control-label" })
+                            <div class="">
+                                @Html.TextBoxFor(m => m.QuotaCategoryName, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.QuotaCategoryName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-12 col-md-6 col-lg-3 text-left ">
+                            @Html.LabelFor(m => m.Program, new { @class = "col-sm-6 control-label" })
+                            <div class="">
+                                @Html.DropDownListFor(m => m.Program, Model.Programs, "SELECT PROGRAM",
+                                              new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.Program, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-12 col-md-6 col-lg-3 text-left ">
+                            @Html.LabelFor(m => m.Quota, new { @class = "col-sm-6 control-label" })
+                            <div class="">
+                                @Html.DropDownListFor(m => m.Quota, Model.Quotas, "SELECT Quota",
+                                              new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.Quota, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-12 col-md-6 col-lg-3 text-left ">
+                            @Html.LabelFor(m => m.Description, new { @class = "control-label" })
+                            <div class="">
+                                @Html.TextBoxFor(m => m.Description, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.Description, "", new { @class = "text-danger" })
+                            </div>
+                        </div>     
+                        <div class="form-group col-sm-12 col-md-6 col-lg-3 text-left ">
+                            @Html.LabelFor(m => m.IsReAdmit, new { @class = "control-label" })
+                            <div class="">
+                                @Html.RadioButtonFor(m => m.IsReAdmit, "Yes", new { id = "Yes" })
+                                @Html.Label("Yes", new { @for = "Yes" })
+                                @Html.RadioButtonFor(m => m.IsReAdmit, "No", new { id = "No", @checked = "checked" })
+                                @Html.Label("No", new { @for = "No" })
+
+                            </div>
+                        </div>
+                      
+                                        
+                                              
+                        <div class="wizard col-sm-12">
+                            <div class="pull-right" style="padding: 5px;">
+                                <button id="btnClear" onclick="Clear()" class="btn btn-default">Clear</button>
+                                <button type="submit" id="btnsubmit" onclick="StudentQuotaCategorySave()" class="btn btn-success btn-default">Submit</button>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="clearfix"></div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </form>
+
+
+        <div align="center">
+            <table id="DataTable" style="width:100%;" class="table table-bordered">
+                <thead>
+
+                </thead>
+                <tbody></tbody>
+                <tfoot></tfoot>
+            </table>
+
+        </div>
+
+    </section>
+</section>

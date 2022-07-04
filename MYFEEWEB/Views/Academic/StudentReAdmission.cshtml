@@ -1,0 +1,521 @@
+﻿@model MYFEELIB.Entities.StudentReAdmission
+@{
+    ViewData["Title"] = "StudentReAdmission";
+}
+<script>
+    function isNumber(evt) {
+        evt = (evt) ? evt : window.event;
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+            return false;
+        }
+        return true;
+    }
+</script>
+
+<script type="text/jscript">
+    //debugger;
+    //var GivenDate = $("#ReAdmissionDate :selected").val("");
+    //var CurrentDate = new Date();
+    //GivenDate = new Date(GivenDate);
+
+    //if (GivenDate > CurrentDate) {
+    //    alert('Given date is greater than the current date.');
+    //} else {
+    //    alert('Given date is not greater than the current date.');
+    //}
+
+    $(document).ready(function () {
+        $("#TypeOfReAdmission").hide();
+        $("#ReAdmissionBatch").hide();
+        $("#ReAdmissionYear").hide();
+        $("#Reason").hide();
+        $("#ReAdmissionDate").hide();
+        $("#TOR").hide();
+        $("#RAB").hide();
+        $("#RY").hide();
+        $("#RS").hide();
+        $("#RAD").hide();
+        $("#SaveAll").hide();
+    });
+
+
+
+    $(function () {
+
+        $('#Batch').change(function () {
+            // debugger;
+            var id = $("#Batch :selected").val();
+            if (id != "") {
+                $.ajax({
+                    type: "GET",
+                    contentType: "application/json; charset=utf-8",
+                    url: '@Url.Action("FillStudent", "Academic")',
+                    data: { "batch": id },
+                    dataType: "json",
+                    beforeSend: function () {
+                        //alert(id);
+                    },
+                    success: function (data) {
+                        var items = "";
+                        $.each(data, function (i, batch) {
+                            items += "<option value='" + batch.Value + "'>" + batch.Text + "</option>";
+                        });
+                        $('#StudentId').html(items);
+
+                    },
+                    error: function (result) {
+
+                        alert('Service call failed: ' + result.status + ' Type :' + result.statusText);
+                    }
+                });
+            }
+            else {
+                var items = '<option value="">Select</option>';
+                $('#StudentId').html(items);
+            }
+        });
+
+    });
+
+    $(function () {
+
+        $('#StudentId').change(function () {
+
+            $("#DataTable tr").remove();
+            $("#DataTable1 tr").remove();
+            var id = $("#StudentId :selected").val();
+            if (id != "") {
+                var student = $("#StudentId").val();
+                var Batch = $("#Batch").val();
+                $.ajax({
+                    type: "GET",
+                    contentType: "application/json; charset=utf-8",
+                    url: '@Url.Action("StudentReAdmissionList", "Academic")',
+                    data: { "student": id },
+                    dataType: "json",
+                    beforeSend: function () {
+                        //alert(id);
+                    },
+                    success: function (data) {
+                        var markup = "<tr><th width='20%'>DetainId</th><th width='20%'>DetainName</th><th width='20%'>YearId</th><th width='20%'>FromDate</th><th width='20%'>ToDate</th><th width='20%'>Status</th></tr>";
+                        $("#DataTable1 > thead").append(markup);
+                        var markupfooter;
+                        $.each(data, function (i, Rec) {
+                            $("#YearOfDetain").val(Rec.YearId);
+                            $("#PurposeofDetain").val(Rec.DetainName);
+                            $("#DetainTransactionId").val(Rec.DetainId);
+                            var markup = "<tr><td width='20%'>" + Rec.DetainId + "</td><td width='20%'>" + Rec.DetainName + "</td><td width='40%'>" + Rec.YearId + "</td><td width='20%'>" + Rec.FD + "</td><td width='20%'>" + Rec.TD + "</td><td width='20%'>" + Rec.Status + "</td></tr>";
+                            $("#DataTable1 >  tbody").append(markup);
+                        });
+
+
+                        $("#DataTable1 >  tfoot").append(markupfooter);
+
+
+                        var sid = $("#StudentId :selected").val();
+                        $.ajax({
+                            type: "GET",
+                            contentType: "application/json; charset=utf-8",
+                            url: '@Url.Action("StudentReAdmissionDetails", "Academic")',
+                            data: { "student": sid },
+                            dataType: "json",
+                            beforeSend: function () {
+                                //alert(id);
+                            },
+                            success: function (data) {
+                                var markup = "<tr><th width='20%'>Year</th><th width='20%'>FeeName</th><th width='20%'>Amount</th><th width='20%'>Received</th><th width='20%'>Due</th</tr>";
+                                $("#DataTable > thead").append(markup);
+                                var markupfooter;
+                                $.each(data, function (i, Rec) {
+                                    $("#Name").val(Rec.Name);
+                                    var markup = "<tr><td width='20%'>" + Rec.YearId + "</td><td width='20%'>" + Rec.FeeName + "</td><td width='40%'>" + Rec.Actual + "</td><td width='20%'>" + Rec.Received + "</td><td width='20%'>" + Rec.Due + "</td></tr>";
+                                    $("#DataTable > tbody").append(markup);
+
+                                });
+
+
+                                $("#DataTable > tfoot").append(markupfooter);
+
+                                $("#TypeOfReAdmission").show();
+                                $("#ReAdmissionBatch").show();
+                                $("#ReAdmissionYear").show();
+                                $("#Reason").show();
+                                $("#ReAdmissionDate").show();
+                                $("#TOR").show();
+                                $("#RAB").show();
+                                $("#RY").show();
+                                $("#RS").show();
+                                $("#RAD").show();
+                                $("#SaveAll").show();
+
+                            },
+                            error: function (result) {
+
+                                alert('Service call failed: ' + result.status + ' Type :' + result.statusText);
+
+                            }
+                        });
+
+
+                        // Bind Readmission Batch
+                        var yid = $("#YearOfDetain").val();
+                        $.ajax({
+                            type: "GET",
+                            contentType: "application/json; charset=utf-8",
+                            url: '@Url.Action("GetReAdmissionOtherBatch", "Academic")',
+                            data: { "year": yid },
+                            dataType: "json",
+                            beforeSend: function () {
+                                //alert(id);
+                            },
+                            success: function (data) {
+                                var items = "";
+                                $.each(data, function (i, batch) {
+                                    items += "<option value='" + batch.Value + "'>" + batch.Text + "</option>";
+                                });
+                                $('#ReAdmissionBatch').html(items);
+
+                            },
+                            error: function (result) {
+
+                                alert('Service call failed: ' + result.status + ' Type :' + result.statusText);
+                            }
+                        });
+
+                        //End
+
+
+
+
+
+
+                    },
+                    error: function (result) {
+
+                        alert('Service call failed: ' + result.status + ' Type :' + result.statusText);
+
+                    }
+                });
+
+
+            }
+            else {
+                $("#DataTable tr").remove();
+                $("#DataTable1 tr").remove();
+            }
+        });
+
+    });
+  
+
+
+    $(function () {
+
+        $('#ReAdmissionBatch').change(function () {
+            debugger;
+            var batch = $("#ReAdmissionBatch :selected").val();
+            if (batch != "") {
+                $.ajax({
+                    type: "GET",
+                    contentType: "application/json; charset=utf-8",
+                    url: '@Url.Action("GetRAYear", "Academic")',
+                    data: { "batch": batch },
+                    dataType: "json",
+                    beforeSend: function () {
+
+                    },
+                    success: function (data) {
+                        var items = "";
+                        $.each(data, function (i, batch) {
+                            items += "<option value='" + batch.Value + "'>" + batch.Text + "</option>";
+                        });
+                        $('#ReAdmissionYear').html(items);
+
+                    },
+                    error: function (result) {
+
+                        alert('Service call failed: ' + result.status + ' Type :' + result.statusText);
+                    }
+                });
+            }
+            else {
+                var items = '<option value="">SELECT READMISSION YEAR</option>';
+                $('#ReAdmissionYear').html(items);
+            }
+        });
+
+    });
+
+
+
+
+    $(document).on("click", "#SaveAll", function () {
+        //  debugger;
+        var Batch = $("#Batch :selected").val();
+        var ReAdmissionDate = $("#ReAdmissionDate");
+        var Studentid = $("#StudentId :selected").val();
+        //var TypeOfReAdmission = $("#TypeOfReAdmission :selected").val();
+        var ReAdmissionBatch = $("#ReAdmissionBatch :selected").val();
+        var ReAdmissionYear = $("#ReAdmissionYear :selected").val();
+        var Reason = $("#Reason :selected").val();
+        if (Batch == "") {
+            alert("Please Select Batch Mode !");
+            return;
+        }
+        else if (Studentid == "") {
+
+            alert("Please Select Student !")
+            return;
+        }
+           
+        else if (ReAdmissionBatch == "") {
+
+            alert("Please Select ReAdmissionBatch !")
+            return;
+        }
+        else if (ReAdmissionYear == "") {
+
+            alert("Please Select ReAdmissionYear !")
+            return;
+        }
+        else if (Reason == "") {
+
+            alert("Please Select Reason !")
+            return;
+        }
+        else if (!Date.parse(ReAdmissionDate.val())) {
+            alert("Please Enter Valid Readmission Date !")
+            return;
+        }
+        else if (ReAdmissionDate.val() == "") {
+            alert("Please Enter ReAdmissionDate !");
+            return;
+        }
+
+        var Student = new Array();
+        var req = {};
+        req.StudentId = $("#StudentId :selected").val();
+        req.Batch = $("#Batch :selected").val();
+        req.YearOfDetain = $("#YearOfDetain").val();
+        req.ReAdmissionBatch = $("#ReAdmissionBatch :selected").val();
+        req.ReAdmissionYear = $("#ReAdmissionYear :selected").val();
+        req.DetainTransactionId = $("#DetainTransactionId").val();
+        req.Reason = $("#Reason :selected").val();
+        req.ReAdmissionDate = $("#ReAdmissionDate").val();
+
+        Student.push(req);
+        Student = JSON.stringify({ 'StudentTransactions': Student });
+        $.ajax({
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+
+            url: '@Url.Action("ConfirmReadmission", "Academic")',
+            data: Student,
+            dataType: "json",
+            success: function (r) {
+
+                if (r == 0) {
+
+                    alert("Readmission Not Completed ! Due to Technical Problem !");
+
+                }
+                else {
+                    if (r == 1) {
+                        alert('Same Batch Readmission Completed successfully');
+
+                    }
+                    else if (r == 2) {
+                        alert('Readmission Completed successfully');
+                    }
+                    else if (r == 3) {
+                        alert('Promotion Readmission Completed successfully');
+                    }
+                    else if (r == 4) {
+                        alert('Demotion Readmission Completed successfully');
+                    }
+                    else if (r == 5) {
+                        alert('Readmission Completed successfully ! Demotion has not completed.Please contact to Administrator !');
+                    }
+
+                    $("#Batch").val("");
+                    $("#DataTable tr").remove();
+                    $("#DataTable1 tr").remove();
+                    $("#StudentId").val("");
+                    $("#Name").val("");
+                    $("#YearOfDetain").val("");
+                    $("#PurposeofDetain").val("");
+                    $("#DetainTransactionId").val("");
+                    $("#TypeOfReAdmission").val("");
+                    $("#ReAdmissionBatch").val("");
+                    $("#ReAdmissionYear").val("");
+                    $("#Reason").val("");
+                    $("#ReAdmissionDate").val("");
+                    $("#TypeOfReAdmission").hide();
+                    $("#ReAdmissionBatch").hide();
+                    $("#ReAdmissionYear").hide();
+                    $("#Reason").hide();
+                    $("#ReAdmissionDate").hide();
+                    $("#TOR").hide();
+                    $("#RAB").hide();
+                    $("#RY").hide();
+                    $("#RS").hide();
+                    $("#RAD").hide();
+                    $("#SaveAll").hide();
+                }
+            }
+        });
+    });
+
+</script>
+
+<section id="" class="animated fadeInUp">
+    <section class="fuelux" style="margin: 50px 100px;">
+
+
+
+        <div class="step-content" style="margin-bottom: 0px; background: #fff; text-align: center; border-top: 1px solid #D4D4D4;">
+            <div class="step-pane active" id="step1">
+
+                <div class="col-md-offset-0  preauth_font">
+                    <div class="clear" style="clear: both;"></div>
+
+                    <div class="form-group col-sm-12 col-md-12 col-lg-6 text-left ">
+                        @Html.LabelFor(m => m.Batch, new { @class = "col-sm-6 control-label" })
+                        <div class="col-sm-6">
+                            @Html.DropDownListFor(m => m.Batch, Model.Batchs, "SELECT Batch",
+                                              new { @class = "form-control" })
+                        </div>
+                    </div>
+
+                    <div class="form-group col-sm-12 col-md-12 col-lg-6 text-left ">
+                        @Html.LabelFor(m => m.StudentId, new { @class = "col-sm-6 control-label" })
+                        <div class="col-sm-6">
+                            @Html.DropDownListFor(m => m.StudentId, Model.StudentIds, "Select Student",
+                                              new { @class = "form-control" })
+                        </div>
+
+                    </div>
+                    <div class="form-group col-sm-12 col-md-12 col-lg-6 text-left">
+
+                        @Html.LabelFor(m => m.Name, new { @class = "col-sm-6 control-label" })
+                        <div class="col-sm-6">
+                            @Html.TextBoxFor(m => m.Name, new { @class = "form-control", placeholder = "Name", @readonly = "readonly" })
+                        </div>
+                    </div>
+                    <div class="form-group col-sm-12 col-md-12 col-lg-6 text-left">
+
+                        @Html.LabelFor(m => m.YearOfDetain, new { @class = "col-sm-6 control-label" })
+                        <div class="col-sm-6">
+                            @Html.TextBoxFor(m => m.YearOfDetain, new { @class = "form-control", placeholder = "Year Of Detain", @readonly = "readonly" })
+
+                        </div>
+                    </div>
+                    <div class="form-group col-sm-12 col-md-12 col-lg-6 text-left">
+
+                        @Html.LabelFor(m => m.PurposeofDetain, new { @class = "col-sm-6 control-label" })
+                        <div class="col-sm-6">
+                            @Html.TextBoxFor(m => m.PurposeofDetain, new { @class = "form-control", placeholder = "Purpose Of Detain", @readonly = "readonly" })
+
+                        </div>
+                    </div>
+                    <div class="form-group col-sm-12 col-md-12 col-lg-6 text-left">
+
+                        @Html.LabelFor(m => m.DetainTransactionId, new { @class = "col-sm-6 control-label" })
+                        <div class="col-sm-6">
+                            @Html.TextBoxFor(m => m.DetainTransactionId, new { @class = "form-control", @readonly = "readonly" })
+
+                        </div>
+                    </div>
+
+                    <div align="center">
+                        <table id="DataTable1" style="width:100%;" class="table table-bordered">
+                            <thead>
+
+                            </thead>
+                            <tbody></tbody>
+                            <tfoot></tfoot>
+                        </table>
+
+                    </div>
+
+                    <div align="center">
+
+                        <table id="DataTable" style="width:100%;" class="table table-bordered">
+                            <thead>
+
+                            </thead>
+                            <tbody></tbody>
+                            <tfoot></tfoot>
+                        </table>
+
+                    </div>
+
+                    @*<div class="form-group col-sm-12 col-md-12 col-lg-6 text-left ">
+
+                            <span id="TOR" class="col-sm-6 control-label">Type Of Readmission</span>
+                            <div class="col-sm-6">
+                                @Html.DropDownListFor(m => m.TypeOfReAdmission, Model.TypeOfReAdmissions, "SELECT READMISSION TYPE",
+                                                  new { @class = "form-control" })
+
+                            </div>
+                        </div>*@
+
+                    <div class="form-group col-sm-12 col-md-12 col-lg-6 text-left ">
+                        @*@Html.LabelFor(m => m.ReAdmissionBatch, new { @class = "col-sm-6 control-label" })*@
+                        <span id="RAB" class="col-sm-6 control-label">Readmission Batch</span>
+                        <div class="col-sm-6">
+                            @Html.DropDownListFor(m => m.ReAdmissionBatch, Model.ReAdmissionBatchs, "SELECT READMISSION BATCH",
+                          new { @class = "form-control" })
+
+                        </div>
+                    </div>
+
+                    <div class="form-group col-sm-12 col-md-12 col-lg-6 text-left ">
+                        @*@Html.LabelFor(m => m.ReAdmissionYear, new { @class = "col-sm-6 control-label" })*@
+                        <span id="RY" class="col-sm-6 control-label">Readmission Year</span>
+                        <div class="col-sm-6">
+                            @Html.DropDownListFor(m => m.ReAdmissionYear, Model.ReAdmissionYears, "SELECT READMISSION YEAR",
+                          new { @class = "form-control" })
+
+                        </div>
+                    </div>
+                    <div class="form-group col-sm-12 col-md-12 col-lg-6 text-left ">
+                        @*@Html.LabelFor(m => m.Reason, new { @class = "col-sm-6 control-label" })*@
+                        <span id="RS" class="col-sm-6 control-label">Reason</span>
+                        <div class="col-sm-6">
+                            @Html.DropDownListFor(m => m.Reason, Model.Reasons, "SELECT REASON",
+                          new { @class = "form-control" })
+
+                        </div>
+                    </div>
+
+
+                    <div class="form-group col-sm-12 col-md-12 col-lg-6 text-left">
+                        @*@Html.LabelFor(model => model.ReAdmissionDate, htmlAttributes: new { @class = "col-sm-6 control-label" })*@
+                        <span id="RAD" class="col-sm-6 control-label">Readmission Date</span>
+                        <div class="col-sm-6">
+                            @Html.TextBoxFor(m => m.ReAdmissionDate, "{0:yyyy-MM-dd}", new { @class = "form-control date", @type = "date", @min = @DateTime.Now.AddYears(-50).ToString("yyyy-MM-dd"), @max = @DateTime.Now.ToString("yyyy-MM-dd") })
+
+                        </div>
+                    </div>
+
+                    <div class="wizard col-sm-12">
+                        <div class="pull-right" style="padding: 5px;">
+                            <button type="submit" id="SaveAll" onclick="return confirm('Are you sure?')" class="btn btn-success btn-default">Submit</button>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="clearfix"></div>
+
+        </div>
+
+        @*<div id="MyWizard" class="wizard" style=" text-align :right ">
+
+                <button type="submit" id="SaveAll" value="Save" class="btn-default round" onclick="return confirm('Are you sure?')">ReAdmit</button>
+            </div>*@
+    </section>
+</section>

@@ -1,0 +1,324 @@
+﻿@model  MYFEEWEB.Models.AcademicModel
+@using System.Web.Helpers;
+
+@{
+    ViewBag.Title = "Student Academic Details";
+    Layout = "~/Views/Shared/_StudentRegistration.cshtml";
+}
+
+
+
+
+
+<section id="" class="animated fadeInUp">
+    <section class="fuelux" style="border: 14px solid #57bee0; margin: 50px 50px;">
+
+
+
+
+        <div class="container py-4">
+            <br />
+            <h5>Student Academic Details</h5>
+            <br />
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+
+                    <input type="text" value="@Session["RollNo"].ToString()" id="RollNo" class="form-control" readonly="readonly" />
+
+                </div>
+
+                <div class="clearfix"></div>
+                <br />
+                <br />
+
+
+
+                <table id="tblacdemics" class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th style="width:200px">Qulification</th>
+                            <th style="width:200px">HallTicket</th>
+                            <th style="width: 200px">Department / Group</th>
+                            <th style="width:150px">Passed Out</th>
+                            <th style="width:150px">Max_Marks / GPA Score</th>
+                            <th style="width:150px">Secured_Marks /GPA Score</th>
+                            <th style="width:200px">Division</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.Academics != null)
+                        {
+                            foreach (var item in Model.Academics)
+                            {
+                                <tr>
+                                    <td>@item.Qualification   </td>
+                                    <td>@item.HallTicket  </td>
+                                    <td>@item.Department </td>
+                                    <td>@item.PassedOut  </td>
+                                    <td>@item.Max_Marks </td>
+                                    <td>@item.Secured_Marks  </td>
+                                    <td>@item.Division   </td>
+                                    <td><input type="button" value="Remove" class="btn btn-danger" onclick="Remove(this)" /></td>
+                                </tr>
+                            }
+                        }
+
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td>
+                                <select id="Qualification" class="form-control">
+                                    SELECT
+                                    <option value="SELECT">SELECT</option>
+                                    <option value="SSC">SSC</option>
+                                    <option value="Inter">Inter</option>
+                                    <option value="Dilploma">Dilploma</option>
+                                    <option value="Dilploma">ICSE</option>
+                                    <option value="Dilploma">CBSE</option>
+                                    <option value="Dilploma">NIT</option>
+                                    <option value="Dilploma">B.E</option>
+
+                                </select>
+                            </td>
+                            <td><input type="text" id="txtHT" class="form-control" /></td>
+                            <td><input type="text" id="txtDepartment" class="form-control" /></td>
+                            <td><input type="date" id="Passedout" class="form-control" /></td>
+                            <td><input type="text" id="txtMax_Marks" class="form-control" /></td>
+                            <td><input type="text" id="txtSecured_Marks" class="form-control" /></td>
+                            <td><input type="text" id="txtDivision" class="form-control ucase" /></td>
+                            <td><input type="button" id="btnAdd" value="Add" class="btn btn-info" /></td>
+                            <td><input type="button" id="btnAcademic" value="Save All" class="btn btn-info" /></td>
+                        </tr>
+                    </tfoot>
+                </table>
+                <br />
+
+
+
+                <script>
+                    $(document).ready(function () {
+                        $("#btnAcademic").hide();
+                    });
+
+
+                    $(function () {
+                        $("#txtSecured_Marks").blur(function () {
+
+                            var Max_Marks = parseInt($("#txtMax_Marks").val());
+                            var Secured_Marks = parseInt($("#txtSecured_Marks").val());
+                            // debugger;
+                            if (Secured_Marks > Max_Marks) {
+
+                                alert("Secured Marks Must be Less than or equal to Max Marks !")
+                                $("#txtSecured_Marks").val("");
+                                $("#txtSecured_Marks").focus();
+                                //return;
+
+                            }
+                        });
+                    })
+                </script>
+
+                <script type="text/javascript">
+
+
+
+
+                    $(document).on("click", "#btnAcademic", function () {
+                        var rowCount = $('#tblacdemics >tbody >tr').length;
+                        if (rowCount == 0) {
+                            alert("Please add Records for Insert !")
+                            return;
+                        }
+
+                        var academics = new Array();
+                        $("#tblacdemics TBODY TR").each(function () {
+                            var row = $(this);
+                            var Academic = {};
+
+                            Academic.Qualification = row.find("TD").eq(0).html();
+                            Academic.HallTicket = row.find("TD").eq(1).html();
+                            Academic.Department = row.find("TD").eq(2).html();
+                            Academic.PassedOut = row.find("TD").eq(3).html();
+                            Academic.Max_Marks = row.find("TD").eq(4).html();
+                            Academic.Secured_Marks = row.find("TD").eq(5).html();
+                            Academic.Division = row.find("TD").eq(6).html();
+
+
+                            academics.push(Academic);
+
+
+                            // alert(academics);
+                        });
+                        academics = JSON.stringify({ 'academics': academics });
+
+                        //Send the JSON array to Controller using AJAX.
+                        $.ajax({
+                            type: "POST",
+                            contentType: "application/json; charset=utf-8",
+                            //url: "/Enrollment/InsertAcademics",
+                            url: '@Url.Action("InsertAcademics", "Enrollment")',
+                            data: academics,
+                            dataType: "json",
+                            success: function (r) {
+                                alert(r + " record(s) inserted.");
+
+                                //redirect another page
+                                var bResponse = confirm('Are you sure you want to go to Next ?');
+
+                                if (bResponse === true) {
+                                    ////console.log("lnkLogout_Confirm clciked.");
+                                    var url = '@Url.Action("PhotoUpload", "Enrollment")';
+                                    window.location.href = url;
+                                }
+                                return bResponse;
+                                //End redirect
+                            }
+                        });
+                    });
+
+
+
+
+                    $(document).on("click", "#btnAdd", function () {
+                        var HT = $("#txtHT");
+                        var Dept = $("#txtDepartment");
+                        var Passout = $("#Passedout");
+                        var Max_Marks = $("#txtMax_Marks");
+                        var Secured_Marks = $("#txtSecured_Marks");
+                        var Division = $("#txtDivision");
+                        var Qualification = $("#Qualification");
+
+                        if (Qualification.val() == "SELECT") {
+
+                            alert("Please Enter Qualification !")
+                            return;
+                        }
+                        else if (HT.val() == "") {
+                            alert("Please Enter Hall ticket Number !")
+                            return;
+                        }
+                        else if (Dept.val() == "") {
+
+                            alert("Please Enter Department !")
+                            return;
+                        }
+                        else if (!Date.parse(Passout.val())) {
+
+                            alert("Please Enter Valid Passed Out Date !")
+                            return;
+                        }
+                        else if (Max_Marks.val() == "") {
+
+                            alert("Please Enter Max Marks !")
+                            return;
+                        }
+
+                        else if (Secured_Marks.val() == "") {
+
+                            alert("Please Enter Secured Marks !")
+                            return;
+                        }
+                        else if (Division.val() == "") {
+
+                            alert("Please Enter Division !")
+                            return;
+                        }
+
+
+
+
+
+
+                        //Get the reference of the Table's TBODY element.
+                        var tBody = $("#tblacdemics > TBODY")[0];
+
+                        //Add Row.
+                        var row = tBody.insertRow(-1);
+
+                        //Add Hallticket cell.
+                        var cell = $(row.insertCell(-1));
+                        cell.html(Qualification.val());
+
+
+                        //Add Department cell.
+                        cell = $(row.insertCell(-1));
+                        cell.html(HT.val());
+
+
+                        //Add Passedout cell.
+                        cell = $(row.insertCell(-1));
+                        cell.html(Dept.val());
+
+
+
+                        //Add MaxMarks cell.
+                        cell = $(row.insertCell(-1));
+                        cell.html(Passout.val());
+
+
+                        //Add Secured_Marks cell.
+                        cell = $(row.insertCell(-1));
+                        cell.html(Max_Marks.val());
+
+
+                        //Add Division cell.
+                        cell = $(row.insertCell(-1));
+                        cell.html(Secured_Marks.val());
+
+                        //Add Division cell.
+                        cell = $(row.insertCell(-1));
+                        cell.html(Division.val());
+
+
+
+
+
+                        //Add Button cell.
+                        cell = $(row.insertCell(-1));
+                        var btnRemove = $("<input />");
+                        btnRemove.attr("type", "button");
+                        btnRemove.attr("class", "btn btn-danger");
+                        btnRemove.attr("onclick", "Remove(this);");
+                        btnRemove.val("Remove");
+                        cell.append(btnRemove);
+
+                        //Clear the TextBoxes.
+                        $("#txtHT").val("");
+                        $("#txtDepartment").val("");
+                        $("#Passedout").val("");
+                        $("#txtMax_Marks").val("");
+                        $("#txtSecured_Marks").val("");
+                        $("#txtDivision").val("")
+                        $("#Qualification").val("SELECT")
+                        $("#btnAcademic").show();
+                    });
+
+                    function Remove(button) {
+                        //Determine the reference of the Row using the Button.
+                        var row = $(button).closest("TR");
+                        var name = $("TD", row).eq(0).html();
+                        if (confirm("Do you want to Remove: " + name)) {
+                            //Get the reference of the Table.
+                            var table = $("#tblacdemics")[0];
+
+                            //Delete the Table row using it's Index.
+                            table.deleteRow(row[0].rowIndex);
+                            var rowCount = $('#tblacdemics >tbody >tr').length;
+                            if (rowCount == 0) {
+                                $("#btnAcademic").hide();
+                            }
+                        }
+                    };
+
+                </script>
+
+
+            </div>
+        </div>
+
+
+
+    </section>
+</section>
+

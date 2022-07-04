@@ -1,0 +1,179 @@
+﻿@model MYFEELIB.Entities.Navigation
+
+@{
+    ViewBag.Title = "Student Other Fee";
+    Layout = "~/Views/Shared/_StudentRegistration.cshtml";
+
+}
+<script>
+
+    $(document).ready(function () {
+        $("#checkBoxAll").click(function () {
+            //Determine the reference CheckBox in Header row.
+            var chkAll = this;
+
+            //Fetch all row CheckBoxes in the Table.
+            var chkRows = $("#DataTable").find(".chkres");
+
+            //Execute loop over the CheckBoxes and check and uncheck based on
+            //checked status of Header row CheckBox.
+            chkRows.each(function () {
+                $(this)[0].checked = chkAll.checked;
+            });
+
+
+            var sum = 0;
+            if (chkAll.checked) {
+                $('tr').find('.combat').each(function () {
+                    var combat = $(this).text();
+                    if (!isNaN(combat) && combat.length !== 0) {
+                        sum += parseFloat(combat);
+                    }
+                });
+
+            }
+
+
+            $('#TotSum').val(sum);
+
+
+
+        });
+
+
+        $(".chkres").click(function () {
+            //Determine the reference CheckBox in Header row.
+            var chkAll = $("#checkBoxAll");
+
+            //By default set to Checked.
+            chkAll.attr("checked", "checked");
+
+            //Fetch all row CheckBoxes in the Table.
+            var chkRows = $("#DataTable").find(".chkres");
+
+            //Execute loop over the CheckBoxes and if even one CheckBox
+            //is unchecked then Uncheck the Header CheckBox.
+            chkRows.each(function () {
+                if (!$(this).is(":checked")) {
+                    chkAll.removeAttr("checked", "checked");
+                    return;
+                }
+            });
+
+
+
+            var sum = 0;
+            $('tr').find('.chkres').each(function () {
+
+                if ($(this).is(":checked")) {
+                    var combat = $(this).closest("tr").find('td:eq(2)').text();
+
+                    if (!isNaN(combat) && combat.length !== 0) {
+                        sum += parseFloat(combat);
+                    }
+
+                }
+
+            });
+
+
+            $('#TotSum').val(sum);
+
+
+
+
+        });
+
+
+
+
+    });
+
+
+
+</script>
+
+
+
+
+
+    <section id="" class="animated fadeInUp">
+        <section class="fuelux" style="border: 14px solid #57bee0; margin: 50px 50px;">
+
+
+
+
+            <div class="container py-4">
+                <br />
+                <h5>Student Other Fee</h5>
+                <br />
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+
+                        <input type="text" value="@Session["RollNo"].ToString()" id="RollNo" class="form-control" readonly="readonly" />
+
+                    </div>
+
+                    <div class="clearfix"></div>
+                    <br />
+                    <br />
+                    <div class="card-body">
+                        @using (Html.BeginForm("SaveOtherFee", "Enrollment", FormMethod.Post))
+                        {
+                            <input type="hidden" value="@Session["RollNo"].ToString()" id="RollNo" name="RollNo" />
+                            <input type="hidden" value="@Session["StudentId"].ToString()" id="StudentId" name="StudentId" />
+                            <input type="hidden" value="@Session["YearId"]" id="YearId" name="YearId" />
+
+                            @*<input type="hidden" value="@Model.RollNo" id="RollNo" name="RollNo" />
+                                <input type="hidden" value="@Model.StudentId" id="StudentId" name="StudentId" />
+                                <input type="hidden" value="@Model.YearId" id="YearId" name="YearId" />*@
+
+                            <table id="DataTable" style="width:100%;" class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th><input type="checkbox" id="checkBoxAll" class="custom-checkbox" />Select All</th>
+                                        <th>Fee Name</th>
+                                        <th>Amount</th>
+
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var OF in ViewBag.ListOtherFee)
+                                    {
+                                        <tr>
+                                            <td><input type="checkbox" name="FeeId" value="@OF.FeeId" class="chkres" /></td>
+                                            <td>@OF.FeeName</td>
+                                            <td class="combat" style="text-align :center ">@OF.Amount</td>
+
+                                        </tr>
+                                    }
+                                    <tr>
+                                        <td></td>
+                                        <td>Total</td>
+                                        <td>
+                                            <input type="text" id="TotSum" name="TotSum" style="text-align :center " class="form-control" />
+                                        </td>
+
+                                    </tr>
+
+                                </tbody>
+                            </table>
+
+                            <div id="MyWizard" class="wizard" style=" text-align :right ">
+
+                                <button type="submit" value="Save" class="btn-default round" onclick="return confirm('Are you sure?')">Next</button>
+                            </div>
+
+                            <br />
+
+                        }
+                    </div>
+                </div>
+            </div>
+
+
+
+        </section>
+    </section>
+   

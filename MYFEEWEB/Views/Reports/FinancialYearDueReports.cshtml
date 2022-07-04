@@ -1,0 +1,108 @@
+﻿@model MYFEELIB.Entities.RequireElements
+@{
+    ViewData["Title"] = "Student Report";
+}
+
+
+<script type="text/jscript">
+
+    $(document).ready(function () {
+    });
+
+    $(document).on("click", "#BtnGenerate", function () {
+
+        if ($("#YearCode :selected").val() == "") {
+            alert("Please Select Program !");
+            return;
+        }
+        var radReport = $('input[name="groupReporttype"]:checked').val();
+        var prm = radReport + '/' + $("#YearCode :selected").val() + '/' + $("#Program :selected").val() + '/' + $("#ReportType :selected").val() + '/' + $("#Status :selected").val()
+        $("#ReportModal").modal('show');
+        var route = '@Url.Action("GenerateFinancialYearDueReports", "Reports")?Param=' + prm
+        $('#Report_Form').load(route);
+
+    });
+
+    var Clear = function () {
+
+        $("#Program").val("");
+        $("#YearCode").val("");
+        $("#ReportType").val("");
+        $("#Status").val("");
+
+    }
+</script>
+
+<section id="" class="animated fadeInUp">
+    <section class="fuelux" style="border: 0px solid #57bee0; margin: 50px 50px;">
+        <div class="step-content" style="margin-bottom: 0px; background: #fff; text-align: center; border-top: 1px solid #D4D4D4;">
+            <div class="step-pane active" id="step1">
+
+                <div class="col-md-offset-0  preauth_font">
+                    <div class="clear" style="clear: both;"></div>
+
+                    <div class="form-group col-sm-12 col-md-6 col-lg-3 text-left ">
+                        <label class="control-label" for="Select Type">Select Type Of Report</label>
+                        <div id="groupReporttype">
+                            <input type="radio" value="FY" checked="checked" name="groupReporttype">Financial Year<br>
+                            <input type="radio" value="FYQW" name="groupReporttype">Financial Year Quota Wise<br>
+                         
+                        </div>
+                    </div>
+
+
+
+
+                    <div class="form-group col-sm-12 col-md-6 col-lg-3 text-left ">
+                        @Html.LabelFor(m => m.YearCode, new { @class = "control-label" })
+                        <div>
+                            @Html.DropDownListFor(m => m.YearCode, Model.YearCodes, "SELECT FINANCIAL YEAR",
+                                              new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.YearCode, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group col-sm-12 col-md-6 col-lg-3 text-left ">
+                        @Html.LabelFor(m => m.Program, new { @class = "control-label" })
+                        <div>
+                            @Html.DropDownListFor(m => m.Program, Model.Programs, "SELECT PROGRAM",
+                                              new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.Program, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+
+                    <div class="form-group col-sm-12 col-md-6 col-lg-3 text-left ">
+                        @Html.LabelFor(m => m.ReportType, new { @class = "control-label" })
+                        <div>
+                            @Html.DropDownListFor(m => m.ReportType, Model.ReportTypes, "SELECT FEE TYPE",
+                                              new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.Status, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+
+                    <div class="form-group col-sm-12 col-md-6 col-lg-3 text-left ">
+                        @Html.LabelFor(m => m.Status, new { @class = "control-label" })
+                        <div>
+                            @Html.DropDownListFor(m => m.Status, Model.Statuses, "SELECT YEAR STATUS",
+                                              new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.Status, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+
+                    <div class="wizard col-sm-12">
+                        <div class="pull-right" style="padding: 5px;">
+                            <button id="btnClear" onclick="Clear()" class="btn btn-default">Clear</button>
+                            <button type="submit" id="BtnGenerate" class="btn btn-success btn-default">Generate Report</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+
+        </div>
+    </section>
+
+</section>

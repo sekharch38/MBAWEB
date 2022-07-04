@@ -1,0 +1,388 @@
+﻿@{
+    ViewData["Title"] = "Dash Board";
+}
+@*<style>
+        table {
+            max-width: 980px;
+            table-layout: fixed;
+            margin: auto;
+        }
+
+        th, td {
+            padding: 2px 4px;
+            border: 1px solid #ddd;
+        }
+
+        thead, tfoot {
+            background: #58bee0;
+            color: #eaebec;
+            display: table;
+            width: 100%;
+            width: calc(100% - 17px);
+        }
+
+        tbody {
+            min-height: 0px;
+            max-height: 200px;
+            overflow: auto;
+            overflow-x: hidden;
+            display: block;
+            width: 100%;
+        }
+
+            tbody tr {
+                display: table;
+                width: 100%;
+                table-layout: fixed;
+            }
+
+        table, td, tr {
+            min-height: 0px;
+            max-height: 200px;
+        }
+    </style>*@
+
+<script type="text/jscript">
+
+    $(document).ready(function () {
+        $("#div_hide_Team").hide();
+        var id = "@Session["type"]";
+        if (id != "") {
+            $("#div_hide_Team").show();
+            $("#loaderDiv").show();
+            $.ajax({
+                type: "GET",
+                contentType: "application/json; charset=utf-8",
+                url: '@Url.Action("FillStudents", "Admin")',
+                data: { "RId": id },
+                dataType: "json",
+                beforeSend: function () {
+
+                },
+                success: function (data) {
+
+                    $.each(data, function (i, Student) {
+
+                        if (Student.Year == "1st Year") {
+
+                            $("#Lbl1").text(Student.NOS);
+
+                        }
+                        if (Student.Year == "2nd Year") {
+
+                            $("#Lbl2").text(Student.NOS);
+
+                        }
+                        if (Student.Year == "3rd Year") {
+
+                            $("#Lbl3").text(Student.NOS);
+
+                        }
+                        if (Student.Year == "Final Year") {
+
+                            $("#Lbl4").text(Student.NOS);
+
+                        }
+
+                    });
+                },
+                error: function (result) {
+                    //alert('Service call failed: ' + result.status + ' Type :' + result.statusText);
+                }
+            });
+
+
+            //Program Student Details
+            $("#DataTable tr").remove();
+            $.ajax({
+                type: "GET",
+                contentType: "application/json; charset=utf-8",
+                url: '@Url.Action("FillProgramStudents", "Admin")',
+                data: { "RId": id },
+                dataType: "json",
+                beforeSend: function () {
+
+                },
+                success: function (data) {
+                    var sum = 0;
+                    var markup = "<tr><th width='20%'>SNo</th><th width='20%'>Program</th><th width='20%'>Year</th><th width='20%'>Gender</th><th width='20%'>Number Of Students</th></tr>";
+                    $("#DataTable > thead").append(markup);
+
+                    $.each(data, function (i, Rec) {
+                        sum += parseFloat(Rec.NOS);
+                        var markup = "<tr><td width='20%'>" + (i + 1) + "</td><td width='20%'>" + Rec.ProgramName + "</td><td width='20%'>" + Rec.Year + "</td><td width='20%'>" + Rec.Gender + "</td><td width='20%' align='right'>" + Rec.NOS + "</td></tr>";
+                        $("#DataTable > tbody").append(markup);
+
+                    });
+
+                    var markup = "<tr><td></td><td></td><td></td><td>Total Active Students </td><td align='right'>" + sum + "</td></tr>";
+                    $("#DataTable > tfoot").append(markup);
+
+                },
+                error: function (result) {
+                    //alert('Service call failed: ' + result.status + ' Type :' + result.statusText);
+                }
+            });
+            //End Program Students
+
+
+            //User Details
+            $("#DataUsers tr").remove();
+            $.ajax({
+                type: "GET",
+                contentType: "application/json; charset=utf-8",
+                url: '@Url.Action("FillUsers", "Admin")',
+                data: { "RId": id },
+                dataType: "json",
+                beforeSend: function () {
+
+                },
+                success: function (data) {
+                    var sum = 0;
+                    var markup = "<tr><th width='20%'>SNo</th><th width='20%'>UserId</th><th width='20%'>Name</th><th width='20%'>Access</th></tr>";
+                    $("#DataUsers > thead").append(markup);
+
+                    $.each(data, function (i, Rec) {
+                        sum += parseFloat(Rec.NOS);
+                        if (Rec.Form_Access == "Yes") {
+                            var markup = "<tr><td width='20%'>" + (i + 1) + "</td><td width='20%'>" + Rec.Username + "</td><td width='20%'>" + Rec.Name + "</td><td width='20%'><input type='checkbox' id='" + Rec.Username + "' value='" + Rec.Username + "' class='chkres' name='" + Rec.Username + "' checked></td></tr>";
+                        }
+                        else {
+                            var markup = "<tr><td width='20%'>" + (i + 1) + "</td><td width='20%'>" + Rec.Username + "</td><td width='20%'>" + Rec.Name + "</td><td width='20%'><input type='checkbox' id='" + Rec.Username + "' value='" + Rec.Username + "' class='chkres' name='" + Rec.Username + "'></td></tr>";
+                        }
+                        $("#DataUsers > tbody").append(markup);
+
+                    });
+
+
+
+                },
+                error: function (result) {
+                    //alert('Service call failed: ' + result.status + ' Type :' + result.statusText);
+                }
+            });
+            //End User Details
+
+
+
+            $("#loaderDiv").hide();
+        }
+
+
+
+
+        @*$("#btnsearch").click(function () {
+
+            $("#SearchModal").modal('show');
+            var RN = $("#txtsearch").val();
+
+            if (RN == "") {
+                alert("Please Enter Roll No !");
+                return;
+            }
+
+            var route = '@Url.Action("StudentSearch", "Admin")?RollNo=' + $("#txtsearch").val()
+
+            $('#Search_Form').load(route);
+        });
+
+        $("#btnSearchHideModal").click(function () {
+            $("#SearchModal").modal('hide');
+        });*@
+
+
+
+
+    });
+
+    $(document).on("click", ".chkres", function () {
+        var id = $(this).attr('id');
+        var Access = new Array();
+        if (!$(this).is(":checked")) {
+
+            var req = {};
+
+            req.Username = id;
+            req.Form_Access = "No";
+            Access.push(req);
+            Access = JSON.stringify({ 'Access': Access });
+
+
+            $.ajax({
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                url: '@Url.Action("AccessUpdate", "Admin")',
+                data: Access,
+                dataType: "json",
+                success: function (r) {
+
+                    if (r == 0) {
+
+                        alert(id + " record(s) Not Updated.");
+
+                    }
+                    else {
+                        alert(id + " record(s) Updated.");
+
+                    }
+                }
+            });
+        }
+        else {
+            var req = {};
+            req.Username = id;
+            req.Form_Access = "Yes";
+            Access.push(req);
+            Access = JSON.stringify({ 'Access': Access });
+            $.ajax({
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                url: '@Url.Action("AccessUpdate", "Admin")',
+                data: Access,
+                dataType: "json",
+                success: function (r) {
+
+                    if (r == 0) {
+
+                        alert(id + " record(s) Not Updated.");
+
+                    }
+                    else {
+                        alert(id + " record(s) Updated.");
+
+                    }
+
+
+                }
+            });
+        }
+
+
+    });
+
+
+
+
+
+
+
+
+</script>
+<section id="main-content" class="animated fadeInUp">
+    <div class="row">
+        <div class="col-md-12 col-lg-12">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="panel panel-solid-success widget-mini">
+                        <div class="panel-body">
+                            <i class="icon-bar-chart"></i>
+                            <span class="total text-center" id="Lbl1">0</span>
+                            <span class="title text-center">First Year</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="panel widget-mini" style="background-color: #1e9e9a; color: #fff;">
+                        <div class="panel-body">
+
+                            <i class="icon-support"></i>
+                            <span class="total text-center" id="Lbl2">0</span>
+                            <span class="title text-center">Second Year</span>
+
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="col-md-3">
+                    <div class="panel panel-solid-info widget-mini">
+                        <div class="panel-body">
+                            <i class="icon-user"></i>
+                            <span class="total text-center" id="Lbl3">0</span>
+                            <span class="title text-center">Third Year</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="panel panel-solid-success widget-mini">
+                        <div class="panel-body" style="background: #1768a1;">
+                            <i class="icon-bar-chart"></i>
+                            <span class="total text-center" id="Lbl4">0</span>
+                            <span class="title text-center">Fourth Year</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12 col-lg-12">
+            <div class="row">
+                <div class="col-md-6">
+
+                    <div class="panel-body">
+
+
+                    </div>
+                </div>
+                <div class="col-md-6">
+
+                    <div class="panel-body">
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+            <div class="panel panel-default chat-widget">
+                <div class="panel-heading" style="position: relative;">
+                    <h3 class="panel-title"><i class="glyphicon glyphicon-certificate" style="padding: 8px;"></i>My Students</h3>
+                    <div class="actions pull-right">
+
+                        <i class="fa fa-chevron-down"></i>
+                    </div>
+                </div>
+                <div class="panel-body" style="min-height: 0px; max-height: 30vh; overflow: auto; overflow-x: hidden; display: block;">
+
+                    <table id="DataTable" style="width:100%;" class="table table-bordered">
+                        <thead>
+
+                        </thead>
+                        <tbody></tbody>
+                        <tfoot></tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6" id="div_hide_Team">
+            <div class="panel panel-default chat-widget">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><i class="glyphicon glyphicon-user" style="padding: 8px;"></i>My Team</h3>
+                    <div class="actions pull-right">
+                        <i class="fa fa-chevron-down"></i>
+                    </div>
+                </div>
+                <div class="panel-body" style="min-height: 0px; max-height: 30vh; overflow: auto; overflow-x: hidden; display: block;">
+
+                    <table id="DataUsers" style="width:100%;" class="table table-bordered">
+                        <thead>
+
+                        </thead>
+                        <tbody></tbody>
+                        <tfoot></tfoot>
+                    </table>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</section>

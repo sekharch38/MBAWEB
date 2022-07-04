@@ -1,0 +1,247 @@
+﻿@{
+    ViewData["Title"] = "Custodian Details";
+}
+
+<script type="text/jscript">
+
+
+    $(document).ready(function () {
+        $("#SaveAll").hide();
+        $("#div_Name").hide();
+        $("#div_Year").hide();
+
+
+
+    });
+
+    $(document).on("blur", "#txtRollNo", function () {
+        $("#DataTable tr").remove();
+        var RN = $("#txtRollNo").val();
+        if (RN != "") {
+            $.ajax({
+                type: "GET",
+                contentType: "application/json; charset=utf-8",
+                url: '@Url.Action("verifyRollNo", "Academic")',
+                data: { "RollNo": RN },
+                dataType: "json",
+                beforeSend: function () {
+                    //alert(id);
+                },
+                success: function (data) {
+                    $.each(data, function (i, Rec) {
+                        $('#Name').val(Rec.Name);
+                        $('#Year').val(Rec.Year);
+                    });
+
+                    $("#div_Name").show();
+                    $("#div_Year").show();
+
+
+                    $.ajax({
+                        type: "GET",
+                        contentType: "application/json; charset=utf-8",
+                        url: '@Url.Action("Custodian_Details", "Master")',
+                        data: { "RN": RN },
+                        dataType: "json",
+                        beforeSend: function () {
+                        },
+                        success: function (data) {
+                            //<th width='10%'>cid</th>
+                            //<td width='10%'>" + Rec.CustodianId + "</td>
+                            var markup = "<tr><th width='10%'>S.No</th><th width='10%'>cname</th><th width='8%'><input type='checkbox' id='checkBoxAll' class='custom-checkbox' />Select All</th></tr>";
+                            $("#DataTable").append(markup);
+                            var markupfooter;
+                            var i = 0;
+                            $.each(data, function (i, Rec) {
+                                var markup = "<tr><td width='10%'>" + (i + 1) + "</td><td width='10%' class='hidetext'>" + Rec.CustodianName + "</td><td><input type='checkbox' value='" + Rec.CustodianId + "' class='chkres' name='CustodianId'></td></tr>";
+                                $("#DataTable").append(markup);
+                            });
+
+                        }
+                    });
+
+                },
+                error: function (result) {
+                    $('#txtRollNo').val("");
+                    alert('Invalid RollNo !');
+                    $("#txtRollNo").val("");
+                    $("#txtRollNo").focus();
+                    $("#div_Name").hide();
+                    $("#div_Year").hide();
+
+                }
+            });
+        }
+    });
+
+
+
+
+    $(document).on("click", "#checkBoxAll", function () {
+
+        var chkAll = this;
+        var chkRows = $("#DataTable").find(".chkres");
+        chkRows.each(function () {
+            $(this)[0].checked = chkAll.checked;
+        });
+        if ($(this).is(":checked")) {
+
+            $("#SaveAll").show();
+        }
+        else {
+
+            $("#SaveAll").hide();
+        }
+    });
+
+
+    $(document).on("click", ".chkres", function () {
+        var chkAll = $("#checkBoxAll");
+        chkAll.attr("checked", "checked");
+        var chkRows = $("#DataTable").find(".chkres");
+        chkRows.each(function () {
+            if (!$(this).is(":checked")) {
+                chkAll.removeAttr("checked", "checked");
+                return;
+            }
+        });
+        var select = 0;
+        $('#DataTable tr').find('.chkres').each(function () {
+            if ($(this).is(":checked")) {
+                select += 1;
+            }
+        });
+
+        if (select > 0) {
+
+            $("#SaveAll").show();
+        }
+        else {
+
+            $("#SaveAll").hide();
+        }
+    });
+
+
+    $(document).on("click", "#SaveAll", function () {
+        var RN = $("#txtRollNo").val();
+        if (RN == "") {
+            alert("Please Enter RollNo !");
+            return;
+        }
+        var CheckAll = new Array();
+        $('tr').find('.chkres').each(function () {
+
+            if ($(this).is(":checked")) {
+
+                var req = {};
+
+                req.CustodianId = $(this).closest("tr").find("TD").eq(2).find("input").val();
+
+                req.RollNo = $("#txtRollNo").val();
+
+
+                CheckAll.push(req);
+            }
+
+        });
+        CheckAll = JSON.stringify({ 'CheckAll': CheckAll });
+        $.ajax({
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+
+            url: '@Url.Action("InsertCustodian", "Master")',
+            data: CheckAll,
+            dataType: "json",
+            success: function (r) {
+
+                if (r == 0) {
+
+                    return;
+                }
+                else {
+                    alert(r + " record(s) inserted.");
+                    $("#DataTable tr").remove();
+                    $("#txtRollNo").val("");
+                    $("#div_Name").hide();
+                    $("#div_Year").hide();
+                    $("#SaveAll").hide();
+
+                }
+
+
+            }
+        });
+    });
+</script>
+
+<script language="javascript" type="text/javascript">
+    $(document).ready(function () {
+        try {
+            $("input[type='text']").each(function () {
+                $(this).attr("autocomplete", "off");
+            });
+        }
+        catch (e)
+        { }
+    });
+</script>
+<section id="" class="animated min-height-brow fadeInUp">
+    <section class="fuelux" style="margin: 50px 50px;">
+
+        <div class="step-content" style="margin-bottom: 0px; background: #fff; text-align: center; border-top: 1px solid #D4D4D4;">
+            <div class="step-pane active" id="step1">
+
+                <div class="col-md-offset-1 col-sm-12 col-md-9 col-lg-9 preauth_font  ">
+                    <div class="clear" style="clear: both;"></div>
+
+                    <div class="form-group col-sm-12 col-md-12 col-lg-12 text-left ">
+                        <label class="col-sm-6 control-label">Enter Roll No</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" name="txtRollNo" id="txtRollNo" placeholder="Enter Roll No" />
+                        </div>
+                    </div>
+                    <div id="div_Name" class="form-group col-sm-12 col-md-12 col-lg-12 text-left ">
+                        <label class="col-sm-6 control-label">Name</label>
+                        <div class="col-sm-6">
+                            <input type="text" id="Name" class="form-control" />
+
+                        </div>
+                    </div>
+
+                    <div id="div_Year" class="form-group col-sm-12 col-md-12 col-lg-12 text-left ">
+                        <label class="col-sm-6 control-label">Year</label>
+                        <div class="col-sm-6">
+                            <input type="text" id="Year" class="form-control" onkeypress="return isNumber(event)" />
+                        </div>
+                    </div>
+
+                    <div align="center">
+                        <table id="DataTable" style="width:100%;" class="table table-bordered">
+                            <thead>
+
+                            </thead>
+                            <tbody></tbody>
+                            <tfoot></tfoot>
+                        </table>
+
+                    </div>
+                    <div class="wizard col-sm-12">
+                        <div class="pull-right" style="padding: 5px;">
+                            <button type="submit" id="SaveAll" onclick="return confirm('Are you sure?')" class="btn btn-success btn-default">Submit</button>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <div class="clearfix"></div>
+            </div>
+            <div class="clearfix"></div>
+
+        </div>
+
+
+    </section>
+
+</section>

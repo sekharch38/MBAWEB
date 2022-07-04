@@ -1,0 +1,550 @@
+﻿@model MYFEELIB.Entities.Challan
+@{
+    ViewData["Title"] = "AcademicChallan";
+}
+
+<script>
+    function isNumber(evt) {
+        evt = (evt) ? evt : window.event;
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+            return false;
+        }
+        return true;
+    }
+</script>
+<script type="text/jscript">
+
+    $(document).ready(function () {
+        $("#ChallanNo").hide();
+        $("#PaymentDate").hide();
+        $("#EntryDate").hide();
+        $("#PayMode").hide();
+        $("#Remarks").hide();
+        $("#CN").hide();
+        $("#PD").hide();
+        $("#ED").hide();
+        $("#PM").hide();
+        $("#REM").hide();
+        $("#SaveAll").hide();
+
+        $.ajax({
+            type: "GET",
+            url: '@Url.Action("FillProgram", "Academic")',
+            data: "{}",
+            success: function (data) {
+                var items = "";
+                $.each(data, function (i, program) {
+                    items += "<option value='" + program.Value + "'>" + program.Text + "</option>";
+                });
+
+            }
+        });
+    });
+
+    $(function () {
+
+        $('#Program').change(function () {
+            // debugger;
+            var id = $("#Program :selected").val();
+            if (id != "") {
+                $.ajax({
+                    type: "GET",
+                    contentType: "application/json; charset=utf-8",
+                    url: '@Url.Action("YearList", "Academic")',
+                    data: { "PId": id },
+                    dataType: "json",
+                    beforeSend: function () {
+                        //alert(id);
+                    },
+                    success: function (data) {
+                        var items = "";
+                        $.each(data, function (i, yr) {
+                            items += "<option value='" + yr.Value + "'>" + yr.Text + "</option>";
+                        });
+                        $('#Year').html(items);
+
+                    },
+                    error: function (result) {
+
+                        alert('Service call failed: ' + result.status + ' Type :' + result.statusText);
+                    }
+                });
+            }
+            else {
+                var items = '<option value="">Select</option>';
+                $('#Year').html(items);
+            }
+        });
+
+    });
+
+
+    $(document).on("blur", "#EnterVal", function () {
+
+        // debugger;
+        var sum = 0;
+
+        $("#DataTable TBODY TR").each(function () {
+            var row = $(this);
+
+            var rowDue = row.find("TD").eq(2).find("input").val();
+            var rowfee = row.find("TD").eq(3).find("input").val();
+            if (rowDue >= rowfee) {
+                if (!isNaN(rowfee) && rowfee.length !== 0) {
+                    sum += parseFloat(rowfee);
+
+                }
+            }
+            else {
+                alert("Enter Amount Exceeded by Due amount !");
+                row.find("TD").eq(3).find("input").val("");
+                row.find("TD").eq(3).find("input").focus();
+            }
+        });
+
+        $('#TotSum').val(sum);
+
+
+    });
+
+
+
+
+    $(function () {
+
+        $('#RollNo').blur(function () {
+            //  debugger;
+            $("#DataTable tr").remove();
+
+            if ($("#Program :selected").val() == "") {
+                alert("Please Select Program !");
+                $("#RollNo").val("");
+                return;
+            }
+            if ($("#Year :selected").val() == "") {
+                alert("Please Select Year !");
+                $("#RollNo").val("");
+                return;
+            }
+
+            $("#loaderDiv").show();
+
+            var id = $("#RollNo").val();
+            var Params = new Array();
+            var req = {};
+
+            req.RollNo = $("#RollNo").val();
+            req.Year = $("#Year :selected").val();
+
+            Params.push(req);
+            Params = JSON.stringify({ 'Params': Params });
+
+            if (id != "") {
+                $.ajax({
+                    type: "GET",
+                    contentType: "application/json; charset=utf-8",
+                    url: '@Url.Action("verifyRollNo", "Academic")',
+                    data: { "RollNo": id },
+                    dataType: "json",
+                    beforeSend: function () {
+
+                    },
+                    success: function (data) {
+                        if (id != "") {
+                            // debugger;
+                            $.ajax({
+                                type: "POST",
+                                contentType: "application/json; charset=utf-8",
+                                url: '@Url.Action("StudentChallanDetails", "Academic")',
+                                data: Params,
+                                dataType: "json",
+                                beforeSend: function () {
+                                    //alert(id);
+                                },
+                                success: function (data) {
+
+                                    var markup = "<tr><th width='20%'>SNo</th><th width='40%'>FeeId</th><th width='20%'>Due</th><th width='20%'>Enter Amount</th></tr>";
+                                    $("table thead").append(markup);
+
+                                    $.each(data, function (i, Rec) {
+
+                                        $("#StudentId").val(Rec.StudentId);
+                                        $("#Name").val(Rec.DisplayName);
+
+
+                                        var markup = "<tr><td width='20%'>" + (i + 1) + "</td><td width='40%'>" + Rec.FeeId + "</td><td width='20%'><input type='text' id='DueVal' value='" + Rec.Due + "' name='DueVal' class='form-control' readonly   onkeypress='return isNumber(event)' /></td><td width='20%'><input type='text' id='EnterVal' placeholder ='0'  class='form-control' name='EnterVal'   onkeypress='return isNumber(event)' /></td></tr>";
+                                        $("table tbody").append(markup);
+
+                                    });
+
+                                    var markup = "<tr><td></td><td></td><td>Total Amount</td><td><input type='text' id='TotSum' value='0' name='TotSum' class='form-control' readonly/></td></tr>";
+                                    $("table tfoot").append(markup);
+
+                                    $("#ChallanNo").show();
+                                    $("#PaymentDate").show();
+                                    $("#EntryDate").show();
+                                    $("#PayMode").show();
+                                    $("#Remarks").show();
+                                    $("#CN").show();
+                                    $("#PD").show();
+                                    $("#ED").show();
+                                    $("#PM").show();
+                                    $("#REM").show();
+                                    $("#SaveAll").show();
+                                    $("#loaderDiv").hide();
+
+                                },
+                                error: function (result) {
+                                    alert('No Due For This Student [or] Pednign For Approval please check that!');
+                                    $("#DataTable tr").remove();
+                                    $("#Program").val("");
+                                    $("#Year").val("");
+                                    $("#RollNo").val("");
+                                    $("#ChallanNo").val("");
+                                    $("#PaymentDate").val("");
+                                    $("#EntryDate").val("");
+                                    $("#PayMode").val("");
+                                    $("#Remarks").val("");
+                                    $("#Name").val("");
+                                    $("#SaveAll").hide();
+                                    $("#loaderDiv").hide();
+                                }
+                            });
+                        }
+                        else {
+                            alert("Please Enter Roll No !");
+                            $("#SaveAll").hide();
+                            $("#loaderDiv").hide();
+                            $("#RollNo").val("");
+                            $("#RollNo").focus();
+
+                        }
+                    },
+                    error: function (result) {
+                        alert('Invalid RollNo !');
+                        $("#DataTable tr").remove();
+                        $("#Program").val("");
+                        $("#Year").val("");
+                        $("#RollNo").val("");
+                        $("#ChallanNo").val("");
+                        $("#PaymentDate").val("");
+                        $("#EntryDate").val("");
+                        $("#PayMode").val("");
+                        $("#Remarks").val("");
+                        $("#Name").val("");
+                        $("#SaveAll").hide();
+                        $("#loaderDiv").hide();
+                        $("#Program").focus();
+                        $("#Program").select();
+
+                    }
+                });
+            }
+
+            else {
+                alert("Please Enter Roll No !");
+                $("#SaveAll").hide();
+                $("#loaderDiv").hide();
+            }
+        });
+
+    });
+
+
+
+
+
+
+
+
+
+
+    $(document).on("click", "#SaveAll", function () {
+
+        var Challan_No = $("#ChallanNo");
+        var PaymentDate = $("#PaymentDate");
+        var EntryDate = $("#EntryDate");
+        var PM = $("#PayMode :selected").val();
+        var Totamount = $("#TotSum").val();
+
+        if (Challan_No.val() == "") {
+            alert("Please Enter Challan / DD No !");
+            $("#ChallanNo").focus();
+            return;
+        }
+        else if (!Date.parse(PaymentDate.val())) {
+            alert("Please Enter Valid Payment Date !")
+            return;
+        }
+        else if (!Date.parse(EntryDate.val())) {
+            alert("Please Enter Valid Entry Date !")
+            $("#EntryDate").focus();
+            return;
+        }
+            //else if (PaymentDate.val() == "") {
+            //    alert("Please Enter Payment Date !");
+            //    return;
+            //}
+        else if (PM == "") {
+            alert("Please Select Payment Mode !")
+            $("#PayMode").focus();
+            return;
+        }
+        else if (Totamount == "") {
+            alert("Please Select Students !")
+            return;
+        }
+        else if (Totamount == "0") {
+            alert("Please Enter Amount !")
+            return;
+        }
+
+
+        //else {
+
+        //}
+
+
+        var StudentDue = new Array();
+        $("#DataTable TBODY TR").each(function () {
+
+            var req = {};
+
+            var row = $(this);
+            var EnterAmount = row.find("TD").eq(3).find("input").val();
+            if (!isNaN(EnterAmount) && EnterAmount.length !== 0) {
+
+                var req = {};
+
+
+                req.StudentId = $("#StudentId").val();
+                req.TotalAmout = $("#TotSum").val();
+
+                req.Year = $("#Year :selected").val();
+                req.ChallanNo = $("#ChallanNo").val();
+                req.PaymentDate = $("#PaymentDate").val();
+                req.EntryDate = $("#EntryDate").val();
+                req.Status = "Not Approved";
+                req.PayMode = $("#PayMode :selected").val();
+                req.EnterBy = "@Session["username"]";
+
+
+                req.FeeId = $(this).closest("tr").find('td:eq(1)').text();
+                req.Due = $(this).closest("tr").find("TD").eq(3).find("input").val();
+
+
+                StudentDue.push(req);
+
+            }
+        });
+
+
+
+
+        StudentDue = JSON.stringify({ 'StudentDue': StudentDue });
+
+        //Send the JSON array to Controller using AJAX.
+        $.ajax({
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+
+            url: '@Url.Action("InsertAcademicChallan", "Academic")',
+            data: StudentDue,
+            dataType: "json",
+            success: function (r) {
+
+                if (r == 0) {
+
+                    alert("Challan Details Not inserted.");
+
+                }
+                else {
+                    alert("Challan Details inserted.");
+                    $("#DataTable tr").remove();
+                    $("#Program").val("");
+                    $("#Year").val("");
+                    $("#RollNo").val("");
+                    $("#ChallanNo").val("");
+                    $("#PaymentDate").val("");
+                    $("#EntryDate").val("");
+                    $("#PayMode").val("");
+                    $("#Remarks").val("");
+                    $("#Name").val("");
+                    $("#ChallanNo").hide();
+                    $("#PaymentDate").hide();
+                    $("#EntryDate").hide();
+                    $("#PayMode").hide();
+                    $("#Remarks").hide();
+                    $("#CN").hide();
+                    $("#PD").hide();
+                    $("#ED").hide();
+                    $("#PM").hide();
+                    $("#REM").hide();
+                    $("#SaveAll").hide();
+                }
+
+
+            }
+        });
+    });
+
+
+    $(function () {
+        $("#PaymentDate").blur(function () {
+
+            var dtmin = "@Session["FD"]";
+            var dtmax = "@Session["ED"]";
+            var PaymentDate = $("#PaymentDate").val();
+
+            if (!(dtmin <= PaymentDate && dtmax >= PaymentDate)) {
+                alert("Payment Date should be with in financial Period !");
+                $("#PaymentDate").val("");
+
+            }
+
+
+        });
+    })
+
+
+
+</script>
+
+
+<section id="" class="animated min-height-brow fadeInUp">
+    <section class="fuelux" style="margin: 50px 50px;">
+
+        <div class="step-content" style="margin-bottom: 0px; background: #fff; text-align: center; border-top: 1px solid #D4D4D4;">
+            <div class="step-pane active" id="step1">
+
+                <div class="col-md-offset-1 col-sm-12 col-md-9 col-lg-9 preauth_font  ">
+                    <div class="clear" style="clear: both;"></div>
+
+                    <div class="form-group col-sm-12 col-md-12 col-lg-12 text-left ">
+                        @Html.LabelFor(m => m.Program, new { @class = "col-sm-6 control-label" })
+                        <div class="col-sm-6">
+                            @Html.DropDownListFor(m => m.Program, Model.Programs, "SELECT PROGRAM",
+                                              new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.Program, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group col-sm-12 col-md-12 col-lg-12 text-left ">
+                        @Html.LabelFor(m => m.Year, new { @class = "col-sm-6 control-label" })
+                        <div class="col-sm-6">
+                            @Html.DropDownListFor(m => m.Year, Model.Years, "SELECT YEAR",
+                                              new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.Year, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+
+                    <div class="form-group col-sm-12 col-md-12 col-lg-12 text-left ">
+                        @Html.LabelFor(m => m.RollNo, new { @class = "col-md-6 control-label" })
+                        <div class="col-sm-6">
+                            @Html.TextBoxFor(m => m.RollNo, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.RollNo, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group col-sm-12 col-md-12 col-lg-12 text-left">
+
+                        @Html.LabelFor(m => m.Name, new { @class = "col-sm-6 control-label" })
+                        <div class="col-sm-6">
+                            @Html.TextBoxFor(m => m.Name, new { @class = "form-control", placeholder = "Name", @readonly = "readonly" })
+                            @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div align="center">
+                        <input type='hidden' id='StudentId' name='StudentId' value=''>
+                        <table id="DataTable" style="width:100%;" class="table table-bordered">
+                            <thead>
+
+                            </thead>
+                            <tbody></tbody>
+                            <tfoot></tfoot>
+                        </table>
+
+                    </div>
+                    <div class="form-group col-sm-12 col-md-12 col-lg-12 text-left">
+                        @*@Html.LabelFor(m => m.ChallanNo, new { @class = "col-md-6 control-label" })*@
+                        <span id="CN" class="col-sm-6 control-label">Challan / DD / FT Number</span>
+                        <div class="col-sm-6">
+                            @Html.TextBoxFor(m => m.ChallanNo, new { @class = "form-control", placeholder = "Challan / DD / FT Number" })
+
+                            @Html.ValidationMessageFor(m => m.ChallanNo, "", new { @class = "text-danger" })
+
+                        </div>
+                    </div>
+
+                    <div class="form-group col-sm-12 col-md-12 col-lg-12 text-left ">
+                        @*@Html.LabelFor(m => m.PaymentDate, new { @class = "col-sm-6 control-label" })*@
+                        <span id="PD" class="col-sm-6 control-label">Payment Date</span>
+                        <div class="col-sm-6">
+                            @Html.TextBoxFor(m => m.PaymentDate, "{0:yyyy-MM-dd}", new { @class = "form-control", @type = "date", @min = @Session["FD"], @max = @Session["ED"] })
+                            @Html.ValidationMessageFor(m => m.PaymentDate, "", new { @class = "text-danger" })
+
+                        </div>
+                    </div>
+
+                    <div class="form-group col-sm-12 col-md-12 col-lg-12 text-left ">
+                        @*@Html.LabelFor(m => m.EntryDate, new { @class = "col-sm-6 control-label" })*@
+                        <span id="ED" class="col-sm-6 control-label">Entry Date</span>
+                        <div class="col-sm-6">
+
+                            @Html.TextBoxFor(m => m.EntryDate, "{0:yyyy-MM-dd}", new { @class = "form-control", @type = "date", @min = @DateTime.Now.ToString("yyyy-MM-dd"), @max = @DateTime.Now.ToString("yyyy-MM-dd") })
+                            @Html.ValidationMessageFor(model => model.EntryDate, "", new { @class = "text-danger" })
+
+                        </div>
+                    </div>
+
+
+
+                    <div class="form-group col-sm-12 col-md-12 col-lg-12 text-left ">
+                        @*@Html.LabelFor(m => m.PayMode, new { @class = "col-sm-6 control-label" })*@
+                        <span id="PM" class="col-sm-6 control-label">Payment Mode</span>
+                        <div class="col-sm-6">
+                            @Html.DropDownListFor(m => m.PayMode, Model.PayModes, "SELECT PAYMENT MODE",
+                                              new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.PayMode, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+
+
+                    <div class="form-group col-sm-12 col-md-12 col-lg-12 text-left">
+                        @*@Html.LabelFor(m => m.Remarks, new { @class = "col-sm-6 control-label" })*@
+                        <span id="REM" class="col-sm-6 control-label">Remarks</span>
+                        <div class="col-sm-6">
+                            @Html.TextBoxFor(m => m.Remarks, new { @class = "form-control", placeholder = "Remarks" })
+                            @Html.ValidationMessageFor(m => m.Remarks, "", new { @class = "text-danger" })
+
+                        </div>
+                    </div>
+
+                    <div class="wizard col-sm-12">
+                        <div class="pull-right" style="padding: 5px;">
+                            <button type="submit" id="SaveAll" onclick="return confirm('Are you sure?')" class="btn btn-success btn-default">Submit</button>
+                        </div>
+                    </div>
+
+                </div>
+
+
+
+                <div class="clearfix"></div>
+            </div>
+            <div class="clearfix"></div>
+
+        </div>
+
+
+    </section>
+
+</section>
+
+
+
+

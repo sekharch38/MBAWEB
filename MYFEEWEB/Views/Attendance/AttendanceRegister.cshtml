@@ -1,0 +1,239 @@
+﻿@model MYFEELIB.Entities.RequireElements
+@{
+    ViewData["Title"] = "Attendance Register";
+}
+
+
+<script type="text/jscript">
+
+
+    $(document).ready(function () {
+
+    });
+    $(function () {
+
+        $('#Program').change(function () {
+            //  debugger;
+            var id = $("#Program :selected").val();
+            if (id != "") {
+                $.ajax({
+                    type: "GET",
+                    contentType: "application/json; charset=utf-8",
+                    url: '@Url.Action("FillCourse", "Enrollment")',
+                    data: { "PId": id },
+                    dataType: "json",
+                    beforeSend: function () {
+                        //alert(id);
+                    },
+                    success: function (data) {
+                        var items = "";
+                        $.each(data, function (i, Course) {
+                            items += "<option value='" + Course.Value + "'>" + Course.Text + "</option>";
+                        });
+                        $('#Course').html(items);
+
+                    },
+                    error: function (result) {
+
+                        alert('Service call failed: ' + result.status + ' Type :' + result.statusText);
+                    }
+                });
+            }
+            else {
+                var items = '<option value="">Select</option>';
+                $('#Course').html(items);
+            }
+        });
+
+    });
+
+
+    $(function () {
+
+        $('#Course').change(function () {
+            //  debugger;
+            var id = $("#Course :selected").val();
+            if (id != "") {
+                $.ajax({
+                    type: "GET",
+                    contentType: "application/json; charset=utf-8",
+                    url: '@Url.Action("FillSection", "Enrollment")',
+                    data: { "CId": id },
+                    dataType: "json",
+                    beforeSend: function () {
+                        //alert(id);
+                    },
+                    success: function (data) {
+                        var items = "";
+                        $.each(data, function (i, Section) {
+                            items += "<option value='" + Section.Value + "'>" + Section.Text + "</option>";
+                        });
+                        $('#Section').html(items);
+
+                    },
+                    error: function (result) {
+
+                        alert('Service call failed: ' + result.status + ' Type :' + result.statusText);
+                    }
+                });
+            }
+            else {
+                var items = '<option value="">Select</option>';
+                $('#Section').html(items);
+            }
+        });
+
+    });
+
+
+    $(function () {
+
+        $('#Section').change(function () {
+            //  debugger;
+            var id = $("#Program :selected").val();
+            if (id != "") {
+                $.ajax({
+                    type: "GET",
+                    contentType: "application/json; charset=utf-8",
+                   url: '@Url.Action("YearList", "Attendance")',
+                    data: { "Program": id },
+                    dataType: "json",
+                    beforeSend: function () {
+                        //alert(id);
+                    },
+                    success: function (data) {
+                        var items = "";
+                        $.each(data, function (i, Qota) {
+                            items += "<option value='" + Qota.Value + "'>" + Qota.Text + "</option>";
+                        });
+                        $('#Year').html(items);
+
+                    },
+                    error: function (result) {
+
+                        alert('Service call failed: ' + result.status + ' Type :' + result.statusText);
+                    }
+                });
+            }
+            else {
+                var items = '<option value="">Select</option>';
+                $('#Year').html(items);
+            }
+        });
+
+    });
+
+
+   
+
+
+
+</script>
+
+<script language="javascript" type="text/javascript">
+    $(document).ready(function () {
+        try {
+            $("input[type='text']").each(function () {
+                $(this).attr("autocomplete", "off");
+            });
+        }
+        catch (e)
+        { }
+    });
+</script>
+<section id="" class="animated fadeInUp">
+    <section class="fuelux" style="border: 0px solid #57bee0; margin: 50px 50px;">
+
+
+
+        <div class="step-content" style="margin-bottom: 0px; background: #fff; text-align: center; border-top: 1px solid #D4D4D4;">
+            <div class="step-pane active" id="step1">
+
+                <div class="col-md-offset-0  preauth_font">
+                    <div class="clear" style="clear: both;"></div>
+                    <div class="form-group col-sm-12 col-md-6 col-lg-3 text-left ">
+                        @Html.LabelFor(m => m.Program, new { @class = "control-label" })
+                        <div>
+                            @Html.DropDownListFor(m => m.Program, Model.Programs, "SELECT PROGRAM",
+                                              new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.Program, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+
+                    <div class="form-group col-sm-12 col-md-6 col-lg-3 text-left ">
+                        @Html.LabelFor(m => m.Course, new { @class = "control-label" })
+                        <div>
+                            @Html.DropDownListFor(m => m.Course, Model.Courses, "SELECT COURSE",
+                                              new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.Course, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group col-sm-12 col-md-6 col-lg-4 text-left ">
+                        @Html.LabelFor(m => m.Section, new { @class = "col-sm-12 control-label" })
+                        <div class="col-sm-12">
+                            @Html.DropDownListFor(m => m.Section, Model.Sections, "SELECT SECTION",
+                                              new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.Section, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                  
+
+                    <div class="form-group col-sm-12 col-md-6 col-lg-3 text-left ">
+                        @Html.LabelFor(m => m.Year, new { @class = "control-label" })
+                        <div>
+                            @Html.DropDownListFor(m => m.Year, Model.Years, "SELECT YEAR",
+                                              new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.Year, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group col-sm-12 col-md-6 col-lg-3 text-left ">
+                        @Html.LabelFor(m => m.Semester , new { @class = "control-label" })
+                        <div>
+                            @Html.DropDownListFor(m => m.Semester, Model.Semesters , "SELECT SEMESTER",
+                                              new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.Semester, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                 
+
+                 
+
+
+
+                 
+
+                 
+
+
+
+
+                    <div class="wizard col-sm-12">
+                        <div class="pull-right" style="padding: 5px;">
+                            <button id="btnClear" onclick="Clear()" class="btn btn-default">Clear</button>
+                            <button type="submit" id="SaveAll" onclick="return confirm('Are you sure?')" class="btn btn-success btn-default">Submit</button>
+                        </div>
+                    </div>
+
+
+
+                </div>
+
+
+            </div>
+            <div class="clearfix"></div>
+
+        </div>
+
+
+
+
+
+
+
+    </section>
+
+</section>

@@ -1,0 +1,57 @@
+﻿@*@model IEnumerable<MYFEELIB.Entities.Student>*@
+@{
+    ViewData["Title"] = "Student Import";
+}
+
+
+
+<section id="" class="animated fadeInUp">
+    <section class="fuelux" style="border: 14px solid #57bee0; margin: 50px 50px;">
+        <div class="container py-4">
+            <br />
+            <h5>Student Import</h5>
+            <br />
+            <div class="card">
+
+                <br />
+                <br />
+                <div class="card-body">
+                    <div id="feedback" style="color: red;"></div>
+                    @using (Html.BeginForm("UploadExcel", "Import", FormMethod.Post, new { enctype = "multipart/form-data", onsubmit = "return myFunction()" }))
+                    {
+                        <div class="form-group col-sm-12 col-md-12 col-lg-12 text-left ">
+
+                            <input type="file" id="FileUpload" name="FileUpload" class="form-control" />
+                            <div class="col-sm-6">
+                                <input type="submit" id="btnUpload" value="Upload" class="btn btn-success btn-default" />
+                            </div>
+                        </div>
+                    }
+                    @if (ViewBag.rescount != null)
+                    {
+                        if (ViewBag.rescount == 0)
+                        {
+                            if (ViewBag.Result != null)
+                            {
+                                <div class="alert-danger">
+                                    <span class="help-block">@ViewBag.Result</span>
+                                </div>
+
+                            }
+                        }
+                        else if (ViewBag.rescount > 0)
+                        {
+                            if (ViewBag.Result != null)
+                            {
+                                <div class="alert-success">
+                                    <span class="helpSuccess-block">@ViewBag.Result</span>
+                                </div>
+
+                            }
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    </section>
+</section>

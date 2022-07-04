@@ -1,0 +1,395 @@
+﻿@model MYFEELIB.Entities.RequireElements
+@{
+    ViewData["Title"] = "Sessional Marks";
+}
+<section id="" class="animated fadeInUp">
+    <section class="fuelux" style="margin: 50px 50px;">
+
+        <div class="step-content" style="margin-bottom: 0px; background: #fff; text-align: center; border-top: 1px solid #D4D4D4;">
+            <div class="step-pane active" id="step1">
+
+                <div class="col-md-offset-0 preauth_font  ">
+                    <div class="clear" style="clear: both;"></div>
+
+                    <div class="form-group col-sm-12 col-md-6 col-lg-4 text-left ">
+                        @Html.LabelFor(m => m.RollNo, new { @class = "col-md-6 control-label" })
+                        <div class="col-sm-6">
+                            @Html.TextBoxFor(m => m.RollNo, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.RollNo, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group col-sm-12 col-md-6 col-lg-4 text-left ">
+
+                        @Html.LabelFor(m => m.Name, new { @class = "col-sm-6 control-label" })
+                        <div class="col-sm-6">
+                            @Html.TextBoxFor(m => m.Name, new { @class = "form-control", placeholder = "Name", @readonly = "readonly" })
+                            @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group col-sm-12 col-md-6 col-lg-4 text-left ">
+
+                        @Html.LabelFor(m => m.CourseName, new { @class = "col-sm-6 control-label" })
+                        <div class="col-sm-6">
+                            @Html.TextBoxFor(m => m.CourseName, new { @class = "form-control", placeholder = "Name", @readonly = "readonly" })
+                            @Html.ValidationMessageFor(m => m.CourseName, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+
+                    <div class="form-group col-sm-12 col-md-6 col-lg-4 text-left ">
+                        @Html.LabelFor(m => m.Year, new { @class = "col-md-6 control-label" })
+                        <div class="col-sm-6">
+                            @Html.TextBoxFor(m => m.Year, new { @class = "form-control", @readonly = "readonly" })
+                        </div>
+                    </div>
+
+
+
+                    <div class="form-group col-sm-12 col-md-6 col-lg-4 text-left ">
+                        @Html.LabelFor(m => m.Semester, new { @class = "col-sm-6 control-label" })
+                        <div class="col-sm-6">
+                            @Html.DropDownListFor(m => m.Semester, Model.Semesters, "SELECT SEMESTER",
+                                              new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.Semester, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+
+                    <div class="clearfix"></div>
+                    <div align="center" style="width :100%">
+                        <input type='hidden' id='CourseId' name='CourseId' value=''>
+                        <table id="DataTable" style="width:100%;" class="table table-bordered">
+                            <thead>
+
+                            </thead>
+                            <tbody></tbody>
+                            <tfoot></tfoot>
+                        </table>
+
+                    </div>
+
+
+
+
+
+
+
+
+                    <div class="wizard col-sm-12">
+                        <div class="pull-right" style="padding: 5px;">
+
+                            <button type="submit" id="SaveAll" onclick="return confirm('Are you sure?')" class=" btn btn-success btn-default">Submit</button>
+                        </div>
+                    </div>
+
+
+                </div>
+
+
+
+                <div class="clearfix"></div>
+            </div>
+            <div class="clearfix"></div>
+
+        </div>
+
+
+        <script>
+            function isNumber(evt) {
+                evt = (evt) ? evt : window.event;
+                var charCode = (evt.which) ? evt.which : evt.keyCode;
+                if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+                    return false;
+                }
+                return true;
+            }
+        </script>
+
+        <script type="text/jscript">
+
+            $(document).ready(function () {
+                $("#SaveAll").hide();
+            });
+
+            $(document).on("blur", "#SessMarksSecured1", function () {
+                $("#DataTable TBODY TR").each(function () {
+                    var row = $(this);
+                    var rowMax = row.find("TD").eq(3).find("input").val();
+                    var rowenterMarks = row.find("TD").eq(5).find("input").val();
+                    if (rowenterMarks != "") {
+                        if (rowMax >= rowenterMarks) {
+                            if (!isNaN(rowenterMarks) && rowenterMarks.length !== 0) {
+                                var max = Math.max(row.find("TD").eq(5).find("input").val(), row.find("TD").eq(6).find("input").val(), row.find("TD").eq(7).find("input").val());
+                                row.find("TD").eq(8).find("input").val(max);
+                            }
+                        }
+                        else {
+                            alert("Enter Marks Exceeded by Max Marks !");
+                            row.find("TD").eq(5).find("input").val("");
+                            row.find("TD").eq(5).find("input").focus();
+                        }
+                    }
+                });
+            });
+
+            $(document).on("blur", "#SessMarksSecured2", function () {
+                $("#DataTable TBODY TR").each(function () {
+                    var row = $(this);
+                    var rowMax = row.find("TD").eq(3).find("input").val();
+                    var rowenterMarks = row.find("TD").eq(6).find("input").val();
+                    if (rowenterMarks != "") {
+                        if (rowMax >= rowenterMarks) {
+                            if (!isNaN(rowenterMarks) && rowenterMarks.length !== 0) {
+                                var max = Math.max(row.find("TD").eq(5).find("input").val(), row.find("TD").eq(6).find("input").val(), row.find("TD").eq(7).find("input").val());
+                                row.find("TD").eq(8).find("input").val(max);
+                            }
+                        }
+                        else {
+                            alert("Enter Marks Exceeded by Max Marks !");
+                            row.find("TD").eq(6).find("input").val("");
+                            row.find("TD").eq(6).find("input").focus();
+                        }
+                    }
+                });
+            });
+
+            $(document).on("blur", "#SessMarksSecured3", function () {
+                $("#DataTable TBODY TR").each(function () {
+                    var row = $(this);
+                    var rowMax = row.find("TD").eq(3).find("input").val();
+                    var rowenterMarks = row.find("TD").eq(7).find("input").val();
+                    if (rowenterMarks != "") {
+                        if (rowMax >= rowenterMarks) {
+                            if (!isNaN(rowenterMarks) && rowenterMarks.length !== 0) {
+                                var max = Math.max(row.find("TD").eq(5).find("input").val(), row.find("TD").eq(6).find("input").val(), row.find("TD").eq(7).find("input").val());
+                                row.find("TD").eq(8).find("input").val(max);
+                            }
+                        }
+                        else {
+                            alert("Enter Marks Exceeded by Max Marks !");
+                            row.find("TD").eq(7).find("input").val("");
+                            row.find("TD").eq(7).find("input").focus();
+                        }
+                    }
+                });
+            });
+
+
+
+
+
+            $("#RollNo").blur(function () {
+
+                var RollNo = $("#RollNo").val();
+                if (RollNo != "") {
+                    $("#DataTable tr").remove();
+                    $("#SaveAll").hide();
+                    $.ajax({
+                        type: "GET",
+                        contentType: "application/json; charset=utf-8",
+                        url: '@Url.Action("verifyRollNo", "Academic")',
+                        data: { "RollNo": RollNo },
+                        dataType: "json",
+                        beforeSend: function () {
+                            //alert(id);
+                        },
+                        success: function (data) {
+                            $.each(data, function (i, Rec) {
+                                if (Rec.Status == "Active") {
+                                    $('#Name').val(Rec.Name);
+                                    $('#Year').val(Rec.Year);
+                                    $('#CourseName').val(Rec.CourseName);
+                                    $('#CourseId').val(Rec.CourseId);
+
+
+
+
+                                    var id = Rec.Year;
+                                    if (id != "") {
+                                        $.ajax({
+                                            type: "GET",
+                                            contentType: "application/json; charset=utf-8",
+                                            url: '@Url.Action("SemesterList", "Academic")',
+                                            data: { "YId": id },
+                                            dataType: "json",
+                                            beforeSend: function () {
+                                                //alert(id);
+                                            },
+                                            success: function (data) {
+                                                var items = "";
+                                                $.each(data, function (i, yr) {
+                                                    items += "<option value='" + yr.Value + "'>" + yr.Text + "</option>";
+                                                });
+                                                $('#Semester').html(items);
+
+                                            },
+                                            error: function (result) {
+
+                                                alert('Service call failed: ' + result.status + ' Type :' + result.statusText);
+                                            }
+                                        });
+                                    }
+                                    else {
+                                        var items = '<option value="">Select</option>';
+                                        $('#Semester').html(items);
+                                    }
+                                }
+                                else {
+                                    $('#Name').val("");
+                                    $('#Year').val("");
+                                    $('#CourseName').val("");
+                                    alert('This Roll No Already in In Active !');
+                                    $("#RollNo").val("");
+                                    $("#RollNo").focus();
+                                }
+                            });
+                        },
+                        error: function (result) {
+                            $('#Name').val("");
+                            $("#Year").val("");
+                            $("#CourseName").val("");
+                            alert('Invalid RollNo !');
+                            $("#RollNo").val("");
+                            $("#RollNo").focus();
+                        }
+                    });
+                }
+
+            });
+
+            $(function () {
+                $('#Semester').change(function () {
+                    // debugger;
+                    $("#DataTable tr").remove();
+                    var prm = $("#RollNo").val() + '/' + $("#Year").val() + '/' + $("#Semester :selected").val()
+                    var id = $("#Semester :selected").val();
+                    if (id != "") {
+                        $("#loaderDiv").show();
+                        $.ajax({
+                            type: "GET",
+                            contentType: "application/json; charset=utf-8",
+                            url: '@Url.Action("SessionalMarksRecords", "Academic")',
+                            data: { "Semester": prm },
+                            dataType: "json",
+                            beforeSend: function () {
+                            },
+                            success: function (data) {
+
+                                var markup = "<tr><th width='10%'>SNo</th><th width='10%'>SId</th><th width='20%'>Subject Name</th><th width='10%'>Sessional Max Marks</th><th width='10%'>Sessional Min Marks</th><th width='10%'>Secured Marks 1</th><th width='10%'>Secured Marks 2</th><th width='10%'>Secured Marks 3</th><th width='10%'>Results</th></tr>";
+                                $("#DataTable > thead").append(markup);
+
+                                $.each(data, function (i, Rec) {
+
+                                    var markup = "<tr><td width='10%'>" + (i + 1) + "</td><td width='10%'>" + Rec.SId + "</td><td width='20%'>" + Rec.SubjectName + "</td><td width='10%'><input type='text' id='D' value='" + Rec.SessMaxMrks + "' name='DueVal' class='form-control' readonly   onkeypress='return isNumber(event)' /></td><td width='10%'><input type='text' id='D' value='" + Rec.SessMinMrks + "' name='DueVal' class='form-control' readonly   onkeypress='return isNumber(event)' /></td><td width='10%'><input type='text' id='SessMarksSecured1' placeholder ='0' value='" + Rec.SessMarksSecured1 + "'  class='form-control' name='SessMarksSecured1'   onkeypress='return isNumber(event)' /></td><td width='10%'><input type='text' id='SessMarksSecured2' placeholder ='0' value='" + Rec.SessMarksSecured2 + "'  class='form-control' name='SessMarksSecured2'   onkeypress='return isNumber(event)' /></td><td width='10%'><input type='text' id='SessMarksSecured3' placeholder ='0' value='" + Rec.SessMarksSecured3 + "'  class='form-control' name='SessMarksSecured3'   onkeypress='return isNumber(event)' /></td><td width='10%'><input type='text' id='Result' placeholder ='0'  class='form-control' name='Result' readonly value='" + Rec.Result + "'   onkeypress='return isNumber(event)' /></td></tr>";
+                                    $("#DataTable > tbody").append(markup);
+
+                                });
+                                $("#SaveAll").show();
+                            },
+                            error: function (result) {
+                                alert("Data Not Available check it !");
+                            }
+                        });
+
+
+                    }
+                    else {
+                        $("#DataTable tr").remove();
+                    }
+
+                    $("#loaderDiv").hide();
+                });
+
+            });
+
+
+
+            $(document).on("click", "#SaveAll", function () {
+                var RollNo = $("#RollNo").val();
+                var Year = $("#Year").val();
+                if (RollNo == "") {
+                    alert("Please Enter Roll No!");
+                    $("#RollNo").focus();
+                    return;
+                }
+                else if (Year == "") {
+                    alert("Please Enter Year !");
+                    $("#Year").focus();
+                    return;
+                }
+
+                else if ($("#Semester :selected").val() == "") {
+                    alert("Please Enter Semester !")
+                    $("#Semester").focus();
+                    return;
+                }
+
+                $("#loaderDiv").show();
+
+                var StudentMarks = new Array();
+                $("#DataTable TBODY TR").each(function () {
+                    var req = {};
+                    var row = $(this);
+                    var req = {};
+                    req.RollNo = $("#RollNo").val();
+                    req.Course = $("#CourseId").val();
+                    req.Year = $("#Year").val();
+                    req.Semester = $("#Semester :selected").val();
+                    req.EnterBy = "@Session["username"]";
+                    req.SId = $(this).closest("tr").find('td:eq(1)').text();
+                    req.SessMaxMrks = $(this).closest("tr").find("TD").eq(3).find("input").val();
+                    req.SessMinMrks = $(this).closest("tr").find("TD").eq(4).find("input").val();
+                    req.SessMarksSecured1 = $(this).closest("tr").find("TD").eq(5).find("input").val();
+                    req.SessMarksSecured2 = $(this).closest("tr").find("TD").eq(6).find("input").val();
+                    req.SessMarksSecured3 = $(this).closest("tr").find("TD").eq(7).find("input").val();
+                    req.Result = $(this).closest("tr").find("TD").eq(8).find("input").val();
+                    StudentMarks.push(req);
+                });
+
+                StudentMarks = JSON.stringify({ 'StudentMarks': StudentMarks });
+
+                //Send the JSON array to Controller using AJAX.
+                $.ajax({
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+
+                    url: '@Url.Action("SaveSessionalMarks", "Academic")',
+                    data: StudentMarks,
+                    dataType: "json",
+                    success: function (r) {
+
+                        if (r == 0) {
+
+                            alert("Sessional Marks are not Updated !");
+                            $("#loaderDiv").hide();
+                        }
+                        else {
+                            alert("Sessional Marks are Updated !");
+                            $("#RollNo").val("");
+                            $("#Year").val("");
+                            $("#Name").val("");
+                            $("#Semester").val("");
+                            $("#SaveAll").hide();
+                            $("#loaderDiv").hide();
+                        }
+
+
+                    }
+                });
+            });
+
+
+
+
+
+
+
+
+
+        </script>
+
+    </section>
+
+</section>

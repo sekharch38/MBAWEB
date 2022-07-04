@@ -1,0 +1,2610 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{5FFC82BF-69BA-448F-90E5-EEDFE0EAC803}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Reports</RootNamespace>
+    <AssemblyName>Reports</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <MyType>Windows</MyType>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <OptionExplicit>On</OptionExplicit>
+    <OptionCompare>Binary</OptionCompare>
+    <OptionStrict>Off</OptionStrict>
+    <OptionInfer>On</OptionInfer>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>Reports.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022,42353,42354,42355</NoWarn>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>Reports.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022,42353,42354,42355</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DocumentationFile>Reports.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022,42353,42354,42355</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DocumentationFile>Reports.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022,42353,42354,42355</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="CrystalDecisions.CrystalReports.Engine, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="CrystalDecisions.ReportSource, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="CrystalDecisions.Shared, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="CrystalDecisions.Windows.Forms, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Services, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\WINDOWS\assembly\GAC_MSIL\System.Web.Services\2.0.0.0__b03f5f7f11d50a3a\System.Web.Services.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Data" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Linq" />
+    <Import Include="System.Xml.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Application\rptLE.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptLE.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Application\rptStudentIdCard.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptStudentIdCard.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Application\rptStudentRegAcademic.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptStudentRegAcademic.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Application\rptStudentRegisterFormWithRollNo.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptStudentRegisterFormWithRollNo.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Attendance.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Attendance.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Attendance\rptBatchAnalysisReport.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Attendance\rptExternalMarks.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptExternalMarks.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Attendance\rptStudentInternalMarks.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptStudentInternalMarks.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Attendance\rptStudentMarksInternal3.vb">
+      <DependentUpon>rptStudentMarksInternal3.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Attendance\rptStudentMarksInternal2.vb">
+      <DependentUpon>rptStudentMarksInternal2.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Attendance\rptStudentMarksInternal1.vb">
+      <DependentUpon>rptStudentMarksInternal1.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Attendance\rpt3FSPercentage.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rpt3FSPercentage.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Attendance\rptARA.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptARA.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Attendance\rptARP.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptARP.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Attendance\rptART.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptART.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Attendance\rptAttendanceRegister.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptAttendanceRegister.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Attendance\rptAttendanceReportSem.vb">
+      <DependentUpon>rptAttendanceReportSem.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Attendance\rptFacultyAbsentees.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptFacultyAbsentees.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Attendance\rptFacultySubjectList.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptFacultySubjectList.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Attendance\rptFacultyTimeTable.vb">
+      <DependentUpon>rptFacultyTimeTable.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Attendance\rptAttendanceSlipGBYF.vb">
+      <DependentUpon>rptAttendanceSlipGBYF.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Attendance\rptAttendanceSlipGOBYF.vb">
+      <DependentUpon>rptAttendanceSlipGOBYF.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Attendance\rptAttendanceSTGBYF.vb">
+      <DependentUpon>rptAttendanceSTGBYF.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Attendance\rptAttendanceSTGOBYF.vb">
+      <DependentUpon>rptAttendanceSTGOBYF.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Attendance\rptAttendanceReport.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptAttendanceReport.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Attendance\rptAttendanceSTGOB.vb">
+      <DependentUpon>rptAttendanceSTGOB.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Attendance\rptAttendanceSTGB.vb">
+      <DependentUpon>rptAttendanceSTGB.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Attendance\rptAttendanceSlipGB.vb">
+      <DependentUpon>rptAttendanceSlipGB.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Attendance\rptAttendanceSlipGOB.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptAttendanceSlipGOB.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Attendance\rptEmployeeDetails.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptEmployeeDetails.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Attendance\rptStudentMarkReport.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptStudentMarkReport.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Attendance\rptStudentMarksReport.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptStudentMarksReport.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Attendance\rptSubject.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptSubject.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Attendance\rptTimeTable.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptTimeTable.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Attendance\rptTTMF.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptTTMF.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Classes\Attendance.vb" />
+    <Compile Include="Classes\CustomizedReport.vb" />
+    <Compile Include="Classes\FeesReport.vb" />
+    <Compile Include="Classes\Global.vb" />
+    <Compile Include="Classes\ProgramReport.vb" />
+    <Compile Include="Classes\StudentReport.vb" />
+    <Compile Include="Customized Reports\rptCustomizedReport.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptCustomizedReport.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Employee.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Employee.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Exam\subjectrptWOS.vb">
+      <DependentUpon>subjectrptWOS.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Exam\rptStudentMarks.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptStudentMarks.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Exam\rptStudentMarksDetails.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptStudentMarksDetails.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Exam\subjectrpt.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>subjectrpt.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Feedback\rptFBAnalysisWOR.vb">
+      <DependentUpon>rptFBAnalysisWOR.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Feedback\rptAppreciation.vb">
+      <DependentUpon>rptAppreciation.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Feedback\rptExplanation.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptExplanation.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Feedback\rptFBAnalysis.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptFBAnalysis.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Feedback\rptFormCountConsolidate.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptFormCountConsolidate.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Feedback\rptParameter.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptParameter.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Feedback\rptRating.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptRating.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="FeeReports\ChartDuePrograms.vb">
+      <DependentUpon>ChartDuePrograms.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="FeeReports\ChartMEProgram.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ChartMEProgram.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="FeeReports\rptALLFYDUE.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptALLFYDUE.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="FeeReports\rptCerticateNotIssue.vb">
+      <DependentUpon>rptCerticateNotIssue.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="FeeReports\rptFinancialYearRefund.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptFinancialYearRefund.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="FeeReports\rptSpecialTC.vb">
+      <DependentUpon>rptSpecialTC.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="FeeReports\rptStudentRefundConsolidate.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptStudentRefundConsolidate.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="FeeReports\rptSuspense.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptSuspense.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="FeeReports\rptUserStudentReconcilationApproval.vb">
+      <DependentUpon>rptUserStudentReconcilationApproval.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="FeeReports\rptUserPeriodApproval.vb">
+      <DependentUpon>rptUserPeriodApproval.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="FeeReports\DuePrograms.vb">
+      <DependentUpon>DuePrograms.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="FeeReports\rptAcademicReport.vb">
+      <DependentUpon>rptAcademicReport.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="FeeReports\JEFinancialYearClosingSummary.vb">
+      <DependentUpon>JEFinancialYearClosingSummary.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="FeeReports\JEFinancialYearClosing.vb">
+      <DependentUpon>JEFinancialYearClosing.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="FeeReports\NextYearBudgetReport.vb">
+      <DependentUpon>NextYearBudgetReport.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="FeeReports\IntakeSummaryWOQReport.vb">
+      <DependentUpon>IntakeSummaryWOQReport.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="FeeReports\IntakeSummaryReport.vb">
+      <DependentUpon>IntakeSummaryReport.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="FeeReports\rptChartProgramTotal.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptChartProgramTotal.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="FeeReports\rptFYTally.vb">
+      <DependentUpon>rptFYTally.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="FeeReports\rptStudentReceivedFinancialYearE.vb">
+      <DependentUpon>rptStudentReceivedFinancialYearE.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="FeeReports\rptStudentReceivedFinancialYearTO.vb">
+      <DependentUpon>rptStudentReceivedFinancialYearTO.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="FeeReports\rptStudentReceivedFinancialYear.vb">
+      <DependentUpon>rptStudentReceivedFinancialYear.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="FeeReports\rptCategoryReconsilation.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptCategoryReconsilation.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="FeeReports\rptFRReconsilation.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptFRReconsilation.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="FeeReports\rptPaymentReconcilationAllHOADt.vb">
+      <DependentUpon>rptPaymentReconcilationAllHOADt.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="FeeReports\rptPaymentReconcilationAllHOA.vb">
+      <DependentUpon>rptPaymentReconcilationAllHOA.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="FeeReports\rptCerticateIssue.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptCerticateIssue.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Feedback\rptFeedback.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptFeedback.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="FeeReports\rptMonthPaymentReconcilationAll.vb">
+      <DependentUpon>rptMonthPaymentReconcilationAll.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="FeeReports\rptOpeningBalance.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptOpeningBalance.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="FeeReports\rptPaymentReconcilationAll.vb">
+      <DependentUpon>rptPaymentReconcilationAll.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="FeeReports\rptMonthConsolidateExtrapaid.vb">
+      <DependentUpon>rptMonthConsolidateExtrapaid.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="FeeReports\rptFinanciaYearDue.vb">
+      <DependentUpon>rptFinanciaYearDue.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="FeeReports\rptBudget.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptBudget.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="FeeReports\rptFinancialYearTransaction.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptFinancialYearTransaction.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="FeeReports\rptFYC.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptFYC.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="FeeReports\rptIntake.vb">
+      <DependentUpon>rptIntake.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="FeeReports\rptBYQCCONCAT.vb">
+      <DependentUpon>rptBYQCCONCAT.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="FeeReports\rptDBYearQuotaCategory.vb">
+      <DependentUpon>rptDBYearQuotaCategory.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="FeeReports\rptDateBaseYearQuotaCategory.vb">
+      <DependentUpon>rptDateBaseYearQuotaCategory.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="FeeReports\rptMonthConsolidate.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptMonthConsolidate.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="FeeReports\rptOD.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptOD.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="FeeReports\rptPaymentProgramConsolidate.vb">
+      <DependentUpon>rptPaymentProgramConsolidate.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="FeeReports\rptBYTFOFSTPayable.vb">
+      <DependentUpon>rptBYTFOFSTPayable.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="FeeReports\rptMonthPaymentReconcilation.vb">
+      <DependentUpon>rptMonthPaymentReconcilation.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="FeeReports\rptPaymentReconcilation.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptPaymentReconcilation.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="FeeReports\rptProgramConsolidate.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptProgramConsolidate.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="FeeReports\rptQuotaJEConsolidate.vb">
+      <DependentUpon>rptQuotaJEConsolidate.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="FeeReports\rptRPeriodReconcilation.vb">
+      <DependentUpon>rptRPeriodReconcilation.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="FeeReports\rptExtraPaid1.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptExtraPaid.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="FeeReports\rptFinancialQuotaTOF.vb">
+      <DependentUpon>rptFinancialQuotaTOF.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="FeeReports\rptFinancialReceivedAll.vb">
+      <DependentUpon>rptFinancialReceivedAll.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="FeeReports\rptBYTFOFStudentPayable.vb">
+      <DependentUpon>rptBYTFOFStudentPayable.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="FeeReports\rptBYTFOFStudentPayableAPSMFC.vb">
+      <DependentUpon>rptBYTFOFStudentPayableAPSMFC.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="FeeReports\rptBYTFOFStudentPayableConvenor.vb">
+      <DependentUpon>rptBYTFOFStudentPayableConvenor.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="FeeReports\rptBYTFOFStudentPayableStudents.vb">
+      <DependentUpon>rptBYTFOFStudentPayableStudents.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="FeeReports\rptBYTFOFStudentPayableUFRO.vb">
+      <DependentUpon>rptBYTFOFStudentPayableUFRO.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="FeeReports\rptYearQuotaCategoryOF.vb">
+      <DependentUpon>rptYearQuotaCategoryOF.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="FeeReports\rptFeeDivert.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptFeeDivert.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="FeeReports\rptFinancialReceived.vb">
+      <DependentUpon>rptFinancialReceived.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="FeeReports\rptJV.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptJV.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="FeeReports\rptNextYearActual.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptNextYearActual.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="FeeReports\rptNextYearStudentTotal.vb">
+      <DependentUpon>rptNextYearStudentTotal.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="FeeReports\rptStudentDiscontinue.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptStudentDiscontinue.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="FeeReports\rptMonthFinancialConsolidate.vb">
+      <DependentUpon>rptMonthFinancialConsolidate.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="FeeReports\rptMonthFinancial.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptMonthFinancial.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="FeeReports\rptStudentReconcilationApproval.vb">
+      <DependentUpon>rptStudentReconcilationApproval.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="FeeReports\rptPeriodApproval.vb">
+      <DependentUpon>rptPeriodApproval.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="FeeReports\rptFinancialQuota.vb">
+      <DependentUpon>rptFinancialQuota.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="FeeReports\rptBYTFStudentPayableUFRO.vb">
+      <DependentUpon>rptBYTFStudentPayableUFRO.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="FeeReports\rptBYTFStudentPayableStudents.vb">
+      <DependentUpon>rptBYTFStudentPayableStudents.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="FeeReports\rptBYTFStudentPayableConvenor.vb">
+      <DependentUpon>rptBYTFStudentPayableConvenor.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="FeeReports\rptBYTFStudentPayableAPSMFC.vb">
+      <DependentUpon>rptBYTFStudentPayableAPSMFC.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="FeeReports\rptBYTFStudentPayable.vb">
+      <DependentUpon>rptBYTFStudentPayable.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="FeeReports\rptBatchTotals.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptBatchTotals.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="FeeReports\rptStudentPayableConvenor.vb">
+      <DependentUpon>rptStudentPayableConvenor.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="FeeReports\rptTFStudentPayableConvenor.vb">
+      <DependentUpon>rptTFStudentPayableConvenor.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="FeeReports\rptStudentPaybleUFRO.vb">
+      <DependentUpon>rptStudentPaybleUFRO.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="FeeReports\rptTFStudentPaybleUFRO.vb">
+      <DependentUpon>rptTFStudentPaybleUFRO.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="FeeReports\rptFinancial.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptFinancial.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="FeeReports\rptToBeRefund.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptToBeRefund.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="FeeReports\rptYQCTFList.vb">
+      <DependentUpon>rptYQCTFList.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="FeeReports\rptYearQuotaCategoryTF.vb">
+      <DependentUpon>rptYearQuotaCategoryTF.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="FeeReports\rptBYQCTFCON.vb">
+      <DependentUpon>rptBYQCTFCON.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="FeeReports\rptBYQCTFRACON.vb">
+      <DependentUpon>rptBYQCTFRACON.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="FeeReports\rptBYQCTFWORCON.vb">
+      <DependentUpon>rptBYQCTFWORCON.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="FeeReports\rptTFStudentPayableAPSMFC.vb">
+      <DependentUpon>rptTFStudentPayableAPSMFC.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="FeeReports\rptTFStudentPaybleStudents.vb">
+      <DependentUpon>rptTFStudentPaybleStudents.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="FeeReports\rptTFStudentPayable.vb">
+      <DependentUpon>rptTFStudentPayable.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="FeeReports\rptBatchOATCActualCon.vb">
+      <DependentUpon>rptBatchOATCActualCon.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="FeeReports\rptBYQCRACON.vb">
+      <DependentUpon>rptBYQCRACON.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="FeeReports\rptBYQCWORCON.vb">
+      <DependentUpon>rptBYQCWORCON.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="FeeReports\rptAllCourseSummary.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptAllCourseSummary.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="FeeReports\rptAllQuotaSummary.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptAllQuotaSummary.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="FeeReports\rptBatchCourseConsolidate.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptBatchCourseConsolidate.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="FeeReports\rptBatchEntry.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptBatchEntry.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="FeeReports\rptBatchOATCCon.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptBatchOATCCon.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="FeeReports\rptBatchQuotaConsolidate.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptBatchQuotaConsolidate.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="FeeReports\rptBatchStudent.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptBatchStudent.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="FeeReports\rptBatchStudentAllYearConsolidate.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptBatchStudentAllYearConsolidate.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="FeeReports\rptBatchStudentYearConsolidate.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptBatchStudentYearConsolidate.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="FeeReports\rptBatchStudentYearWise.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptBatchStudentYearWise.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="FeeReports\rptBatchYearConsolidate.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptBatchYearConsolidate.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="FeeReports\rptBatchYearCourseConsolidate.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptBatchYearCourseConsolidate.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="FeeReports\rptBatchYearEntryConsolidate.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptBatchYearEntryConsolidate.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="FeeReports\rptBatchYearQuotaConsolidate.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptBatchYearQuotaConsolidate.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="FeeReports\rptBYQCCON.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptBYQCCON.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="FeeReports\rptCourseSummary.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptCourseSummary.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="FeeReports\rptModified.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptModified.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="FeeReports\rptModifiedList.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptModifiedList.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="FeeReports\rptPeriodReconcilation.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptPeriodReconcilation.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="FeeReports\rptQuotaSummary.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptQuotaSummary.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="FeeReports\rptSR.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptSR.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="FeeReports\rptSR1.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptSR1.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="FeeReports\rptSR2.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptSR2.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="FeeReports\rptSR3.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptSR3.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="FeeReports\rptSRBatchStudentConsolidate.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptSRBatchStudentConsolidate.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="FeeReports\rptSRConsolidate.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptSRConsolidate.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="FeeReports\rptSRCourseConsolidate.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptSRCourseConsolidate.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="FeeReports\rptSRYearConsolidate.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptSRYearConsolidate.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="FeeReports\rptSRYearStudentConsolidate.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptSRYearStudentConsolidate.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="FeeReports\rptStudentDues.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptStudentDues.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="FeeReports\rptStudentFeePayable.vb">
+      <DependentUpon>rptStudentFeePayable.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="FeeReports\rptStudentFeePaid.vb">
+      <DependentUpon>rptStudentFeePaid.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="FeeReports\rptStudentPayable.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptStudentPayable.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="FeeReports\rptStudentPayableAPSMFC.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptStudentPayableAPSMFC.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="FeeReports\rptStudentPaybleStudents.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptStudentPaybleStudents.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="FeeReports\rptStudentPayTransactions.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptStudentPayTransactions.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="FeeReports\rptStudentReconcilation.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptStudentReconcilation.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="FeeReports\rptStudentRefund.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptStudentRefund.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="FeeReports\rptStudentRefundDetails.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptStudentRefundDetails.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="FeeReports\rptStudentScholarship.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptStudentScholarship.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="FeeReports\rptStudentSummary.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptStudentSummary.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="FeeReports\rptStudentTotal.vb">
+      <DependentUpon>rptStudentTotal.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="FeeReports\rptStudentPaid.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptStudentPaid.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="FeeReports\rptTallyReport.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptTallyReport.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="FeeReports\rptYearCourse.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptYearCourse.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="FeeReports\rptYearQuota.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptYearQuota.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="FeeReports\rptYearQuotaCategory.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptYearQuotaCategory.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="FeeReports\rptyearQuotaSummaryDetails.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptyearQuotaSummaryDetails.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="FeeReports\rptYQCList.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptYQCList.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Fees.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Fees.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Fees.vb">
+      <DependentUpon>Fees.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="forms\FrmReportViewer.Designer.vb">
+      <DependentUpon>FrmReportViewer.vb</DependentUpon>
+    </Compile>
+    <Compile Include="forms\FrmReportViewer.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Intake\rptBatchHistory.vb">
+      <DependentUpon>rptBatchHistory.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Intake\rptBatchDocuements.vb">
+      <DependentUpon>rptBatchDocuements.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Intake\rptBatchAnalysis.vb">
+      <DependentUpon>rptBatchAnalysis.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Intake\rptAI.vb">
+      <DependentUpon>rptAI.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Intake\rptIntakeFee.vb">
+      <DependentUpon>rptIntakeFee.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Intake\rptIntakeReport.vb">
+      <DependentUpon>rptIntakeReport.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Intake\rptCurrentIntakeStudent.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptCurrentIntakeStudent.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="ProgramReports\rptCourse.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptCourse.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ProgramReports\rptPrograms.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptPrograms.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ProgramReports\rptSection.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptSection.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="StudentReports\rptBonafidemba.vb">
+      <DependentUpon>rptBonafidemba.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="StudentReports\rptStudentDetainDetailsFY.vb">
+      <DependentUpon>rptStudentDetainDetailsFY.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="StudentReports\rptAllYearDuesDR.vb">
+      <DependentUpon>rptAllYearDuesDR.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="StudentReports\rptAllYearDuesConvenor.vb">
+      <DependentUpon>rptAllYearDuesConvenor.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="StudentReports\rptAllYearDuesA.vb">
+      <DependentUpon>rptAllYearDuesA.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="StudentReports\rptAllYearDues.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptAllYearDues.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="StudentReports\rptFirstYearDue.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptFirstYearDue.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="StudentReports\rptFourthYearDue.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptFourthYearDue.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="StudentReports\rptSecondYearDue.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptSecondYearDue.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="StudentReports\rptCurrentActiveStudents.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptCurrentActiveStudents.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="StudentReports\rptThirdYear.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptThirdYear.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="StudentReports\rptVerification.vb">
+      <DependentUpon>rptVerification.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="StudentReports\rptCustodiamReportList.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptCustodiamReportList.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="StudentReports\rptCustodianCertificate2.vb">
+      <DependentUpon>rptCustodianCertificate2.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="StudentReports\rptDueList.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptDueList.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="StudentReports\rptNoDueCertificate.vb">
+      <DependentUpon>rptNoDueCertificate.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="StudentReports\rptCustodianCertificate.vb">
+      <DependentUpon>rptCustodianCertificate.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="StudentReports\rptUFROBonafide.vb">
+      <DependentUpon>rptUFROBonafide.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="StudentReports\rpt2RegisterPayDetails.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rpt2RegisterPayDetails.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="StudentReports\rpt2YearFeeDetails.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rpt2YearFeeDetails.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="StudentReports\rpt3RegisterPayDetails.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rpt3RegisterPayDetails.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="StudentReports\rpt3YearFeeDetails.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rpt3YearFeeDetails.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="StudentReports\rpt4RegisterPayDetails.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rpt4RegisterPayDetails.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="StudentReports\rpt4YearFeeDetails.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rpt4YearFeeDetails.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="StudentReports\rptacademic.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptacademic.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="StudentReports\rptBloodGroup.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptBloodGroup.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="StudentReports\rptBonafide.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptBonafide.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="StudentReports\rptFamily.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptFamily.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="StudentReports\rptReAdmission.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptReAdmission.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="StudentReports\rptRegisterPayDetails.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptRegisterPayDetails.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="StudentReports\rptStudentContactDetail.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptStudentContactDetail.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="StudentReports\rptStudentDetainDetails.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptStudentDetainDetails.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="StudentReports\rptStudentLanguages.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptStudentLanguages.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="StudentReports\rptStudentRegister.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptStudentRegister.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="StudentReports\rptStudentReligion.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptStudentReligion.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="StudentReports\rptStudentReport.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptStudentReport.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="StudentReports\rptStudentYearGraph.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptStudentYearGraph.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="StudentReports\rptTC.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptTC.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="StudentReports\rptYearFeeDetails.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptYearFeeDetails.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="StudentReports\YearChart.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>YearChart.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Application\rptLE.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptLE.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Application\rptStudentIdCard.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptStudentIdCard.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Application\rptStudentRegAcademic.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptStudentRegAcademic.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Application\rptStudentRegisterFormWithRollNo.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptStudentRegisterFormWithRollNo.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Attendance\rptBatchAnalysisReport.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptBatchAnalysisReport1.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Attendance\rptExternalMarks.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptExternalMarks.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Attendance\rptStudentInternalMarks.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptStudentInternalMarks.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Attendance\rptStudentMarksInternal3.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptStudentMarksInternal3.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Attendance\rptStudentMarksInternal2.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptStudentMarksInternal2.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Attendance\rptStudentMarksInternal1.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptStudentMarksInternal1.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Attendance\rpt3FSPercentage.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rpt3FSPercentage.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Attendance\rptARA.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptARA.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Attendance\rptARP.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptARP.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Attendance\rptART.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptART.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Attendance\rptAttendanceRegister.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptAttendanceRegister.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Attendance\rptAttendanceReportSem.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptAttendanceReportSem.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Attendance\rptFacultyAbsentees.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptFacultyAbsentees.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Attendance\rptFacultySubjectList.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptFacultySubjectList.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Attendance\rptFacultyTimeTable.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptFacultyTimeTable.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Attendance\rptAttendanceSlipGBYF.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptAttendanceSlipGBYF.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Attendance\rptAttendanceSlipGOBYF.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptAttendanceSlipGOBYF.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Attendance\rptAttendanceSTGBYF.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptAttendanceSTGBYF.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Attendance\rptAttendanceSTGOBYF.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptAttendanceSTGOBYF.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Attendance\rptAttendanceReport.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptAttendanceReport.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Attendance\rptAttendanceSTGOB.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptAttendanceSTGOB.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Attendance\rptAttendanceSTGB.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptAttendanceSTGB.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Attendance\rptAttendanceSlipGB.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptAttendanceSlipGB.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Attendance\rptAttendanceSlipGOB.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptAttendanceSlipGOB.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Attendance\rptEmployeeDetails.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptEmployeeDetails.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Attendance\rptStudentMarkReport.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptStudentMarkReport.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Attendance\rptStudentMarksReport.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptStudentMarksReport.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Attendance\rptSubject.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptSubject.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Attendance\rptTimeTable.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptTimeTable.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Attendance\rptTTMF.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptTTMF.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Customized Reports\rptCustomizedReport.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptCustomizedReport.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Exam\subjectrptWOS.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>subjectrptWOS.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Exam\rptStudentMarks.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptStudentMarks.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Exam\rptStudentMarksDetails.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptStudentMarksDetails.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Exam\subjectrpt.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>subjectrpt.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Feedback\rptFBAnalysisWOR.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptFBAnalysisWOR.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Feedback\rptAppreciation.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptAppreciation.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Feedback\rptExplanation.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptExplanation.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Feedback\rptFBAnalysis.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptFBAnalysis.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Feedback\rptFormCountConsolidate.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptFormCountConsolidate.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Feedback\rptParameter.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptParameter.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Feedback\rptRating.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptRating.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\ChartDuePrograms.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>ChartDuePrograms.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\ChartMEProgram.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>ChartMEProgram.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptALLFYDUE.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptALLFYDUE.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptCerticateNotIssue.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptCerticateNotIssue.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptFinancialYearRefund.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptFinancialYearRefund.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptSpecialTC.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptSpecialTC.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptStudentRefundConsolidate.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptStudentRefundConsolidate.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptSuspense.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptSuspense.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptUserStudentReconcilationApproval.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptUserStudentReconcilationApproval.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptUserPeriodApproval.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptUserPeriodApproval.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\DuePrograms.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>DuePrograms.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptAcademicReport.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptAcademicReport.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\JEFinancialYearClosingSummary.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>JEFinancialYearClosingSummary.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\JEFinancialYearClosing.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>JEFinancialYearClosing.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\NextYearBudgetReport.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>NextYearBudgetReport.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\IntakeSummaryWOQReport.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>IntakeSummaryWOQReport.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\IntakeSummaryReport.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>IntakeSummaryReport.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptChartProgramTotal.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptChartProgramTotal.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptFYTally.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptFYTally.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptStudentReceivedFinancialYearE.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptStudentReceivedFinancialYearE.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptStudentReceivedFinancialYearTO.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptStudentReceivedFinancialYearTO.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptStudentReceivedFinancialYear.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptStudentReceivedFinancialYear.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptCategoryReconsilation.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptCategoryReconsilation.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptFRReconsilation.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptFRReconsilation.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptPaymentReconcilationAllHOADt.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptPaymentReconcilationAllHOADt.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptPaymentReconcilationAllHOA.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptPaymentReconcilationAllHOA.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptCerticateIssue.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptCerticateIssue.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Feedback\rptFeedback.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptFeedback.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptMonthPaymentReconcilationAll.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptMonthPaymentReconcilationAll.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptOpeningBalance.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptOpeningBalance.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptPaymentReconcilationAll.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptPaymentReconcilationAll.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptMonthConsolidateExtrapaid.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptMonthConsolidateExtrapaid.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptFinanciaYearDue.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptFinanciaYearDue.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptBudget.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptBudget.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptFinancialYearTransaction.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptFinancialYearTransaction.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptFYC.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptFYC.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptIntake.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptIntake.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptBYQCCONCAT.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptBYQCCONCAT.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptDBYearQuotaCategory.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptDBYearQuotaCategory.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptDateBaseYearQuotaCategory.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptDateBaseYearQuotaCategory.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptMonthConsolidate.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptMonthConsolidate.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptOD.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptOD.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptPaymentProgramConsolidate.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptPaymentProgramConsolidate.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptBYTFOFSTPayable.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptBYTFOFSTPayable.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptMonthPaymentReconcilation.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptMonthPaymentReconcilation.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptPaymentReconcilation.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptPaymentReconcilation.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptProgramConsolidate.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptProgramConsolidate.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptQuotaJEConsolidate.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptQuotaJEConsolidate.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptRPeriodReconcilation.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptRPeriodReconcilation.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptExtraPaid.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptExtraPaid1.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptFinancialQuotaTOF.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptFinancialQuotaTOF.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptFinancialReceivedAll.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptFinancialReceivedAll.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptBYTFOFStudentPayable.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptBYTFOFStudentPayable.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptBYTFOFStudentPayableAPSMFC.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptBYTFOFStudentPayableAPSMFC.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptBYTFOFStudentPayableConvenor.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptBYTFOFStudentPayableConvenor.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptBYTFOFStudentPayableStudents.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptBYTFOFStudentPayableStudents.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptBYTFOFStudentPayableUFRO.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptBYTFOFStudentPayableUFRO.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptYearQuotaCategoryOF.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptYearQuotaCategoryOF.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptFeeDivert.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptFeeDivert.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptFinancialReceived.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptFinancialReceived.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptJV.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptJV.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptNextYearActual.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptNextYearActual.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptNextYearStudentTotal.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptNextYearStudentTotal.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptStudentDiscontinue.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptStudentDiscontinue.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptMonthFinancialConsolidate.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptMonthFinancialConsolidate.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptMonthFinancial.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptMonthFinancial.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptStudentReconcilationApproval.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptStudentReconcilationApproval.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptPeriodApproval.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptPeriodApproval.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptFinancialQuota.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptFinancialQuota.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptBYTFStudentPayableUFRO.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptBYTFStudentPayableUFRO.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptBYTFStudentPayableStudents.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptBYTFStudentPayableStudents.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptBYTFStudentPayableConvenor.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptBYTFStudentPayableConvenor.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptBYTFStudentPayableAPSMFC.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptBYTFStudentPayableAPSMFC.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptBYTFStudentPayable.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptBYTFStudentPayable.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptBatchTotals.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptBatchTotals.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptStudentPayableConvenor.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptStudentPayableConvenor.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptTFStudentPayableConvenor.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptTFStudentPayableConvenor.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptStudentPaybleUFRO.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptStudentPaybleUFRO.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptTFStudentPaybleUFRO.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptTFStudentPaybleUFRO.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptFinancial.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptFinancial.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptToBeRefund.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptToBeRefund.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptYQCTFList.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptYQCTFList.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptYearQuotaCategoryTF.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptYearQuotaCategoryTF.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptBYQCTFCON.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptBYQCTFCON.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptBYQCTFRACON.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptBYQCTFRACON.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptBYQCTFWORCON.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptBYQCTFWORCON.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptTFStudentPayableAPSMFC.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptTFStudentPayableAPSMFC.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptTFStudentPaybleStudents.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptTFStudentPaybleStudents.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptTFStudentPayable.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptTFStudentPayable.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptBatchOATCActualCon.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptBatchOATCActualCon.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptBYQCRACON.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptBYQCRACON.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptBYQCWORCON.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptBYQCWORCON.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptAllCourseSummary.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptAllCourseSummary.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptAllQuotaSummary.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptAllQuotaSummary.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptBatchCourseConsolidate.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptBatchCourseConsolidate.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptBatchEntry.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptBatchEntry.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptBatchOATCCon.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptBatchOATCCon.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptBatchQuotaConsolidate.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptBatchQuotaConsolidate.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptBatchStudent.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptBatchStudent.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptBatchStudentAllYearConsolidate.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptBatchStudentAllYearConsolidate.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptBatchStudentYearConsolidate.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptBatchStudentYearConsolidate.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptBatchStudentYearWise.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptBatchStudentYearWise.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptBatchYearConsolidate.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptBatchYearConsolidate.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptBatchYearCourseConsolidate.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptBatchYearCourseConsolidate.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptBatchYearEntryConsolidate.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptBatchYearEntryConsolidate.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptBatchYearQuotaConsolidate.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptBatchYearQuotaConsolidate.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptBYQCCON.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptBYQCCON.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptCourseSummary.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptCourseSummary.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptModified.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptModified.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptModifiedList.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptModifiedList.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptPeriodReconcilation.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptPeriodReconcilation.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptQuotaSummary.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptQuotaSummary.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptSR.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptSR.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptSR1.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptSR1.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptSR2.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptSR2.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptSR3.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptSR3.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptSRBatchStudentConsolidate.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptSRBatchStudentConsolidate.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptSRConsolidate.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptSRConsolidate.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptSRCourseConsolidate.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptSRCourseConsolidate.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptSRYearConsolidate.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptSRYearConsolidate.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptSRYearStudentConsolidate.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptSRYearStudentConsolidate.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptStudentDues.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptStudentDues.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptStudentFeePayable.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptStudentFeePayable.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptStudentFeePaid.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptStudentFeePaid.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptStudentPayable.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptStudentPayable.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptStudentPayableAPSMFC.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptStudentPayableAPSMFC.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptStudentPaybleStudents.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptStudentPaybleStudents.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptStudentPayTransactions.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptStudentPayTransactions.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptStudentReconcilation.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptStudentReconcilation.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptStudentRefund.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptStudentRefund.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptStudentRefundDetails.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptStudentRefundDetails.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptStudentScholarship.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptStudentScholarship.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptStudentSummary.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptStudentSummary.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptStudentTotal.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptStudentTotal.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptStudentPaid.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptStudentPaid.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptTallyReport.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptTallyReport.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptYearCourse.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptYearCourse.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptYearQuota.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptYearQuota.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptYearQuotaCategory.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptYearQuotaCategory.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptyearQuotaSummaryDetails.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptyearQuotaSummaryDetails.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeeReports\rptYQCList.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptYQCList.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="forms\FrmReportViewer.resx">
+      <DependentUpon>FrmReportViewer.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Intake\rptBatchHistory.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptBatchHistory.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Intake\rptBatchDocuements.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptBatchDocuements.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Intake\rptBatchAnalysis.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptBatchAnalysis.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Intake\rptAI.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptAI.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Intake\rptIntakeFee.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptIntakeFee.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Intake\rptIntakeReport.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptIntakeReport.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Intake\rptCurrentIntakeStudent.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptCurrentIntakeStudent.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ProgramReports\rptCourse.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptCourse.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ProgramReports\rptPrograms.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptPrograms.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ProgramReports\rptSection.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptSection.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StudentReports\rptBonafidemba.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptBonafidemba.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StudentReports\rptStudentDetainDetailsFY.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptStudentDetainDetailsFY.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StudentReports\rptAllYearDuesDR.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptAllYearDuesDR.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StudentReports\rptAllYearDuesConvenor.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptAllYearDuesConvenor.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StudentReports\rptAllYearDuesA.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptAllYearDuesA.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StudentReports\rptAllYearDues.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptAllYearDues.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StudentReports\rptFirstYearDue.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptFirstYearDue.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StudentReports\rptFourthYearDue.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptFourthYearDue.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StudentReports\rptSecondYearDue.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptSecondYearDue.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StudentReports\rptCurrentActiveStudents.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptCurrentActiveStudents.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StudentReports\rptThirdYear.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptThirdYear.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StudentReports\rptVerification.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptVerification.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StudentReports\rptCustodiamReportList.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptCustodiamReportList.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StudentReports\rptCustodianCertificate2.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptCustodianCertificate2.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StudentReports\rptDueList.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptDueList.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StudentReports\rptNoDueCertificate.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptNoDueCertificate.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StudentReports\rptCustodianCertificate.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptCustodianCertificate.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StudentReports\rptUFROBonafide.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptUFROBonafide.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StudentReports\rpt2RegisterPayDetails.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rpt2RegisterPayDetails.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StudentReports\rpt2YearFeeDetails.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rpt2YearFeeDetails.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StudentReports\rpt3RegisterPayDetails.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rpt3RegisterPayDetails.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StudentReports\rpt3YearFeeDetails.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rpt3YearFeeDetails.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StudentReports\rpt4RegisterPayDetails.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rpt4RegisterPayDetails.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StudentReports\rpt4YearFeeDetails.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rpt4YearFeeDetails.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StudentReports\rptacademic.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptacademic.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StudentReports\rptBloodGroup.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptBloodGroup.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StudentReports\rptBonafide.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptBonafide.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StudentReports\rptFamily.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptFamily.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StudentReports\rptReAdmission.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptReAdmission.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StudentReports\rptRegisterPayDetails.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptRegisterPayDetails.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StudentReports\rptStudentContactDetail.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptStudentContactDetail.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StudentReports\rptStudentDetainDetails.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptStudentDetainDetails.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StudentReports\rptStudentLanguages.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptStudentLanguages.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StudentReports\rptStudentRegister.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptStudentRegister.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StudentReports\rptStudentReligion.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptStudentReligion.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StudentReports\rptStudentReport.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptStudentReport.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StudentReports\rptStudentYearGraph.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptStudentYearGraph.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StudentReports\rptTC.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptTC.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StudentReports\rptYearFeeDetails.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptYearFeeDetails.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StudentReports\YearChart.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>YearChart.vb</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="Attendance.xsc">
+      <DependentUpon>Attendance.xsd</DependentUpon>
+    </None>
+    <None Include="Attendance.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>Attendance.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="Attendance.xss">
+      <DependentUpon>Attendance.xsd</DependentUpon>
+    </None>
+    <None Include="Employee.xsc">
+      <DependentUpon>Employee.xsd</DependentUpon>
+    </None>
+    <None Include="Employee.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>Employee.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="Employee.xss">
+      <DependentUpon>Employee.xsd</DependentUpon>
+    </None>
+    <None Include="Fees.xsc">
+      <DependentUpon>Fees.xsd</DependentUpon>
+    </None>
+    <None Include="Fees.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>Fees.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="Fees.xss">
+      <DependentUpon>Fees.xsd</DependentUpon>
+    </None>
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{967B4E0D-AD0C-4609-AB67-0FA40C0206D8}" />
+    <Service Include="{C0C07587-41A7-46C8-8FBD-3F9C8EBE2DDC}" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

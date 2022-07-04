@@ -1,0 +1,93 @@
+﻿@model  MYFEELIB.Entities.Student_Detain_Discontinue
+
+
+
+<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+
+@using (Ajax.BeginForm("DetainUpdate", "Academic", new AjaxOptions { UpdateTargetId = "result" }))
+{
+
+    <div class="step-content" style="margin-bottom: 0px; background: #fff; text-align: center; border-top: 1px solid #D4D4D4;">
+        <div class="step-pane active" id="step1">
+
+            <div class="col-md-offset-1 col-sm-12 col-md-9 col-lg-9 preauth_font  ">
+
+                <div class="clearfix"></div>
+                <div class="form-group col-sm-12 col-md-12 col-lg-12 text-left ">
+                    @Html.LabelFor(m => m.ID, new { @class = "col-md-6 control-label" })
+                    <div class="col-sm-6">
+                        @Html.TextBoxFor(m => m.ID, new { @class = "form-control", @readonly = "readonly" })
+                        @Html.ValidationMessageFor(m => m.ID, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+
+
+
+                <div class="form-group col-sm-12 col-md-12 col-lg-12 text-left ">
+                    @Html.LabelFor(m => m.DetainId, new { @class = "col-sm-6 control-label" })
+                    <div class="col-sm-6">
+                        @Html.DropDownListFor(m => m.DetainId, Model.DetainTypes, "SELECT DETAIN TYPE",
+                                              new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.DetainId, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group col-sm-12 col-md-12 col-lg-12 text-left ">
+                    @Html.LabelFor(m => m.Status, new { @class = "col-sm-6 control-label" })
+                    <div class="col-sm-6">
+                        @Html.DropDownListFor(m => m.Status, Model.Statuses, "SELECT STATUS",
+                                              new { @class = "form-control",@readonly="readonly" })
+                        @Html.ValidationMessageFor(m => m.Status, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+
+
+                @*<div class="form-group col-sm-12 col-md-12 col-lg-12 text-left ">
+                        @Html.LabelFor(m => m.DetainDate, new { @class = "col-sm-6 control-label" })
+                        <div class="col-sm-6">
+                            @Html.TextBoxFor(m => m.DetainDate, "{0:yyyy-MM-dd}", new { @class = "form-control", @type = "date", @min = @Session["FD"], @max = @Session["ED"] })
+                            @Html.ValidationMessageFor(m => m.DetainDate, "", new { @class = "text-danger" })
+
+                        </div>
+                    </div>*@
+
+                <div class="form-group col-sm-12 col-md-12 col-lg-12 text-left ">
+                    @Html.LabelFor(m => m.Discontinue_Date, new { @class = "col-sm-6 control-label" })
+                    <div class="col-sm-6">
+                        @Html.TextBoxFor(m => m.Discontinue_Date, "{0:yyyy-MM-dd}", new { @class = "form-control", @type = "date", @min = @Session["FD"], @max = @Session["ED"] })
+                        @Html.ValidationMessageFor(m => m.Discontinue_Date, "", new { @class = "text-danger" })
+
+                    </div>
+                </div>
+
+
+                <div class="clearfix"></div>
+
+            </div>
+
+        </div>
+        <div class="clearfix"></div>
+
+    </div>
+    <div align="right">
+        <button type="submit" id="btnGet" class="btn btn-default">Submit</button>
+    </div>
+
+
+}
+<div id="result"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+

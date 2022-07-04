@@ -1,0 +1,615 @@
+﻿
+<head>
+    <title>Home</title>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="~/assets/img/favicon.ico" type="image/x-icon" />
+
+    <!-- Bootstrap core CSS -->
+    <link href="~/Content/themes/base/jquery-ui.css" rel="stylesheet">
+    <link rel="stylesheet" href="~/assets/plugins/bootstrap/css/bootstrap.css" />
+    <link rel="stylesheet" href="~/assets/plugins/bootstrap/css/bootstrap.min.css" />
+    <!-- Fonts  -->
+    <link rel="stylesheet" href="~/assets/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="~/assets/css/main.css" />
+    <link rel="stylesheet" href="~/assets/css/animate.css" />
+
+
+    <script src="~/Scripts/jquery-1.7.1.min.js" type="text/javascript"></script>
+    <script src="~/Scripts/jquery.validate.min.js" type="text/javascript"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js" type="text/javascript"></script>
+
+
+
+
+    <script type="text/jscript">
+
+        $(document).ready(function () {
+
+            var id = "@Session["type"]";
+
+            var ind = 100;
+            if (id != "") {
+                $.ajax({
+                    type: "GET",
+                    contentType: "application/json; charset=utf-8",
+                    url: '@Url.Action("FillModules", "Admin")',
+                    data: { "RId": id },
+                    dataType: "json",
+                    beforeSend: function () {
+                        //alert(id);
+                    },
+                    success: function (data) {
+
+                        $.each(data, function (i, value) {
+
+                            if (value.Name != "DASHBOARD") {
+                                $("#Main_Tab").append("<li id='" + value.Id + "'> <a  href='#'><i class='" + value.F_Class + "'></i>" + value.Name + "</a></li>");
+                            }
+                            else {
+                                $("#Main_Tab").append("<li id='" + value.Id + "'> <a  href='../Admin/DashBoard?UT=Dash Board'><i class='" + value.F_Class + "'></i>" + value.Name + "</a></li>");
+
+                            }
+
+
+                            var Sid = value.Id;
+                            if (Sid != "") {
+                                $.ajax({
+                                    type: "GET",
+                                    contentType: "application/json; charset=utf-8",
+                                    url: '@Url.Action("FillSubModules", "Admin")',
+                                    data: { "SId": Sid },
+                                    dataType: "json",
+                                    beforeSend: function () {
+                                        //alert(id);
+                                    },
+                                    success: function (sdata) {
+                                        // debugger;
+                                        if (sdata != null) {
+                                            ind = ind + 1;
+                                            $("#Main_Tab").find('li[id="' + Sid + '"]').append("<ul class='nav-sub' id='" + ind + "' style='display: block;'></ul>");
+                                            $.each(sdata, function (i, Smoudule) {
+                                                var PageUrl = Smoudule.WebPage.toString();
+
+                                                $('ul[id="' + ind + '"]').append("<li id='" + Smoudule.F_Id + "'><a href='../" + Smoudule.cont + "/" + Smoudule.WebPage + "?UT=" + Smoudule.Name + "'>" + Smoudule.Name + "</a></li>");
+
+                                                @*@url.action(Smoudule.cont, "route")?Parameter=Value*@
+                                            });
+
+                                        }
+                                    }
+                                });
+                            }
+                        });
+                    },
+                    error: function (result) {
+                        alert('Service call failed: ' + result.status + ' Type :' + result.statusText);
+                    }
+                });
+            }
+        });
+
+
+
+
+
+
+
+
+    </script>
+
+
+    <script type="text/javascript">
+        $(document).ready(function (e) {
+            $("#RN").on('click', function () {
+
+                $("#search_concept").text($(this).text());
+            });
+            $("#SIC").on('click', function () {
+
+                $("#search_concept").text($(this).text());
+            });
+            $("#SBC").on('click', function () {
+
+                $("#search_concept").text($(this).text());
+            });
+
+
+            $("#btnsearch").click(function () {
+                var txt = $("#search_concept").text();
+                if (txt == "Student Search") {
+                    $("#SearchModal").modal('show');
+                    var RN = $("#txtsearch").val();
+
+                    if (RN == "") {
+                        alert("Please Enter Roll No !");
+                        return;
+                    }
+                    var route = '@Url.Action("StudentSearch", "Admin")?RollNo=' + $("#txtsearch").val()
+                    $('#Search_Form').load(route);
+                }
+                if (txt == "Student Bonafied") {
+                    $("#ReportModal").modal('show');
+                    var RN = $("#txtsearch").val();
+
+                    if (RN == "") {
+                        alert("Please Enter Roll No !");
+                        return;
+                    }
+
+                    var route = '@Url.Action("StudentBC", "Admin")?RollNo=' + $("#txtsearch").val()
+
+                    $('#Report_Form').load(route);
+
+                }
+                if (txt == "Student Id Card") {
+                    $("#ReportModal").modal('show');
+                    var RN = $("#txtsearch").val();
+
+                    if (RN == "") {
+                        alert("Please Enter Roll No !");
+                        return;
+                    }
+
+                    var route = '@Url.Action("StudentIdCard", "Admin")?RollNo=' + $("#txtsearch").val()
+
+                    $('#Report_Form').load(route);
+
+                }
+
+            });
+
+            $("#btnSearchHideModal").click(function () {
+                $("#SearchModal").modal('hide');
+            });
+
+            $("#btnReportHideModal").click(function () {
+                $("#ReportModal").modal('hide');
+            });
+
+            //$("#btnReportHideModalLC").click(function () {
+            //    $("#ReportModalLandScape").modal('hide');
+            //});
+
+        });
+    </script>
+
+    <script>
+        //session end
+        var sessionTimeoutWarning = @Session.Timeout -1;
+
+        var sTimeout = parseInt(sessionTimeoutWarning) * 60 * 1000;
+        setTimeout('SessionEnd()', sTimeout);
+
+        function SessionEnd() {
+            window.location = "@Url.Action("LogOff", "Academic")";
+        }
+    </script>
+
+
+    <script language="javascript" type="text/javascript">
+        $(document).ready(function () {
+            try {
+                $("input[type='text']").each(function () {
+                    $(this).attr("autocomplete", "off");
+                });
+            }
+            catch (e)
+            { }
+        });
+    </script>
+
+
+
+    @RenderSection("css", required: false)
+</head>
+<body>
+    <section id="main-wrapper" class="theme-default sidebar-mini">
+        <header id="header">
+            <!--logo start-->
+            <div class="brand" style="background: #fff;">
+                <a href="DashBoard.aspx" class="">
+
+                    @*<img src="~/assets/img/header.jpg" width="300" height="150" />*@
+                    <embed src="~/assets/img/vidhya.swf" width="100" height="80" />
+                </a>
+            </div>
+            <!--logo end-->
+            <div class=" col-md-5 col-sm-3 col-xs-12 navbar-left time_icons_pops">
+
+                <div class="toggle-navigation toggle-left">
+                    <button class="sidebar-toggle" id="toggle-left">
+                        <i class="fa fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-5 col-xs-12  search_bar_main">
+                <div class="input-group">
+                    <div class="input-group-btn search-panel">
+                        <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown">
+                            <span id="search_concept">Select</span> <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a id="RN" href="#">Student Search</a></li>
+                            <li><a id="SIC" href="#">Student Id Card</a></li>
+                            <li><a id="SBC" href="#">Student Bonafied</a></li>
+
+
+                        </ul>
+                    </div>
+                    <input type="hidden" name="search_param" value="all" id="search_param" />
+                    <input type="text" class="form-control" name="x" id="txtsearch" placeholder="Search term..." />
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="button" id="btnsearch"><span class="glyphicon glyphicon-search"></span></button>
+                    </span>
+                </div>
+
+            </div>
+            <div class="brand mjcet_logo" style="background: #fff; float: right; text-align: right; width: 8%; margin-right: 15px;">
+                <a href="DashBoard.aspx" class="logo">
+                    <img src="~/assets/img/mjcet.png" width="120" height="74" />
+                </a>
+            </div>
+            <div class="pageheader">
+                <div class="breadcrumb-wrapper ">
+
+                    @if (Session["Header"] != null)
+                    {
+                        <span class="label"><b>@Session["Header"].ToString()</b></span>
+                    }
+                    else
+                    {
+                        <span class="label"><b>My Dashboard</b></span>
+                    }
+
+                    <asp:Label ID="LblHeading" class="label" runat="server" Text="My Dashboard"></asp:Label>
+                    <div class="dropdown profile pull-right ">
+                        <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">
+                            <span class="meta">
+                                @if (Session["username"] != null)
+                                {
+                                    <span class="username"><b>@Session["username"].ToString()</b></span>
+                                }
+
+
+                                <span class="caret"></span>
+                            </span>
+                        </a>
+                        <ul class="dropdown-menu animated fadeInRight" role="menu">
+                            <li>
+
+                                <span class="icon">
+                                    @Html.ActionLink(" Logout", "Index", "Home")
+                                </span>
+
+                            </li>
+                        </ul>
+                    </div>
+
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </header>
+        <!--sidebar left start-->
+        <aside class="sidebar sidebar-left">
+
+            <nav>
+
+
+
+
+                <ul id="Main_Tab" class="nav nav-pills nav-stacked"></ul>
+
+            </nav>
+
+
+
+            <h5 class="sidebar-header">Pre - Authorization</h5>
+            <div class="setting-list">
+                <p>This process wil help you get prior approvel from insurance company/TPA befoe the admission for the treatment and also it ascertins whether it is covered under your health in surance policy.</p>
+                <p>Here are the seven easy steos involved in the process</p>
+                <p><strong>Getting Started</strong></p>
+            </div>
+        </aside>
+        <!--sidebar left end-->
+        <!--main content start-->
+
+
+        <section id="main-content" class="main-content-wrapper">
+            @*<div style="min-height: 0px; max-height: 82.1vh; overflow: auto; overflow-x: hidden; display: block;">*@
+            @RenderBody()
+            @*</div>*@
+
+
+
+        </section>
+        <footer style="background: #2e343a; padding: 0px 12px; clear: both; width: 100%; height: 35px;">
+            <p style="padding: 8px 15px; margin-bottom: 0px; color: #afafaf; float: left;">© 2016. VCMS All right reserved.</p>
+            <p style="padding: 8px 15px; margin-bottom: 0px; color: #afafaf; float: right;">Powerd by <a href="http://psrsolutions.co.in/" target="_blank" style="color: #fff;">&nbsp;&nbsp;PSR Solutions</a>.</p>
+        </footer>
+
+
+        <!--main content end-->
+    </section>
+    <!-- Modal -->
+    <!--Global JS-->
+    <script src="~/assets/js/vendor/jquery-1.11.1.min.js"></script>
+    <script src="~/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+    <script src="~/assets/plugins/navgoco/jquery.navgoco.min.js"></script>
+    <script src="~/assets/plugins/pace/pace.min.js"></script>
+    <script src="~/assets/plugins/fullscreen/jquery.fullscreen-min.js"></script>
+    <script src="~/assets/js/src/app.js"></script>
+    <!--Page Level JS-->
+    @*<script src="~/assets/plugins/countTo/jquery.countTo.js"></script>
+        <script src="~/assets/plugins/weather/js/skycons.js"></script>
+        <script src="~/assets/plugins/daterangepicker/moment.min.js"></script>
+        <script src="~/assets/plugins/daterangepicker/daterangepicker.js"></script>
+        <!-- ChartJS  -->
+        <script src="~/assets/plugins/chartjs/Chart.min.js"></script>
+        <!-- Morris  -->
+        <script src="~/assets/plugins/morris/js/morris.min.js"></script>
+        <script src="~/assets/plugins/morris/js/raphael.2.1.0.min.js"></script>
+        <!-- Vector Map  -->
+        <script src="~/assets/plugins/jvectormap/js/jquery-jvectormap-1.2.2.min.js"></script>
+        <script src="~/assets/plugins/jvectormap/js/jquery-jvectormap-world-mill-en.js"></script>
+        <!-- Gauge  -->
+        <script src="~/assets/plugins/gauge/gauge.min.js"></script>
+        <script src="~/assets/plugins/gauge/gauge-demo.js"></script>
+        <!-- Calendar  -->
+        <script src="~/assets/plugins/calendar/clndr.js"></script>
+        <script src="~/assets/plugins/calendar/clndr-demo.js"></script>
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.5.2/underscore-min.js"></script>
+        <!-- Switch -->
+        <script src="assets/plugins/switchery/switchery.min.js"></script>
+        <!--Load these page level functions-->
+        <script>
+            $(document).ready(function () {
+                app.dateRangePicker();
+                app.chartJs();
+                app.weather();
+                app.spinStart();
+                app.spinStop();
+            });
+        </script>*@
+    @*display :none*@
+    <div style=" text-align :center ; display:none;" class="background_loading" id="loaderDiv">
+        <div style=" text-align: center; top: 40%;">
+            <div class="loader">
+                <div class="line"> </div>
+                <div class="line"> </div>
+                <div class="line"> </div>
+                <div class="line"> </div>
+                <div style="text-align: center; font-size: 22px; margin-left: 5px; margin-top: 20px; color: #afafaf;"> Loading... </div>
+            </div>
+        </div>
+    </div>
+
+    <div style=" text-align :center ; display:none;" class="background_loading" id="ProcessDiv">
+        <div style=" text-align: center; top: 40%;">
+            <div class="loader">
+                <div class="line"> </div>
+                <div class="line"> </div>
+                <div class="line"> </div>
+                <div class="line"> </div>
+                <div style="text-align: center; font-size: 22px; margin-left: 5px; margin-top: 20px; color: #afafaf;"> Please Wait... </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" tabindex="-1" id="loginModal"
+         data-keyboard="false" data-backdrop="static">
+        <div class="modal-dialog modal-lg">
+            <div tabindex="-1" role="dialog" class="ui-dialog ui-corner-all ui-widget ui-widget-content ui-front ui-dialog-buttons ui-draggable" aria-describedby="dialog" aria-labelledby="ui-id-1" style="height: auto; width: 1000px; top: 200px; left: 10px; display: block; z-index: 201;">
+
+                <div class="ui-dialog-titlebar ui-corner-all ui-widget-header ui-helper-clearfix ui-draggable-handle">
+                    <span id="ui-id-1" class="ui-dialog-title">Header</span>
+                    <button type="button" data-dismiss="modal" class="ui-button ui-corner-all ui-widget ui-button-icon-only ui-dialog-titlebar-close" title="Close"><span class="ui-button-icon ui-icon ui-icon-closethick"></span><span class="ui-button-icon-space"> </span>Close</button>
+                </div>
+                <div class="modal-body">
+                    <div id="partial">
+                        <div style=" text-align: center; top: 200px;">
+                            <img src="~/assets/img/loading.jpg" />
+                        </div>
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="btnHideModal" class="ui-button ui-corner-all ui-widget">
+                        Close
+                    </button>
+                </div>
+            </div>
+
+
+
+        </div>
+    </div>
+
+    <div class="modal fade" tabindex="-1" id="DetainModal"
+         data-keyboard="false" data-backdrop="static">
+        <div class="modal-dialog modal-lg">
+            <div tabindex="-1" role="dialog" class="ui-dialog ui-corner-all ui-widget ui-widget-content ui-front ui-dialog-buttons ui-draggable" aria-describedby="dialog" aria-labelledby="ui-id-1" style="height: auto; width: 1000px; top: 200px; left: 10px; display: block; z-index: 201;">
+
+                <div class="ui-dialog-titlebar ui-corner-all ui-widget-header ui-helper-clearfix ui-draggable-handle">
+                    <span id="ui-id-1" class="ui-dialog-title">Detain Update</span>
+                    <button type="button" data-dismiss="modal" class="ui-button ui-corner-all ui-widget ui-button-icon-only ui-dialog-titlebar-close" title="Close"><span class="ui-button-icon ui-icon ui-icon-closethick"></span><span class="ui-button-icon-space"> </span>Close</button>
+                </div>
+                <div class="modal-body">
+                    <div id="partialDetain">
+                        <div style=" text-align: center; top: 200px;">
+                            <img src="~/assets/img/loading.jpg" />
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="btnDetainHideModal" class="ui-button ui-corner-all ui-widget">
+                        Close
+                    </button>
+                </div>
+            </div>
+
+
+
+        </div>
+    </div>
+
+
+    <div class="modal fade" tabindex="-1" id="SearchModal"
+         data-keyboard="false" data-backdrop="static">
+        <div class="modal-dialog modal-lg">
+            <div tabindex="-1" role="dialog" class="ui-dialog ui-corner-all ui-widget ui-widget-content ui-front ui-dialog-buttons ui-draggable" aria-describedby="dialog" aria-labelledby="ui-id-1"
+                 style="min-height: 0px; max-height: 740px; width: 130%;">
+
+                <div class="ui-dialog-titlebar ui-corner-all ui-widget-header ui-helper-clearfix ui-draggable-handle">
+                    <h3><span class="panel_design_div"><img src="~/imgs/ST.jfif" width="24" height="30" style="padding:2px" /></span><span id="span_RN" class="panel-title  text-left" style="padding:10px;">Header</span></h3>
+
+                    <button type="button" data-dismiss="modal" class="ui-button ui-corner-all ui-widget ui-button-icon-only ui-dialog-titlebar-close" title="Close"><span class="ui-button-icon ui-icon ui-icon-closethick"></span><span class="ui-button-icon-space"> </span>Close</button>
+                </div>
+                <div class="modal-body" style="min-height: 0px; max-height: 600px; overflow: auto; overflow-x: hidden; display: block;  ">
+                    <div id="Search_Form">
+
+                        <div style=" text-align: center; top: 40%; min-height :100px">
+                            <div class="loader">
+                                <div class="line"> </div>
+                                <div class="line"> </div>
+                                <div class="line"> </div>
+                                <div class="line"> </div>
+                                <div style="text-align: center; font-size: 22px; margin-left: 5px; margin-top: 20px; color: #afafaf;"> Loading... </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="btnSearchHideModal" class="ui-button ui-corner-all ui-widget">
+                        Close
+                    </button>
+                </div>
+            </div>
+
+
+
+        </div>
+
+
+
+
+
+    </div>
+
+
+
+
+
+
+
+    @*<div class="modal fade" tabindex="-1" id="ReportModal"
+         data-keyboard="false" data-backdrop="static">
+        <div class="modal-dialog modal-lg">
+            <div tabindex="-1" role="dialog" class="ui-dialog ui-corner-all ui-widget ui-widget-content ui-front ui-dialog-buttons ui-draggable" aria-describedby="dialog" aria-labelledby="ui-id-1"
+                 style="min-height: 0px; max-height: 840px; width: 130%;">
+
+                <div class="ui-dialog-titlebar ui-corner-all ui-widget-header ui-helper-clearfix ui-draggable-handle">
+                    <h3><span class="panel_design_div"><img src="~/imgs/ST.jfif" width="24" height="30" style="padding:2px" /></span><span id="span_RN" class="panel-title  text-left" style="padding:10px;">Report Generation</span></h3>
+
+                    <button type="button" data-dismiss="modal" class="ui-button ui-corner-all ui-widget ui-button-icon-only ui-dialog-titlebar-close" title="Close"><span class="ui-button-icon ui-icon ui-icon-closethick"></span><span class="ui-button-icon-space"> </span>Close</button>
+                </div>
+                <div class="modal-body" style="min-height: 0px; max-height: 600px; overflow: auto; overflow-x: hidden; display: block;  ">
+                    <div id="Report_Form">
+
+                        <div style=" text-align: center; top: 40%; min-height :100px">
+                            <div class="loader">
+                                <div class="line"> </div>
+                                <div class="line"> </div>
+                                <div class="line"> </div>
+                                <div class="line"> </div>
+                                <div style="text-align: center; font-size: 22px; margin-left: 5px; margin-top: 20px; color: #afafaf;"> Loading... </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="btnReportHideModal" class="ui-button ui-corner-all ui-widget">
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>*@
+
+    <div class="modal fade" tabindex="-1" id="ReportModal"
+         data-keyboard="false" data-backdrop="static">
+        <div class="modal-dialog modal-lg">
+            <div tabindex="-1" role="dialog" class="ui-dialog ui-corner-all ui-widget ui-widget-content ui-front ui-dialog-buttons ui-draggable" aria-describedby="dialog" aria-labelledby="ui-id-1"
+                 style="min-height: 0px; max-height: 840px; width: 160%;">
+
+                <div class="ui-dialog-titlebar ui-corner-all ui-widget-header ui-helper-clearfix ui-draggable-handle">
+                    <h3><span class="panel_design_div"><img src="~/imgs/ST.jfif" width="24" height="30" style="padding:2px" /></span><span id="span_RN" class="panel-title  text-left" style="padding:10px;">Report Generation</span></h3>
+
+                    <button type="button" data-dismiss="modal" class="ui-button ui-corner-all ui-widget ui-button-icon-only ui-dialog-titlebar-close" title="Close"><span class="ui-button-icon ui-icon ui-icon-closethick"></span><span class="ui-button-icon-space"> </span>Close</button>
+                </div>
+                <div class="modal-body" style="min-height: 0px; max-height: 600px; overflow: auto; overflow-x: hidden; display: block;  ">
+                    <div id="Report_Form">
+
+                        <div style=" text-align: center; top: 40%; min-height :100px">
+                            <div class="loader">
+                                <div class="line"> </div>
+                                <div class="line"> </div>
+                                <div class="line"> </div>
+                                <div class="line"> </div>
+                                <div style="text-align: center; font-size: 22px; margin-left: 5px; margin-top: 20px; color: #afafaf;"> Loading... </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="btnReportHideModal" class="ui-button ui-corner-all ui-widget">
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" tabindex="-1" id="ReportModalTT"
+         data-keyboard="false" data-backdrop="static">
+        <div class="modal-dialog modal-lg">
+            <div tabindex="-1" role="dialog" class="ui-dialog ui-corner-all ui-widget ui-widget-content ui-front ui-dialog-buttons ui-draggable" aria-describedby="dialog" aria-labelledby="ui-id-1"
+                 style="min-height: 0px; max-height: 840px; width: 200%;">
+
+                <div class="ui-dialog-titlebar ui-corner-all ui-widget-header ui-helper-clearfix ui-draggable-handle">
+                    <h3><span class="panel_design_div"><img src="~/imgs/ST.jfif" width="24" height="30" style="padding:2px" /></span><span id="span_RN" class="panel-title  text-left" style="padding:10px;">Time Table Update</span></h3>
+
+                    <button type="button" data-dismiss="modal" class="ui-button ui-corner-all ui-widget ui-button-icon-only ui-dialog-titlebar-close" title="Close"><span class="ui-button-icon ui-icon ui-icon-closethick"></span><span class="ui-button-icon-space"> </span>Close</button>
+                </div>
+                <div class="modal-body" style="min-height: 0px; max-height: 600px; overflow: auto; overflow-x: hidden; display: block;  ">
+                    <div id="Time_Form">
+
+                        <div style=" text-align: center; top: 40%; min-height :100px">
+                            <div class="loader">
+                                <div class="line"> </div>
+                                <div class="line"> </div>
+                                <div class="line"> </div>
+                                <div class="line"> </div>
+                                <div style="text-align: center; font-size: 22px; margin-left: 5px; margin-top: 20px; color: #afafaf;"> Loading... </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="btnTimeHideModalLC" class="ui-button ui-corner-all ui-widget">
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    @RenderSection("scripts", required: false)
+
+</body>

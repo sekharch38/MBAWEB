@@ -1,0 +1,222 @@
+﻿@model  IEnumerable<MYFEELIB.Entities.ExtraPaid>
+@{
+    ViewData["Title"] = "ExtraPaid Confirmation";
+}
+
+
+<script>
+    function isNumber(evt) {
+        evt = (evt) ? evt : window.event;
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+            return false;
+        }
+        return true;
+    }
+</script>
+<script type="text/jscript">
+
+
+    $(document).ready(function () {
+        $("#Confirm").hide();
+    });
+
+    $(function () {
+
+        $('#ChallanDate').blur(function () {
+            //  debugger;
+
+            var PaymentDate = $("#ChallanDate").val();
+            if (PaymentDate == "") {
+                alert("Please Enter Payment Date !");
+                return;
+            }
+
+            var dtmin = "@Session["FD"]";
+            var dtmax = "@Session["ED"]";
+
+
+            if (!(dtmin <= PaymentDate && dtmax >= PaymentDate)) {
+                alert("Payment Date should be with in financial Period !");
+                $("#ChallanDate").val("");
+                return;
+
+            }
+
+        });
+
+    });
+
+
+
+
+
+
+
+
+
+
+    $(document).on("click", "#Confirm", function () {
+
+        if (PaymentDate.val() == "") {
+            alert("Please Enter Payment Date !");
+            return;
+        }
+
+
+
+        var StudentTransactions = new Array();
+        $("#DataTable TBODY TR").each(function () {
+
+            var req = {};
+
+            var row = $(this);
+            var EnterAmount = $(this).closest("tr").find('td:eq(3)').text();
+            if (!isNaN(EnterAmount) && EnterAmount.length !== 0) {
+
+                var req = {};
+
+
+                req.StudentId = $("#StudentId").val();
+                req.TotalAmout = $("#TotSum").val();
+
+                req.Year = $("#Year").val();
+                req.ChallanNo = $("#ChallanNo").val();
+                req.PaymentDate = $("#PaymentDate").val();
+
+                req.PayMode = $("#PayMode").val();
+                req.EnterBy = "@Session["username"]";
+
+                req.Id = $(this).closest("tr").find('td:eq(0)').text();
+                req.TransactionId = $(this).closest("tr").find('td:eq(1)').text();
+                req.FeeId = $(this).closest("tr").find('td:eq(2)').text();
+                req.Due = $(this).closest("tr").find('td:eq(3)').text();
+
+
+                StudentTransactions.push(req);
+
+            }
+        });
+
+
+
+
+        StudentTransactions = JSON.stringify({ 'StudentTransactions': StudentTransactions });
+
+        //Send the JSON array to Controller using AJAX.
+        $.ajax({
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+
+            url: '@Url.Action("ConfirmAcademicChallan", "Academic")',
+            data: StudentTransactions,
+            dataType: "json",
+            success: function (r) {
+
+                if (r == 0) {
+
+                    return;
+                }
+                else {
+                    alert(r + " record(s) inserted.");
+                    $("#DataTable tr").remove();
+                    var Tran_Id = $("#TranId").val();
+                    $("#TransactionId option[value='" + Tran_Id + "']").remove();
+                    $("#PaymentDate").val("");
+                    $("#TransactionId").val("");
+                    $("#PayMode").val("");
+                    $("#Year").val("");
+                    $("#Name").val("");
+                    $("#ChallanNo").val("");
+
+                    $("#Confirm").hide();
+                }
+
+
+            }
+        });
+    });
+
+
+
+</script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#btnModalChallan").click(function () {
+            $("#loginModal").modal('show');
+            var RN = $("#txtRollNo").val();
+            var RES = $("#ResultType").val();
+            if (RN == "") {
+                alert("Please Enter Roll No !");
+                return;
+            }
+
+            var route = '@Url.Action("GetChallanUpdate", "Academic")?RollNo=' + $("#txtRollNo").val()
+
+            $('#partial').load(route);
+        });
+
+        $("#btnHideModal").click(function () {
+            $("#loginModal").modal('hide');
+        });
+    });
+
+</script>
+
+
+
+
+<section id="" class="animated fadeInUp">
+    <section class="fuelux" style="border: 14px solid #57bee0; margin: 50px 100px;">
+
+
+
+        <div class="step-content" style="margin-bottom: 0px; background: #fff; text-align: center; border-top: 1px solid #D4D4D4;">
+            <div class="step-pane active" id="step1">
+
+                <div class="col-md-offset-1 col-sm-12 col-md-9 col-lg-9 preauth_font  ">
+                    <div class="clear" style="clear: both;"></div>
+
+
+                    <div class="form-group col-sm-12 col-md-12 col-lg-12 text-left ">
+                        <div class="col-sm-4 ">
+
+                            <select id="ResultType" class="form-control">
+                                <option value="Challan">Challan</option>
+                                <option value="Extra Paid">Extra Paid</option>
+                                <option value="Out Of Data">Out Of Data</option>
+                            </select>
+
+
+                        </div>
+
+
+                        <div class="col-sm-4">
+                            <input type="text" id="txtRollNo" class='form-control' placeholder="Roll No" />
+                        </div>
+                        <div class="col-sm-4">
+                            <button id="btnModalChallan" type="button"
+                                    class="btn btn-default">
+                                Get Challan Details
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+        <div id="MyWizard" class="wizard" style=" text-align :right ">
+            <button type="submit" id="Confirm" value="Save" class="btn-default round" onclick="return confirm('Are you sure?')">Confirm</button>
+        </div>
+
+    </section>
+    <div style=" text-align :center ;display :none" class="background_loading" id="loaderDiv">
+        <img src="~/assets/img/loading.jpg" />
+    </div>
+
+
+
+</section>

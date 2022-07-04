@@ -1,0 +1,63 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+    <title></title>
+
+    <script src="~/Scripts/jquery-1.7.1.min.js"></script>
+
+    <script>
+
+        $(document).ready(function () {
+
+
+            $(':radio').click(function () {
+
+                debugger;
+
+                //Get the value of Radio button
+
+                var _GetVal = $(this).attr('value');
+
+            });
+
+        });
+
+
+    </script>
+
+
+</head>
+
+<body>
+
+    <form id="form1">
+
+        <div>
+
+            First
+
+            <input type="radio" name="rd1" value="10" />
+
+            <input type="radio" name="rd1" value="11" />
+
+            Second
+
+            <input type="radio" name="rd1" value="12" />
+
+            <input type="radio" name="rd1" value="13" />
+
+        </div>
+
+    </form>
+
+</body>
+
+</html>

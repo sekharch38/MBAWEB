@@ -1,0 +1,344 @@
+﻿@{
+    ViewData["Title"] = "Role Manager";
+}
+
+<style>
+    table {
+        max-width: 980px;
+        table-layout: fixed;
+        margin: auto;
+    }
+
+    th, td {
+        padding: 2px 4px;
+        border: 1px solid #ddd;
+    }
+
+    thead, tfoot {
+        background: #58bee0;
+        color: #eaebec;
+        display: table;
+        width: 100%;
+        width: calc(100% - 18px);
+    }
+
+    tbody {
+        min-height: 0px;
+        max-height: 300px;
+        overflow: auto;
+        overflow-x: hidden;
+        display: block;
+        width: 100%;
+    }
+
+        tbody tr {
+            display: table;
+            width: 100%;
+            table-layout: fixed;
+        }
+
+    table, td, tr {
+        min-height: 0px;
+        max-height: 300px;
+    }
+</style>
+<script type="text/jscript">
+
+    $(document).ready(function () {
+
+        $("#btnClear").hide();
+        $("#btnsubmit").hide();
+        $("#loaderDiv").show();
+        $.ajax({
+            type: "GET",
+            contentType: "application/json; charset=utf-8",
+            url: '@Url.Action("Get_Roles", "Master")',
+            dataType: "json",
+            beforeSend: function () {
+
+            },
+            success: function (data) {
+
+                var markup = "<tr><th width='10%'>Role Id</th><th width='60%'>Role</th><th width='30%'>Edit Role</th></tr>";
+                $("#RoleDataTable thead").append(markup);
+                var markupfooter;
+                $.each(data, function (i, Rec) {
+                    var markup = "<tr><td width='10%'>" + Rec.Value + "</td><td width='60%' >" + Rec.Text + "</td><td width='30%'><a data-value=" + Rec.Value + " href='javascript:void(0)' class='btnEdit'>Edit</a></td></tr>";
+                    $("#RoleDataTable tbody").append(markup);
+
+
+                });
+
+            }
+        });
+
+        var id = "@Session["type"]";
+        if (id != "") {
+            $.ajax({
+                type: "GET",
+                contentType: "application/json; charset=utf-8",
+                url: '@Url.Action("FillModules", "Admin")',
+                data: { "RId": id },
+                dataType: "json",
+                beforeSend: function () {
+                },
+                success: function (data) {
+                    if (data != null) {
+                        $.ajax({
+                            type: "GET",
+                            contentType: "application/json; charset=utf-8",
+                            url: '@Url.Action("RoleSubModules", "Admin")',
+                            data: { "RId": id },
+                            dataType: "json",
+                            beforeSend: function () {
+                            },
+                            success: function (sdata) {
+
+                                if (sdata != null) {
+                                    var markup = "<tr><th width='15%'><input type='checkbox' id='checkBoxAll' class='custom-checkbox' />Select All</th><th width='10%'>Module Id</th><th width='75%'>Feature</th></tr>";
+                                    $("#SubModuleDataTable thead").append(markup);
+
+                                    $.each(sdata, function (i, Smoudule) {
+                                        debugger;
+                                        var markup = "<tr><td width='15%'><input type='checkbox' value='" + Smoudule.F_Id + "' class='chkres' ></td><td width='10%'>" + Smoudule.Id + "</td><td width='75%'>" + Smoudule.Name + "</td></tr>";
+                                        $("#SubModuleDataTable tbody").append(markup);
+
+
+                                    });
+                                    $("#loaderDiv").hide();
+                                }
+                            }
+                        });
+                    }
+                },
+                error: function (result) {
+                    alert('Service call failed: ' + result.status + ' Type :' + result.statusText);
+                }
+            });
+        }
+    });
+
+
+    $(document).on("click", "#checkBoxAll", function () {
+
+        var chkAll = this;
+        var chkRows = $("#SubModuleDataTable").find(".chkres");
+        chkRows.each(function () {
+            $(this)[0].checked = chkAll.checked;
+        });
+        if ($(this).is(":checked")) {
+            $("#btnClear").show();
+            $("#btnsubmit").show();
+        }
+        else {
+            $("#btnClear").hide();
+            $("#btnsubmit").hide();
+        }
+    });
+
+
+    $(document).on("click", ".chkres", function () {
+        var chkAll = $("#checkBoxAll");
+        chkAll.attr("checked", "checked");
+        var chkRows = $("#SubModuleDataTable").find(".chkres");
+        chkRows.each(function () {
+            if (!$(this).is(":checked")) {
+                chkAll.removeAttr("checked", "checked");
+                return;
+            }
+        });
+        var select = 0;
+        $('#SubModuleDataTable tr').find('.chkres').each(function () {
+            if ($(this).is(":checked")) {
+                select += 1;
+            }
+        });
+
+        if (select > 0) {
+            $("#btnClear").show();
+            $("#btnsubmit").show();
+        }
+        else {
+            $("#btnClear").hide();
+            $("#btnsubmit").hide();
+        }
+    });
+
+
+
+    $(document).on("click", "#btnsubmit", function () {
+
+        var RID = $("#txtRoleId").val();
+        var RName = $("#txtRoleName").val();
+        if (RID == "") {
+            alert("Please Enter Role Id !");
+            $("#txtRoleId").focus();
+            return false;
+        }
+        else if (RName == "") {
+            alert("Please Enter Role Name !");
+            $("#txtRoleName").focus();
+            return false;
+        }
+
+        $("#ProcessDiv").show();
+
+        var CheckSubAll = new Array();
+        var chkRows = $("#SubModuleDataTable").find(".chkres");
+        chkRows.each(function () {
+            if ($(this).is(":checked")) {
+                var req = {};
+                req.F_Id = $(this).closest("tr").find("TD").eq(0).find("input").val();
+                req.Id = $(this).closest("tr").find("TD").eq(1).text();
+                req.R_Id = $("#txtRoleId").val();
+                req.RoleName = $("#txtRoleName").val();
+                CheckSubAll.push(req);
+            }
+        });
+
+
+        CheckSubAll = JSON.stringify({ 'CheckSubAll': CheckSubAll });
+        $.ajax({
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            url: '@Url.Action("ROLE_SAVE", "Master")',
+            data: CheckSubAll,
+            dataType: "json",
+            success: function (r) {
+                alert(r);
+                $("#txtRoleId").val("");
+                $("#txtRoleName").val("");
+                var chkRows = $("#SubModuleDataTable").find(".chkres");
+                chkRows.each(function () {
+                    $(this)[0].checked = false;
+                });
+                $("#ProcessDiv").hide();
+            },
+            error: function (result) {
+                alert('Service call failed: ' + result.status + ' Type :' + result.statusText);
+                $("#ProcessDiv").hide();
+            }
+        });
+    });
+
+
+    $(document).on("click", "#btnClear", function () {
+        $("#txtRoleId").val("");
+        $("#txtRoleName").val("");
+        var chkRows = $("#SubModuleDataTable").find(".chkres");
+        chkRows.each(function () {
+            $(this)[0].checked = false;
+        });
+        $("#btnClear").hide();
+        $("#btnsubmit").hide();
+    });
+
+    $(document).on('click', '.btnEdit', function () {
+        var id = $(this).attr("data-value");
+        $("#txtRoleId").val(id);
+        $("#txtRoleName").val($(this).closest("tr").find('td:eq(1)').text());
+        $("#txtRoleId").prop("readonly", true);
+        $("#btnClear").show();
+        $("#btnsubmit").show();
+        $("#loaderDiv").show();
+        if (id != "") {
+            $.ajax({
+                type: "GET",
+                contentType: "application/json; charset=utf-8",
+                url: '@Url.Action("SelectRoleSubModules", "Admin")',
+                data: { "RId": id },
+                dataType: "json",
+                beforeSend: function () {
+                },
+                success: function (select) {
+
+                    if (select != null) {
+
+                        var chkRows = $("#SubModuleDataTable").find(".chkres");
+                        chkRows.each(function () {
+                            $(this)[0].checked = false;
+                        });
+                        $.each(select, function (i, Value) {
+                            var chkRows = $("#SubModuleDataTable").find(".chkres");
+                            chkRows.each(function () {
+                                //debugger;
+                                var id = $(this).closest("tr").find("TD").eq(0).find("input").val();
+                                if (id == Value.F_Id) {
+                                    $(this)[0].checked = true;
+                                }
+
+                            });
+                        });
+
+                        $("#loaderDiv").hide();
+                    }
+                }
+            });
+        }
+    });
+</script>
+
+<section id="" class="animated fadeInUp">
+    <section class="fuelux" style="margin: 50px 50px;">
+        <div class="step-content" style="margin-bottom: 0px; background: #fff; text-align: center; border-top: 1px solid #D4D4D4;">
+            <div class="step-pane active" id="step1">
+
+                <div class="col-md-offset-1 col-sm-12 col-md-9 col-lg-9 preauth_font  ">
+                    <div class="clear" style="clear: both;"></div>
+
+                    <div class="form-group col-sm-12 col-md-12 col-lg-12 text-left ">
+                        <label class="col-sm-6 control-label">Role Id</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" name="txtRoleId" id="txtRoleId" placeholder="Role Id" onkeypress="return isNumber(event)" />
+                        </div>
+                    </div>
+                    <div class="form-group col-sm-12 col-md-12 col-lg-12 text-left">
+                        <label class="col-sm-6 control-label">Role Name</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" name="txtRoleName" id="txtRoleName" placeholder="Role" />
+                        </div>
+                    </div>
+
+
+                    <div style="width :100%">
+                        <table id="SubModuleDataTable" style="width :100%" class="table table-bordered">
+                            <thead>
+                            </thead>
+                            <tbody></tbody>
+                            <tfoot></tfoot>
+                        </table>
+                    </div>
+
+
+
+                    <div class="clear" style="clear: both;"></div>
+
+
+
+                    <div class="wizard col-sm-12">
+                        <div class="pull-right" style="padding: 5px;">
+                            <button id="btnClear" class="btn btn-default">Clear</button>
+                            <button id="btnsubmit" class="btn btn-success btn-default" onclick="return confirm('Are you sure?')">Submit</button>
+                        </div>
+                    </div>
+
+
+                    <div style="width :100%">
+                        <table id="RoleDataTable" style="width:100%;" class="table table-bordered">
+                            <thead>
+                            </thead>
+                            <tbody></tbody>
+                            <tfoot></tfoot>
+                        </table>
+
+                    </div>
+
+                </div>
+
+                <div class="clearfix"></div>
+
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </section>
+</section>

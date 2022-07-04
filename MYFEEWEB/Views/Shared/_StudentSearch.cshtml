@@ -1,0 +1,684 @@
+﻿@model  MYFEELIB.Entities.StudentSearch
+
+<style>
+    img {
+        border: solid 2px;
+        border-bottom-color: #ffe;
+        border-left-color: #eed;
+        border-right-color: #eed;
+        border-top-color: #ccb;
+        max-height: 180px;
+        max-width: 130px;
+    }
+
+    .table > thead > tr > th {
+        background: #3277ab;
+        color: #fff;
+    }
+
+    .panel-default > .panel-heading {
+        padding: 6px 10px;
+    }
+
+    .frame; {
+        background-color: #ddc;
+        border: solid 1vmin #eee;
+        border-bottom-color: #fff;
+        border-left-color: #eee;
+        border-radius: 2px;
+        border-right-color: #eee;
+        border-top-color: #ddd;
+        box-shadow: 0 0 5px 0 rgba(0,0,0,.25) inset, 0 5px 10px 5px rgba(0,0,0,.25);
+        box-sizing: border-box;
+        display: inline-block;
+        position: relative;
+        text-align: center;
+        min-height: 180px;
+        min-width: 130px;
+    }
+
+    .panel-body {
+        padding: 0px;
+    }
+
+    .table > thead > tr > th {
+    }
+
+    div#div_Fee thead {
+        width: calc(100% - 0px);
+    }
+</style>
+<script>
+    $(document).ready(function () {
+        $("#Progress").hide();
+        //$("#Report").hide();
+        
+        $("#span_RN").text("@Model.RollNo");
+        $("#div_Fee").hide();
+        $("#div_ExtraFee").hide();
+        $("#div_Detain").hide();
+        $("#div_RA").hide();
+        $("#div_Challan").hide();
+        debugger;
+        $("#FeeTable tr").remove();
+        $("#ExtraFeeTable tr").remove();
+        $("#DetainFeeTable tr").remove();
+        $("#ReadmissionTable tr").remove();
+        $("#ChallanFeeTable tr").remove();
+        var id = "@Model.Content";
+        if (id == "Success") {
+
+
+            $.ajax({
+                type: "GET",
+                contentType: "application/json; charset=utf-8",
+                url: '@Url.Action("StudentAttendanceDetails", "Admin")',
+                data: { "student": "@Model.RollNo" },
+                dataType: "json",
+                beforeSend: function () {
+
+                },
+                success: function (data) {
+
+                    var markup = "<tr><th width='15%'>S.No</th><th width='15%'>Total Days</th><th width='15%' align='right'>Working Days</th><th align='right' width='15%'>Present Days</th><th width='15%' align='right'>Absent Days</th><th width='25%' align='right'>Attendance Percentage</th></tr>";
+                    $("#AttendanceTable > thead").append(markup);
+                    var markupfooter;
+                    $.each(data, function (i, Rec) {
+                        var markup = "<tr><td width='15%'>" + (i + 1) + "</td><td width='15%'>" + Rec.TOTAL_DAYS + "</td><td width='15%' align='right'>" + Rec.WORKING_DAYS + "</td><td width='15%' align='right'>" + Rec.PRESENT_DAYS + "</td><td width='15%' align='right'>" + Rec.ABSENT_DAYS + "</td><td width='25%' align='right'>" + Rec.Percentage + "</td></tr>";
+                        $("#AttendanceTable > tbody").append(markup);
+
+
+                    });
+                    $("#div_Attendance").show();
+                }
+            });
+
+
+
+
+            $.ajax({
+                type: "GET",
+                contentType: "application/json; charset=utf-8",
+                url: '@Url.Action("StudentSearchFeeDetails", "Admin")',
+                data: { "student": "@Model.RollNo" },
+                dataType: "json",
+                beforeSend: function () {
+
+                },
+                success: function (data) {
+
+                    var markup = "<tr><th width='5%'>S.No</th><th width='5%'>Year</th><th width='20%' align='right'>Actual</th><th align='right' width='20%'>Received</th><th width='20%' align='right'>Due</th></tr>";
+                    $("#FeeTable > thead").append(markup);
+                    var markupfooter;
+                    $.each(data, function (i, Rec) {
+                        var markup = "<tr><td width='5%'>" + (i + 1) + "</td><td width='5%'>" + Rec.YearId + "</td><td width='20%' align='right'>" + Rec.Actual + "</td><td width='20%' align='right'>" + Rec.Received + "</td><td width='20%' align='right'>" + Rec.Due + "</td></td></tr>";
+                        $("#FeeTable > tbody").append(markup);
+
+
+                    });
+                    $("#div_Fee").show();
+                }
+            });
+
+            $.ajax({
+                type: "GET",
+                contentType: "application/json; charset=utf-8",
+                url: '@Url.Action("StudentSearchChallanFeeDetails", "Admin")',
+                data: { "student": "@Model.RollNo" },
+                dataType: "json",
+                beforeSend: function () {
+
+                },
+                success: function (edata) {
+
+                    var markup = "<tr><th width='5%'>S.No</th><th width='5%'>Year</th><th width='20%' align='right'>Amount</th><th align='right' width='20%'>Voucher No</th><th width='20%' align='right'>Payment Date</th><th width='20%' align='right'>Status</th></tr>";
+                    $("#ChallanFeeTable > thead").append(markup);
+                    var markupfooter;
+                    $.each(edata, function (i, Rec) {
+                        var markup = "<tr><td width='5%'>" + (i + 1) + "</td><td width='5%'>" + Rec.Year + "</td><td width='20%' align='right'>" + Rec.TotalAmout + "</td><td width='20%' align='right'>" + Rec.ChallanNo + "</td><td width='20%' align='right'>" + Rec.PD + "</td><td width='20%' align='right'>" + Rec.Status + "</td></tr>";
+                        $("#ChallanFeeTable > tbody").append(markup);
+                    });
+                    $("#div_Challan").show();
+                }
+            });
+
+
+            $.ajax({
+                type: "GET",
+                contentType: "application/json; charset=utf-8",
+                url: '@Url.Action("StudentSearchExtraFeeDetails", "Admin")',
+                data: { "student": "@Model.RollNo" },
+                dataType: "json",
+                beforeSend: function () {
+
+                },
+                success: function (edata) {
+
+                    var markup = "<tr><th width='5%'>S.No</th><th width='5%'>Year</th><th width='20%' align='right'>Amount</th><th align='right' width='20%'>Voucher No</th><th width='20%' align='right'>Payment Date</th><th width='20%' align='right'>Status</th></tr>";
+                    $("#ExtraFeeTable > thead").append(markup);
+                    var markupfooter;
+                    $.each(edata, function (i, Rec) {
+                        var markup = "<tr><td width='5%'>" + (i + 1) + "</td><td width='5%'>" + Rec.Year + "</td><td width='20%' align='right'>" + Rec.TotalAmout + "</td><td width='20%' align='right'>" + Rec.ChallanNo + "</td><td width='20%' align='right'>" + Rec.PD + "</td><td width='20%' align='right'>" + Rec.Status + "</td></tr>";
+                        $("#ExtraFeeTable > tbody").append(markup);
+
+
+
+                    });
+                    $("#div_ExtraFee").show();
+
+
+                }
+            });
+
+
+            $.ajax({
+                type: "GET",
+                contentType: "application/json; charset=utf-8",
+                url: '@Url.Action("StudentSearchDetainDetails", "Admin")',
+                data: { "student": "@Model.RollNo" },
+                dataType: "json",
+                beforeSend: function () {
+
+                },
+                success: function (edata) {
+
+                    var markup = "<tr><th width='5%'>S.No</th><th width='5%'>Year</th><th width='20%' align='right'>DetainId</th><th align='right' width='20%'>DetainDate</th><th width='20%' align='right'>Status</th><th width='20%' align='right'>Discontinue Date</th></tr>";
+                    $("#DetainFeeTable > thead").append(markup);
+                    var markupfooter;
+                    $.each(edata, function (i, Rec) {
+                        var markup = "<tr><td width='5%'>" + (i + 1) + "</td><td width='5%'>" + Rec.Year + "</td><td width='20%' align='right'>" + Rec.DetainId + "</td><td width='20%' align='right'>" + Rec.DDate + "</td><td width='20%' align='right'>" + Rec.Status + "</td><td width='20%' align='right'>" + Rec.DISDate + "</td></tr>";
+                        $("#DetainFeeTable > tbody").append(markup);
+
+
+
+                    });
+                    $("#div_Detain").show();
+
+                }
+            });
+
+
+
+            $.ajax({
+                type: "GET",
+                contentType: "application/json; charset=utf-8",
+                url: '@Url.Action("StudentSearchRADetails", "Admin")',
+                data: { "student": "@Model.RollNo" },
+                dataType: "json",
+                beforeSend: function () {
+
+                },
+                success: function (edata) {
+
+                    var markup = "<tr><th width='5%'>S.No</th><th width='5%'>DetainId</th><th width='20%' align='right'>FromBatch</th><th align='right' width='20%'>FromYear</th><th width='20%' align='right'>ToBatch</th><th width='20%' align='right'>ToYear</th><th width='20%' align='right'>Remarks</th></tr>";
+                    $("#ReadmissionTable > thead").append(markup);
+                    var markupfooter;
+                    $.each(edata, function (i, Rec) {
+                        var markup = "<tr><td width='5%'>" + (i + 1) + "</td><td width='5%'>" + Rec.DetainId + "</td><td width='5%'>" + Rec.FromBatch + "</td><td width='20%' align='right'>" + Rec.FromYear + "</td><td width='20%' align='right'>" + Rec.ToBatch + "</td><td width='20%' align='right'>" + Rec.ToYear + "</td><td width='20%' align='right'>" + Rec.Remarks + "</td></tr>";
+                        $("#ReadmissionTable > tbody").append(markup);
+
+                    });
+                    $("#div_RA").show();
+
+
+                }
+            });
+
+
+            $.ajax({
+                type: "GET",
+                contentType: "application/json; charset=utf-8",
+                url: '@Url.Action("TCDetails", "Admin")',
+                data: { "student": "@Model.RollNo" },
+                dataType: "json",
+                beforeSend: function () {
+
+                },
+                success: function (tcdata) {
+
+                    //$("#div_TC").text(tcdata);
+
+
+                },
+                error: function (result) {
+
+                    //$("#div_TC").text("TC Not Prepared !");
+                }
+            });
+
+
+        }
+    });
+
+    $(document).on('click', '.btnBC', function () {
+        //debugger;
+        $("#Progress").show();
+        var id = 0;
+        id = $(this).attr("data-value");
+        $.ajax({
+            type: "GET",
+            contentType: "application/json; charset=utf-8",
+            url: '@Url.Action("Generate_BC", "Admin")',
+            data: { "student": id },
+            dataType: "json",
+            success: function (r) {
+                if (r==1){
+                    $("#Progress").hide();
+                    $("#lblBCResult").text("Bonafied Generated !");
+                }
+            },
+            error: function (r) {
+                $("#Progress").hide();
+                $("#lblBCResult").text("");
+              
+            }
+        });
+    });
+
+
+</script>
+<section id="main-content" class="animated fadeInUp" style="margin-bottom: 0px; padding: 0px; background: #fff; text-align: center;">
+    <section class="fuelux">
+
+
+        <div class="step-pane active" id="step1">
+
+            @if (Model.Content == "Success")
+            {
+                <div class="form-horizontal">
+
+
+                    <div>
+                        <div class=" col-sm-12 col-md-6 col-lg-10">
+
+
+
+                            <div class="form-group col-sm-12 col-md-6 col-lg-6">
+                                <label class="col-sm-6 control-label">Roll No  : </label>
+                                <div class="col-sm-6" style="text-align: left;">
+                                    <label id="lblRollNo" class="control-label smail_label left">@Model.RollNo </label>
+                                </div>
+                            </div>
+                            <div class="form-group col-sm-12 col-md-6 col-lg-6">
+                                <label class="col-sm-6 control-label">Batch : </label>
+                                <div class="col-sm-6" style="text-align: left;">
+                                    <label class="control-label smail_label left">@Model.Batch </label>
+                                </div>
+                            </div>
+                            <div class="form-group col-sm-12 col-md-6 col-lg-6">
+                                <label class="col-sm-6 control-label">Name : </label>
+                                <div class="col-sm-6" style="text-align: left;">
+                                    <label class="control-label smail_label left">@Model.FullName</label>
+                                </div>
+                            </div>
+                            <div class="form-group col-sm-12 col-md-6 col-lg-6">
+                                <label class="col-sm-6 control-label">Year : </label>
+                                <div class="col-sm-6" style="text-align: left;">
+                                    @if (@Model.Year <= 4)
+                                    {
+                                        <label class="control-label smail_label left">@Model.Year </label>
+                                    }
+                                    else
+                                    {
+                                        <label class="control-label smail_label left"> Course completed. </label>
+                                    }
+                                </div>
+                            </div>
+
+                            <div class="form-group col-sm-12 col-md-6 col-lg-6">
+                                <label class="col-sm-6 control-label">Gender : </label>
+                                <div class="col-sm-6" style="text-align: left;">
+                                    <label class="control-label smail_label left">@Model.Gender </label>
+                                </div>
+                            </div>
+
+                            <div class="form-group col-sm-12 col-md-6 col-lg-6">
+                                <label class="col-sm-6 control-label">Student Phone : </label>
+                                <div class="col-sm-6" style="text-align: left;">
+                                    <label class="control-label smail_label left">@Model.S_MobileNo </label>
+                                </div>
+                            </div>
+
+                            <div class="form-group col-sm-12 col-md-6 col-lg-6">
+                                <label class="col-sm-6 control-label">Father Name : </label>
+                                <div class="col-sm-6" style="text-align: left;">
+                                    <label class="control-label smail_label left">@Model.FatherName </label>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group col-sm-12 col-md-6 col-lg-6">
+                                <label class="col-sm-6 control-label">Parent Phone : </label>
+                                <div class="col-sm-6" style="text-align: left;">
+                                    <label class="control-label smail_label left">@Model.P_MobileNo </label>
+                                </div>
+                            </div>
+
+
+
+                            <div class="form-group col-sm-12 col-md-6 col-lg-6">
+                                <label class="col-sm-6 control-label">Mother Name : </label>
+                                <div class="col-sm-6" style="text-align: left;">
+                                    <label class="control-label smail_label left">@Model.MotherName  </label>
+                                </div>
+                            </div>
+
+
+
+
+                            <div class="form-group col-sm-12 col-md-6 col-lg-6">
+                                <label class="col-sm-6 control-label">Student Eamil : </label>
+                                <div class="col-sm-6" style="text-align: left;">
+                                    <label class="control-label smail_label left">@Model.EMail </label>
+                                </div>
+                            </div>
+
+                            <div class="form-group col-sm-12 col-md-6 col-lg-6">
+                                <label class="col-sm-6 control-label">Program : </label>
+                                <div class="col-sm-6" style="text-align: left;">
+                                    <label id="lblICType" class="control-label smail_label left">@Model.Program </label>
+                                </div>
+                            </div>
+
+                            <div class="form-group col-sm-12 col-md-6 col-lg-6">
+                                <label class="col-sm-6 control-label">Parent Eamil : </label>
+                                <div class="col-sm-6" style="text-align: left;">
+                                    <label class="control-label smail_label left">@Model.ParentEMail </label>
+                                </div>
+                            </div>
+
+
+
+
+                            <div class="form-group col-sm-12 col-md-6 col-lg-6">
+                                <label class="col-sm-6 control-label">Course : </label>
+                                <div class="col-sm-6" style="text-align: left;">
+                                    <label id="lblPreauthType" class="control-label smail_label left">@Model.Course </label>
+                                </div>
+                            </div>
+                            <div class="form-group col-sm-12 col-md-6 col-lg-6">
+                                <label class="col-sm-6 control-label">Quota : </label>
+                                <div class="col-sm-6" style="text-align: left;">
+                                    <label id="lblPreauthType" class="control-label smail_label left">@Model.Quota  </label>
+                                </div>
+                            </div>
+                            <div class="form-group col-sm-12 col-md-6 col-lg-6">
+                                <label class="col-sm-6 control-label">Section : </label>
+                                <div class="col-sm-6" style="text-align: left;">
+                                    <label id="lblPreauthType" class="control-label smail_label left">@Model.Section  </label>
+                                </div>
+                            </div>
+
+
+
+
+                            <div class="form-group col-sm-12 col-md-6 col-lg-6">
+                                <label class="col-sm-6 control-label">Caste : </label>
+                                <div class="col-sm-6" style="text-align: left;">
+                                    <label id="lblPreauthType" class="control-label smail_label left">@Model.Category   </label>
+                                </div>
+                            </div>
+                            <div class="form-group col-sm-12 col-md-6 col-lg-6">
+                                <label class="col-sm-6 control-label">Aadhar : </label>
+                                <div class="col-sm-6" style="text-align: left;">
+                                    <label id="lblPreauthType" class="control-label smail_label left">@Model.AdhaarCardNo </label>
+                                </div>
+                            </div>
+                            <div class="form-group col-sm-12 col-md-6 col-lg-6">
+                                <label class="col-sm-6 control-label">Special Category : </label>
+                                <div class="col-sm-6" style="text-align: left;">
+                                    <label id="lblPreauthType" class="control-label smail_label left">@Model.SpecialCategory</label>
+                                </div>
+                            </div>
+
+
+
+                            <div class="form-group col-sm-12 col-md-6 col-lg-6">
+                                <label class="col-sm-6 control-label">Date Of Birth : </label>
+                                <div class="col-sm-6" style="text-align: left;">
+                                    <label id="lblPreauthType" class="control-label smail_label left">@Model.DateOfBirth </label>
+                                </div>
+                            </div>
+
+                            <div class="form-group col-sm-12 col-md-6 col-lg-6">
+                                <label class="col-sm-6 control-label">Date Of Joining : </label>
+                                <div class="col-sm-6" style="text-align: left;">
+                                    <label id="lblPreauthType" class="control-label smail_label left">@Model.DateOfJoining </label>
+                                </div>
+                            </div>
+
+                            <div class="form-group col-sm-12 col-md-6 col-lg-6">
+                                <label class="col-sm-6 control-label">Present Address : </label>
+                                <div class="col-sm-6" style="text-align: left;">
+                                    <label id="lblPreauthType" class="control-label smail_label left">@Model.PresentAddress  </label>
+                                </div>
+                            </div>
+
+                            <div class="form-group col-sm-12 col-md-6 col-lg-6">
+                                <label class="col-sm-6 control-label">Permenant Address : </label>
+                                <div class="col-sm-6" style="text-align: left;">
+                                    <label id="lblPreauthType" class="control-label smail_label left">@Model.PermenantAddress   </label>
+                                </div>
+                            </div>
+
+
+                            <div class="clearfix"></div>
+
+
+                        </div>
+
+                        <div class="col-sm-12 col-md-6 col-lg-2">
+
+                            @if (@Model.studentPhoto != null)
+                            {
+                                <img class="frame" src="data:image/jpeg;base64,@(Convert.ToBase64String(Model.studentPhoto))">
+
+                            }
+                            else
+                            {
+                                <img src="~/imgs/noPhoto.jpg" class="frame" />
+                            }
+                        </div>
+                        <div class="col-sm-12 col-md-6 col-lg-2 info" id="div_TC" style="padding-top:3em">
+
+                        </div>
+                        @if (@Model.Status == "Active")
+                        {
+                            <div class="col-sm-12 col-md-6 col-lg-2 info">
+                                STATUS :
+                                <label id="lblActive" class="control-label smail_label left" style="color :green">@Model.Status</label>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="col-sm-12 col-md-6 col-lg-2 info">
+                                STATUS :
+                                <label id="lblActive" class="control-label smail_label left" style="color: red">@Model.Status</label>
+                            </div>
+                        }
+                        <div class="col-sm-12 col-md-6 col-lg-2 info" id="div_BC" style="padding-top:3em">
+                            <a data-value="@Model.RollNo" style="color:yellowgreen;font-size :medium" href="javascript:void(0)" class="btnBC">Generate Bonafied</a>
+                        </div>
+
+                        <div style=" text-align: center;" id="Progress">
+                            <img src="~/assets/img/loading.jpg" />
+                        </div>
+                        <div style=" text-align: center;">
+                            <label id="lblBCResult"  style="color:green"></label>
+                        </div>
+
+
+                        <div id="div_Attendance" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="panel panel-default chat-widget">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title text-left"><i class="fa fa-th"></i>Month Attendance Details</h3>
+                                    <div class="actions pull-right">
+
+                                        <i class="fa fa-chevron-down"></i>
+                                    </div>
+                                </div>
+                                <div class="panel-body">
+
+                                    <table id="AttendanceTable" style="width:100%;" class="table table-bordered">
+                                        <thead>
+
+                                        </thead>
+                                        <tbody></tbody>
+                                        <tfoot></tfoot>
+                                    </table>
+                                </div>
+
+                            </div>
+                        </div>
+
+
+                        <div id="div_Fee" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="panel panel-default chat-widget">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title text-left"><i class="fa fa-th"></i>Fee Details</h3>
+                                    <div class="actions pull-right">
+
+                                        <i class="fa fa-chevron-down"></i>
+                                    </div>
+                                </div>
+                                <div class="panel-body">
+
+                                    <table id="FeeTable" style="width:100%;" class="table table-bordered">
+                                        <thead>
+
+                                        </thead>
+                                        <tbody></tbody>
+                                        <tfoot></tfoot>
+                                    </table>
+                                </div>
+
+                            </div>
+                        </div>
+
+
+
+                        <div id="div_Challan" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+                            <div class="panel panel-default chat-widget">
+                                <div class="panel-heading" style="position: relative;">
+                                    <h3 class="panel-title  text-left"><i class="fa fa-th"></i>Student Challan Fee Details</h3>
+                                    <div class="actions pull-right">
+
+                                        <i class="fa fa-chevron-down"></i>
+                                    </div>
+                                </div>
+                                <div class="panel-body">
+                                    <table id="ChallanFeeTable" style="width:100%;" class="table table-bordered">
+                                        <thead>
+
+                                        </thead>
+                                        <tbody></tbody>
+                                        <tfoot></tfoot>
+                                    </table>
+
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div id="div_ExtraFee" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+                            <div class="panel panel-default chat-widget">
+                                <div class="panel-heading" style="position: relative;">
+                                    <h3 class="panel-title  text-left"><i class="fa fa-th"></i>Extra Paid</h3>
+                                    <div class="actions pull-right">
+
+                                        <i class="fa fa-chevron-down"></i>
+                                    </div>
+                                </div>
+                                <div class="panel-body">
+                                    <table id="ExtraFeeTable" style="width:100%;" class="table table-bordered">
+                                        <thead>
+
+                                        </thead>
+                                        <tbody></tbody>
+                                        <tfoot></tfoot>
+                                    </table>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div id="div_Detain" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+                            <div class="panel panel-default chat-widget">
+                                <div class="panel-heading" style="position: relative;">
+                                    <h3 class="panel-title  text-left"><i class="fa fa-th"></i>Detain Details</h3>
+                                    <div class="actions pull-right">
+
+                                        <i class="fa fa-chevron-down"></i>
+                                    </div>
+                                </div>
+                                <div class="panel-body">
+
+                                    <table id="DetainFeeTable" style="width:100%;" class="table table-bordered">
+                                        <thead>
+
+                                        </thead>
+                                        <tbody></tbody>
+                                        <tfoot></tfoot>
+                                    </table>
+                                </div>
+
+                            </div>
+                        </div>
+
+
+                        <div id="div_RA" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+                            <div class="panel panel-default chat-widget">
+                                <div class="panel-heading" style="position: relative;">
+                                    <h3 class="panel-title  text-left"><i class="fa fa-th"></i>Readmission Details</h3>
+                                    <div class="actions pull-right">
+
+                                        <i class="fa fa-chevron-down"></i>
+                                    </div>
+                                </div>
+                                <div class="panel-body">
+
+                                    <table id="ReadmissionTable" style="width:100%;" class="table table-bordered">
+                                        <thead>
+
+                                        </thead>
+                                        <tbody></tbody>
+                                        <tfoot></tfoot>
+                                    </table>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+
+
+
+                </div>
+
+            }
+            else
+            {
+
+                <div class="alert alert-danger" role="alert">
+                    Roll Number Not Existed. Please check that !<strong>
+                    </strong>
+                </div>
+            }
+        </div>
+
+
+       
+
+
+
+
+
+    </section>
+
+
+</section>

@@ -1,0 +1,250 @@
+﻿@model MYFEELIB.Entities.FinancialBatches
+@{
+    ViewData["Title"] = "FinancialBatches";
+}
+<style>
+    .hidetext {
+        -webkit-text-security: disc; /* Default */
+    }
+</style>
+
+<script>
+    $(function () {
+
+        $('#Program').change(function () {
+            
+            var id = $("#Program :selected").val();
+            
+            if (id != "") {
+                $.ajax({
+                    type: "GET",
+                    contentType: "application/json; charset=utf-8",
+                    url: '@Url.Action("YearList", "Master")',
+                    data: { "Program": id },
+                    dataType: "json",
+                    beforeSend: function () {
+                        //alert(id);
+                    },
+
+                    success: function (data) {
+                        debugger;
+                        var items = "";
+                        $.each(data, function (i, Year) {
+                            items += "<option value='" + Year.Value + "'>" + Year.Text + "</option>";
+                        });
+                        $('#Year').html(items);
+
+                    },
+                    error: function (result) {
+                        debugger;
+                        alert('Service call failed: ' + result.status + ' Type :' + result.statusText);
+                    }
+                });
+            }
+            else {
+                var items = '<option value="">Select</option>';
+                $('#Year').html(items);
+            }
+        });
+
+    });
+
+    $(document).ready(function () {
+      //  debugger;
+        $.ajax({
+            type: "GET",
+            contentType: "application/json; charset=utf-8",
+            url: '@Url.Action("FinancialBatchDetails", "Master")',
+            dataType: "json",
+            beforeSend: function () {
+
+            },
+            success: function (data) {
+
+                var markup = "<tr><th width='5%'>S.No</th><th width='5%'>FBID</th><th width='8%'>Batch</th><th width='15%' align='right'>Program</th><th width='5%' align='right'>Year</th><th width='15%' align='right'>MFrom</th><th width='15%' align='right'>MTo</th><th width='20%' align='right'>YearCode</th><th width='15%' align='right'>Academic</th> <th align='right'></th></tr>";
+                $("#DataTable").append(markup);
+                var markupfooter;
+                $.each(data, function (i, Rec) {
+                    var markup = "<tr><td width='5%'>" + (i + 1) + "</td><td width='5%'>" + Rec.FBNo + "</td><td width='10%' >" + Rec.Batch + "</td><td width='15%' align='left'>" + Rec.Program + "</td><td width='5%' align='left'>" + Rec.Year + "</td><td width='15%' align='left'>" + Rec.MDate + "</td><td width='15%' align='left'>" + Rec.TDate + "</td><td width='20%' align='left'>" + Rec.YearCode + "</td><td width='15%' align='left'>" + Rec.Academic + "</td><td><a data-value=" + Rec.FBNo + " href='javascript:void(0)' class='btnEdit'>Edit</a></td></tr>";
+                    $("#DataTable").append(markup);
+
+
+                });
+
+            }
+        });
+
+
+
+    });
+
+    $(document).on('click', '.btnEdit', function () {
+         var id = $(this).attr("data-value");
+       // $("#CourseId").val(id);
+      //  $("#CourseId").prop("readonly", true);
+        $("#YearCode").val($(this).closest("tr").find('td:eq(7)').text());
+        $("#Program").val($(this).closest("tr").find('td:eq(3)').text());
+
+        $("#Year").val($(this).closest("tr").find('td:eq(4)').text());
+        $("#Academic").val($(this).closest("tr").find('td:eq(8)').text());
+        $("#Batch").val($(this).closest("tr").find('td:eq(2)').text());
+    });
+
+    var FinancialBatcheSave = function () {
+
+        var data = $("#MyFinancialBatcheForm").serialize();
+
+        var YearCode = $("#YearCode :selected").val();
+        var Batch = $("#Batch :selected").val();
+        var Program = $("#Program :selected").val();
+        var Year = $("#Year :selected").val();
+        var Academic = $("#Academic :selected").val();
+
+        if (YearCode == "") {
+            alert("Enter YearCode !");
+            $("#YearCode").focus();
+            return false;
+        }
+        if (Batch == "") {
+            alert("Enter Batch !");
+            $("#Batch").focus();
+            return false;
+        }
+        if (Program == "") {
+            alert("Select Program !");
+            $("#Program").focus();
+            return false;
+        }
+        if (Year == "") {
+            alert("Enter Year !");
+            $("#Year").focus();
+            return false;
+        }
+        if (Academic == "") {
+            alert("Enter Academic !");
+            $("#Academic").focus();
+            return false;
+        }
+
+
+
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("FinancialBatchMasterSave", "Master")',
+            data: data,
+            success: function (r) {
+
+                if (r == "Error") {
+
+                    alert("FinancialBatch Not Saved !");
+
+                }
+                else {
+                    alert("FinancialBatch Saved Successfully !");
+                    $("#YearCode").val("");
+                    $("#Batch").val("");
+                    $("#Program").val("");
+                    $("#Year").val("");
+                    $("#Academic").val("");
+                }
+
+            }
+        });
+    }
+
+    var Clear = function () {
+        $("#YearCode").val("");
+        $("#Batch").val("");
+        $("#Program").val("");
+        $("#Year").val("");
+        $("#Academic").val("");
+        $(".text-danger field-validation-error").empty();
+    }
+
+</script>
+<section id="" class="animated fadeInUp">
+    <section class="fuelux" style=" margin: 50px 50px;">
+
+        <form id="MyFinancialBatcheForm">
+            <div class="step-content" style="margin-bottom: 0px; background: #fff; text-align: center; border-top: 1px solid #D4D4D4;">
+
+
+                <div class="step-pane active" id="step1">
+
+                    <div class="col-md-offset-0  preauth_font">
+                        <div class="clear" style="clear: both;"></div>
+
+                        <div class="form-group col-sm-12 col-md-6 col-lg-3 text-left ">
+                            @Html.LabelFor(m => m.YearCode, new { @class = "col-sm-6 control-label" })
+                            <div class="">
+                                @Html.DropDownListFor(m => m.YearCode, Model.YearCodes, "SELECT YearCode",
+                                              new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.YearCode, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group col-sm-12 col-md-6 col-lg-3 text-left ">
+                            @Html.LabelFor(m => m.Program, new { @class = "col-sm-6 control-label" })
+                            <div class="">
+                                @Html.DropDownListFor(m => m.Program, Model.Programs, "SELECT PROGRAM",
+                                              new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.Program, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group col-sm-12 col-md-6 col-lg-3 text-left ">
+                            @Html.LabelFor(m => m.Batch, new { @class = "col-sm-6 control-label" })
+                            <div class="">
+                                @Html.DropDownListFor(m => m.Batch, Model.Batchs, "SELECT Batch",
+                                              new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.Batch, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group col-sm-12 col-md-6 col-lg-3 text-left ">
+                            @Html.LabelFor(m => m.Year, new { @class = "col-sm-6 control-label" })
+                            <div class="">
+                                @Html.DropDownListFor(m => m.Year, Model.Years, "SELECT Year",
+                                              new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.Year, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group col-sm-12 col-md-6 col-lg-3 text-left ">
+                            @Html.LabelFor(m => m.Academic, new { @class = "col-sm-6 control-label" })
+                            <div class="">
+                                @Html.DropDownListFor(m => m.Academic, Model.Academics, "SELECT Academic",
+                                              new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.Academic, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="wizard col-sm-12">
+                            <div class="pull-right" style="padding: 5px;">
+                                <button id="btnClear" onclick="Clear()" class="btn btn-default">Clear</button>
+                                <button type="submit" id="btnsubmit" onclick="FinancialBatcheSave()" class="btn btn-success btn-default">Submit</button>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="clearfix"></div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </form>
+
+
+        <div align="center">
+            <table id="DataTable" style="width:100%;" class="table table-bordered">
+                <thead>
+
+                </thead>
+                <tbody></tbody>
+                <tfoot></tfoot>
+            </table>
+
+        </div>
+
+    </section>
+</section>

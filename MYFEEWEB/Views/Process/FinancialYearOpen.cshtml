@@ -1,0 +1,128 @@
+﻿@model MYFEELIB.Entities.FYDates
+@{
+    ViewData["Title"] = "Financial Year Open";
+}
+
+<script type="text/jscript">
+
+    function ToJavaScriptDate(value) {
+        debugger;
+        var pattern = /Date\(([^)]+)\)/;
+        var results = pattern.exec(value);
+        var dt = new Date(parseFloat(results[1]));
+        return (dt.getMonth() + 1) + "/" + dt.getDate() + "/" + dt.getFullYear();
+    }
+
+    $(document).on("blur", "#StDate", function () {
+        debugger;
+        var d = $("#StDate").val();
+        if (!Date.parse(d)) {
+            alert("Please Enter Valid Financial Year Open Date !")
+            return;
+        }
+        var dsplit = d.split("-");
+        var newdt = new Date(parseInt(dsplit[0]) + 1, dsplit[1] - 1, dsplit[2]);
+        var formattedDate = newdt.toISOString().substr(0, 10)
+        $('#EndDate').val(formattedDate);
+    });
+
+    $(document).on('click', '#btnsubmit', function () {
+        debugger;
+        var YearStatus = $("#YearCode").text();
+        if (YearStatus != "Financil Year Closed") {
+            alert("Financial Year already in Opened ! Please check that !");
+            return;
+        }
+        var FromDate = $("#StDate").val();
+        if (!Date.parse(FromDate)) {
+            alert("Please Enter Valid Financial Year Open Date !")
+            return;
+        }
+
+        var EndDate = $("#EndDate").val();
+        if (!Date.parse(EndDate)) {
+            alert("Please Enter Valid Financial Year Close Date !")
+            return;
+        }
+
+        var data = {};
+        data.StDate = $("#StDate").val();
+        data.EndDate = $("#EndDate").val();
+
+
+
+        $("#ProcessDiv").show();
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("FinancialYearOpen_Create", "Process")',
+            data: data,
+            success: function (r) {
+                alert(r);
+                alert("Financial Period Opened Successfully !");
+                $("#ProcessDiv").hide();
+            },
+            error: function (result) {
+                alert('Service call failed: ' + result.status + ' Type :' + result.statusText);
+                $("#ProcessDiv").hide();
+            }
+
+        });
+    });
+</script>
+<section id="" class="animated min-height-brow fadeInUp">
+    <section class="fuelux" style="border: 1px solid #cccccc; margin: 50px 50px; background: #fff;">
+
+        <div class="step-content" style="margin-bottom: 0px; background: #fff; text-align: center; border-top: 1px solid #D4D4D4;">
+            <div class="step-pane active" id="step1">
+
+                <div class="col-md-offset-1 col-sm-12 col-md-9 col-lg-9 preauth_font  ">
+                    <div class="clear" style="clear: both;"></div>
+                    <div class="form-group col-sm-12 col-md-6 col-lg-6 text-left ">
+                        <span class="col-sm-6 control-label">From Date</span>
+                        <div class="">
+                            @Html.TextBoxFor(m => m.StDate, new { @class = "form-control", @type = "date" })
+
+                        </div>
+                    </div>
+
+                    <div class="form-group col-sm-12 col-md-6 col-lg-6 text-left ">
+                        <span class="col-sm-6 control-label">To Date</span>
+                        <div class="">
+                            @Html.TextBoxFor(m => m.EndDate, new { @class = "form-control", @type = "date" })
+
+                        </div>
+                    </div>
+                    <div class="form-group col-sm-12 col-md-6 col-lg-6 text-left ">
+                        <span class="col-sm-6 control-label">YearCode</span>
+                        <div class="">
+                            @if (@Session["YearCode"] != null)
+                            {
+                                <span id="YearCode" class="col-sm-6 control-label">@Session["YearCode"]</span>
+                            }
+                            else
+                            {
+                                <span id="YearCode" class="col-sm-6 control-label">Financil Year Closed</span>
+                            }
+                        </div>
+                    </div>
+
+
+
+                    <div class="wizard col-sm-12">
+                        <div class="pull-right" style="padding: 5px;">
+
+                            <button type="submit" id="btnsubmit" class="btn btn-success btn-default">Open Financial Year</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+
+
+            </div>
+            <div class="clearfix"></div>
+        </div>
+
+
+    </section>
+
+</section>

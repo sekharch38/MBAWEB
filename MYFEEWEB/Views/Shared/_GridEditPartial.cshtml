@@ -1,0 +1,460 @@
+﻿@model  IEnumerable<MYFEELIB.Entities.ExtraPaid>
+
+
+
+
+<script>
+
+    $(document).ready(function () {
+        if ("@Session["Result"]" != null)
+        {
+            $("#ui-id-1").text("@Session["Result"]" + " Update");
+        }
+        else
+        {
+            $("#ui-id-1").text("Extra Paid Confirmation");
+        }
+
+        $("#ExtraPaidSubmit").hide();
+        $("#Progress").hide();
+        $("#NegativeResult").text("");
+        $("#queryresult").text("");
+        $("#queryresult").hide();
+        $("#NegativeResult").hide();
+
+        $("#checkBoxAll").click(function () {
+            var chkAll = this;
+            var chkRows = $("#ExtraPaid").find(".chkres");
+            chkRows.each(function () {
+                $(this)[0].checked = chkAll.checked;
+            });
+            var sum = 0;
+            var select = 0;
+            if (chkAll.checked) {
+                $('tr').find('.combat').each(function () {
+                    var combat = $(this).text();
+                    if (!isNaN(combat) && combat.length !== 0) {
+                        sum += parseFloat(combat);
+                        select += 1;
+
+                    }
+                });
+            }
+
+
+            $('#TotSelect').val(select);
+            $('#TotSum').val(sum);
+
+            if (sum > 0) {
+                $("#ExtraPaidSubmit").show();
+                $("#queryresult").text("");
+                $("#queryresult").hide();
+            }
+            else {
+                $("#ExtraPaidSubmit").hide();
+                $("#queryresult").text("");
+                $("#queryresult").hide();
+            }
+
+        });
+
+
+        $(".chkres").click(function () {
+            var chkAll = $("#checkBoxAll");
+
+            chkAll.attr("checked", "checked");
+
+            var chkRows = $("#ExtraPaid").find(".chkres");
+
+
+            chkRows.each(function () {
+                if (!$(this).is(":checked")) {
+                    chkAll.removeAttr("checked", "checked");
+                    return;
+                }
+            });
+
+
+
+            var sum = 0;
+            var select = 0;
+            $('tr').find('.chkres').each(function () {
+
+                if ($(this).is(":checked")) {
+                    var combat = $(this).closest("tr").find('td:eq(6)').text();
+
+                    if (!isNaN(combat) && combat.length !== 0) {
+                        sum += parseFloat(combat);
+                        select += 1;
+
+                    }
+
+                }
+
+            });
+
+            $('#TotSelect').val(select);
+            $('#TotSum').val(sum);
+
+            if (sum > 0) {
+                $("#ExtraPaidSubmit").show();
+                $("#queryresult").text("");
+                $("#queryresult").hide();
+            }
+            else {
+                $("#ExtraPaidSubmit").hide();
+                $("#queryresult").text("");
+                $("#queryresult").hide();
+            }
+        });
+    });
+
+
+
+    $(document).on("click", "#ExtraPaidSubmit", function () {
+
+        // debugger;
+
+
+        var Totamount = $("#TotSum").val();
+        if (Totamount == "") {
+
+            alert("Please Select Students !")
+            return;
+        }
+        else if (Totamount == "0") {
+
+            alert("Please Select Students !")
+            return;
+        }
+
+        $("#Progress").show();
+        var CheckAll = new Array();
+
+        $('tr').find('.chkres').each(function () {
+
+            if ($(this).is(":checked")) {
+
+                var req = {};
+                req.Sno = $(this).closest("tr").find("TD").eq(0).find("input").val();
+                req.Status = $(this).closest("tr").find("TD").eq(5).find("input").val();
+                req.EnterBy = "@Session["username"]";
+                CheckAll.push(req);
+            }
+
+        });
+
+        CheckAll = JSON.stringify({ 'CheckAll': CheckAll });
+
+        //Send the JSON array to Controller using AJAX.
+        $.ajax({
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+
+            url: '@Url.Action("ConfirmExtrPaid", "Academic")',
+            data: CheckAll,
+            dataType: "json",
+            success: function (r) {
+
+                if (r == 0) {
+
+                    $("#Progress").hide();
+                    //alert("0 records inserted.");
+                    $("#NegativeResult").text("Records not Confirmed.");
+                    $("#NegativeResult").show();
+                    $('tr').find('.chkres').each(function () {
+
+                        if ($(this).is(":checked")) {
+
+                            $(this)[0].checked = false;
+                        }
+
+                    });
+
+
+
+                    $('#TotSelect').val("");
+                    $('#TotSum').val("");
+                    $("#ExtraPaidSubmit").hide();
+
+                }
+                else {
+
+                    $("#queryresult").text(r + " Record(s) Confirmed.");
+                    $("#queryresult").show();
+                    $("#ExtraPaidSubmit").hide();
+                    $('tr').find('.chkres').each(function () {
+
+                        if ($(this).is(":checked")) {
+
+                            $(this).closest("tr").remove();
+                        }
+
+                    });
+                    $('#TotSelect').val("");
+                    $('#TotSum').val("");
+                    $("#Progress").hide();
+                    $("#ExtraPaidSubmit").hide();
+                    var rowCount = $('#ExtraPaid >tbody >tr').length;
+                    if (rowCount == 0) {
+                        $("#ExtraPaid tr").remove();
+                    }
+                }
+
+
+            }
+        });
+    });
+
+
+
+
+    $(document).on('click', '.btnUpdate', function () {
+        $("#NegativeResult").text("");
+        $("#queryresult").text("");
+        $("#queryresult").hide();
+        $("#NegativeResult").hide();
+        var id = 0;
+        id = $(this).attr("data-value");
+        var CheckAll = new Array();
+
+        $("#ChallanUpdate TBODY TR").each(function () {
+            var rowId = $(this).closest("tr").find("TD").eq(0).find("input").val();
+            if (id == rowId) {
+                var req = {};
+                req.Sno = $(this).closest("tr").find("TD").eq(0).find("input").val();
+                req.ChallanNo = $(this).closest("tr").find("TD").eq(4).find("input").val();
+                req.ChallanDate = $(this).closest("tr").find("TD").eq(5).find("input").val();
+
+                req.Status = $(this).closest("tr").find("TD").eq(6).find("input").val();
+                req.result = "@Session["Result"]";
+                req.RollNo = $(this).closest("tr").find("TD").eq(1).find("input").val();
+                CheckAll.push(req);
+            }
+        });
+
+        CheckAll = JSON.stringify({ 'CheckAll': CheckAll });
+
+
+        $.ajax({
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+
+            url: '@Url.Action("ChallanUpdate", "Academic")',
+            data: CheckAll,
+            dataType: "json",
+            success: function (r) {
+
+                if (r == 0) {
+
+                    $("#Progress").hide();
+                    $("#NegativeResult").text("Transaction: " + id + " Not Updated.");
+                    $("#NegativeResult").show();
+                }
+                else {
+
+                    $("#queryresult").text("Transaction: " + id + " Updated.");
+                    $("#queryresult").show();
+
+                    $("#Progress").hide();
+
+                }
+
+
+            }
+        });
+
+    });
+
+    $(document).on('click', '.btnDelete', function () {
+        $("#NegativeResult").text("");
+        $("#queryresult").text("");
+        $("#queryresult").hide();
+        $("#NegativeResult").hide();
+        var id = 0;
+        id = $(this).attr("data-value");
+        var CheckAll = new Array();
+
+        $("#ChallanUpdate TBODY TR").each(function () {
+            var rowId = $(this).closest("tr").find("TD").eq(0).find("input").val();
+            if (id == rowId) {
+                var req = {};
+                req.Sno = $(this).closest("tr").find("TD").eq(0).find("input").val();
+                req.Status = $(this).closest("tr").find("TD").eq(6).find("input").val();
+                req.result = "@Session["Result"]";
+                CheckAll.push(req);
+            }
+        });
+
+        CheckAll = JSON.stringify({ 'CheckAll': CheckAll });
+
+
+        $.ajax({
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+
+            url: '@Url.Action("ChallanDelete", "Academic")',
+            data: CheckAll,
+            dataType: "json",
+            success: function (r) {
+
+                if (r == 0) {
+
+                    $("#Progress").hide();
+                    $("#NegativeResult").text("Transaction: " + id + " Not Deleted.");
+                    $("#NegativeResult").show();
+                }
+                else {
+
+                    $("#queryresult").text("Transaction: " + id + " Deleted.");
+                    $("#queryresult").show();
+                    $("#Progress").hide();
+
+                }
+
+
+            }
+        });
+
+    });
+
+
+</script>
+
+@if (Session["Result"] == "Challan")
+{
+
+    if (Model != null)
+    {
+
+        <table id="ChallanUpdate" class="table table-bordered">
+            <thead>
+                <tr><th width='10%'>Transaction Id</th><th width='15%'>RollNo</th><th width='20%'>Name</th><th width='10%'>YearId</th><th width='10%'>Challan No</th><th width='10%'>DateOfConfirmation</th><th width='15%'>Status</th><th width='10%'>Amount</th><th width='10%'></th><th width='10%'></th></tr>
+            </thead>
+
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            <input type="text" name="Sno" value="@item.Sno" class="form-control" />
+
+                        <td>
+                            <input type="text" name="Sno" value="@item.RollNo" class="form-control" />
+
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Year)
+                        </td>
+                        <td>
+                            <input type="text" name="ChallanNo" value="@item.ChallanNo" class="form-control" />
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(modelItem => item.ChallanDate, "{0:yyyy-MM-dd}", new { @class = "form-control", @type = "date", @min = @Session["FD"], @max = @Session["ED"] })
+                        </td>
+                        <td>
+                            <input type="text" name="Status" value="@item.Status" class="form-control" readonly />
+                        </td>
+                        <td class="combat">
+                            @Html.DisplayFor(modelItem => item.Amount)
+                        </td>
+
+                        <td><a data-value="@item.Sno" href="javascript:void(0)" class="btnUpdate">Update</a></td>
+                        <td><a data-value="@item.Sno" href="javascript:void(0)" class="btnDelete">Delete</a></td>
+
+                    </tr>
+                }
+
+
+            </tbody>
+        </table>
+
+    }
+    else
+    {
+        <div id="result" style="color:maroon">No Records For Update !</div>
+    }
+
+}
+else
+{
+    if (Model != null)
+    {
+
+        <table id="ExtraPaid" class="table table-bordered">
+            <thead>
+                <tr><th width='15%'><input type='checkbox' id='checkBoxAll' class='custom-checkbox' />Select All</th><th width='15%'>RollNo</th><th width='25%'>Name</th><th width='10%'>YearId</th><th width='10%'>DateOfConfirmation</th><th width='15%'>Status</th><th width='10%'>Amount</th></tr>
+            </thead>
+
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td><input type="checkbox" name="Sno" value="@item.Sno" class="chkres" /></td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.RollNo)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Year)
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(modelItem => item.ChallanDate, "{0:yyyy-MM-dd}", new { @class = "form-control", @type = "date", @min = @Session["FD"], @max = @Session["ED"] })
+                        </td>
+                        <td>
+                            <input type="text" name="Status" value="@item.Status" class="form-control" />
+                        </td>
+                        <td class="combat">
+                            @Html.DisplayFor(modelItem => item.Amount)
+                        </td>
+
+
+
+                    </tr>
+                }
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td>Number Of Rows Selected</td>
+                    <td><input type='text' id='TotSelect' name='TotSelect' class='form-control' readonly /></td>
+                    <td></td>
+
+                    <td>Total</td>
+                    <td>
+                        <input type="text" id="TotSum" name="TotSum" style="text-align :center " readonly class="form-control" />
+                    </td>
+
+                </tr>
+
+            </tbody>
+        </table>
+        <button type="submit" id="ExtraPaidSubmit" class="btn btn-default">Submit</button>
+    }
+    else
+    {
+        <div id="result" style="color:maroon">No Records For Conformation !</div>
+    }
+}
+
+
+
+<div id="queryresult" style="color:green"></div>
+<div id="NegativeResult" style="color:red"></div>
+
+
+<div style=" text-align: center;" id="Progress">
+    <img src="~/assets/img/loading.jpg" />
+</div>
+
+
+
+
+
+
+
+

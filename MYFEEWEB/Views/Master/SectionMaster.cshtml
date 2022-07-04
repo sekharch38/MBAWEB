@@ -1,0 +1,310 @@
+﻿@model MYFEELIB.Entities.Section
+@{
+    ViewData["Title"] = "Section Master";
+}
+
+<style>
+    .hidetext {
+        -webkit-text-security: disc; /* Default */
+    }
+</style>
+
+<script>
+
+    $(function () {
+
+        $('#Program').change(function () {
+             //debugger;
+            var id = $("#Program :selected").val();
+            if (id != "") {
+                $.ajax({
+                    type: "GET",
+                    contentType: "application/json; charset=utf-8",
+                    url: '@Url.Action("FillCourse", "Master")',
+                    data: { "PId": id },
+                    dataType: "json",
+                    beforeSend: function () {
+                        //alert(id);
+                    },
+                    success: function (data) {
+                        var items = "";
+                        $.each(data, function (i, Course) {
+                            items += "<option value='" + Course.Value + "'>" + Course.Text + "</option>";
+                        });
+                        $('#Course').html(items);
+
+                    },
+                    error: function (result) {
+
+                        alert('Service call failed: ' + result.status + ' Type :' + result.statusText);
+                    }
+                });
+            }
+            else {
+                var items = '<option value="">Select</option>';
+                $('#Course').html(items);
+            }
+        });
+
+    });
+
+
+    $(document).ready(function () {
+      //  debugger;
+        $.ajax({
+            type: "GET",
+            contentType: "application/json; charset=utf-8",
+            url: '@Url.Action("SectionDetails", "Master")',
+            dataType: "json",
+            beforeSend: function () {
+
+            },
+            success: function (data) {
+
+                var markup = "<tr><th width='5%'>S.No</th><th width='5%'>SectionId</th><th width='8%'>SectionName</th><th width='24%' align='right'>Program</th><th width='15%' align='right'>Course</th><th width='24%' align='right'>Description</th><th width='15%' align='right'>NoOfStudents</th><th width='24%' align='right'>LateralEntry</th><th width='15%' align='right'>TransferEntry</th> <th align='right'></th></tr>";
+                $("#DataTable").append(markup);
+                var markupfooter;
+                $.each(data, function (i, Rec) {
+                    var markup = "<tr><td width='5%'>" + (i + 1) + "</td><td width='5%'>" + Rec.SectionId + "</td><td width='5%' >" + Rec.SectionName + "</td><td width='20%' align='left'>" + Rec.Program + "</td><td width='20%' align='left'>" + Rec.Course + "</td><td width='5%'>" + Rec.Description + "</td><td width='5%'>" + Rec.NoOfStudents + "</td><td width='5%'>" + Rec.LateralEntry + "</td><td width='5%'>" + Rec.TransferEntry + "</td><td><a data-value=" + Rec.SectionId + " href='javascript:void(0)' class='btnEdit'>Edit</a></td></tr>";
+                    $("#DataTable").append(markup);
+
+
+                });
+
+            }
+        });
+
+
+
+    });
+
+    $(document).on('click', '.btnEdit', function () {
+       // debugger;
+         var id = $(this).attr("data-value");
+         $("#SectionId").val(id);
+         $("#SectionId").prop("readonly", true);
+         $("#SectionName").val($(this).closest("tr").find('td:eq(2)').text());
+         $("#Program").val($(this).closest("tr").find('td:eq(3)').text());
+         var CourseString=$(this).closest("tr").find('td:eq(4)').text();
+
+         var id = $("#Program :selected").val();
+         if (id != "") {
+             $.ajax({
+                 type: "GET",
+                 contentType: "application/json; charset=utf-8",
+                 url: '@Url.Action("FillCourse", "Enrollment")',
+                 data: { "PId": id },
+                 dataType: "json",
+                 beforeSend: function () {
+                     //alert(id);
+                 },
+                 success: function (data) {
+                     var items = "";
+                     $.each(data, function (i, Course) {
+                         items += "<option value='" + Course.Value + "'>" + Course.Text + "</option>";
+                     });
+                     $('#Course').html(items);
+                     $('#Course').val(CourseString);
+                 },
+                 error: function (result) {
+
+                     alert('Service call failed: ' + result.status + ' Type :' + result.statusText);
+                 }
+             });
+         }
+
+       
+         $("#Description").val($(this).closest("tr").find('td:eq(5)').text());
+         $("#NoOfStudents").val($(this).closest("tr").find('td:eq(6)').text());
+         $("#LateralEntry").val($(this).closest("tr").find('td:eq(7)').text());
+         $("#TransferEntry").val($(this).closest("tr").find('td:eq(8)').text());
+    });
+
+    var CourseSave = function () {
+
+        var data = $("#MySectionForm").serialize();
+
+        var SectionId = $("#SectionId").val();
+        var SectionName = $("#SectionName").val();        
+        var Program = $("#Program :selected").val();
+        var Course = $("#Course :selected").val();
+        var NoOfStudents = $("#NoOfStudents").val();
+        var LateralEntry = $("#LateralEntry").val();
+        var TransferEntry = $("#TransferEntry").val();
+       
+
+
+        if (SectionId == "") {
+            alert("Enter SectionId !");
+            $("#SectionId").focus();
+            return false;
+        }
+        if (SectionName == "") {
+            alert("Select SectionName !");
+            $("#SectionName").focus();
+            return false;
+        }
+
+        if (Program == "") {
+            alert("Select Program !");
+            $("#Program").focus();
+            return false;
+        }
+
+        if (Course == "") {
+            alert("Enter Course !");
+            $("#Course").focus();
+            return false;
+        }
+
+                  
+
+
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("SectionMasterSave", "Master")',
+            data: data,
+            success: function (r) {
+
+                if (r == "Error") {
+
+                    alert("Section Not Saved !");
+
+                }
+                else {
+                    alert("Section Saved Successfully !");
+                    $("#SectionId").val("");
+                    $("#SectionName").val("");
+                    $("#Program").val("");
+                    $("#Description").val("");
+                    $("#Course").val("");
+                    $("#NoOfStudents").val("");
+                    $("#LateralEntry").val("");
+                    $("#TransferEntry").val("");
+                }
+            }
+        });
+    }
+
+    var Clear = function () {
+        $("#SectionId").val("");
+        $("#SectionName").val("");
+        $("#Program").val("");
+        $("#Description").val("");
+        $("#Course").val("");
+        $("#NoOfStudents").val("");
+        $("#LateralEntry").val("");
+        $("#TransferEntry").val("");
+        $(".text-danger field-validation-error").empty();
+    }
+
+
+
+</script>
+<section id="" class="animated fadeInUp">
+    <section class="fuelux" style=" margin: 50px 50px;">
+
+        <form id="MySectionForm" >
+            <div class="step-content" style="margin-bottom: 0px; background: #fff; text-align: center; border-top: 1px solid #D4D4D4;">
+
+
+                <div class="step-pane active" id="step1">
+
+                    <div class="col-md-offset-0  preauth_font">
+                        <div class="clear" style="clear: both;"></div>
+
+
+
+
+                        <div class="form-group col-sm-12 col-md-6 col-lg-3 text-left ">
+                            @Html.LabelFor(m => m.SectionId, new { @class = "control-label" })
+                            <div class="">
+                                @Html.TextBoxFor(m => m.SectionId, new { @class = "form-control ucase" })
+                                @Html.ValidationMessageFor(m => m.SectionId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group col-sm-12 col-md-6 col-lg-3 text-left ">
+                            @Html.LabelFor(m => m.SectionName, new { @class = "control-label" })
+                            <div class="">
+                                @Html.TextBoxFor(m => m.SectionName, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.SectionName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group col-sm-12 col-md-6 col-lg-3 text-left ">
+                            @Html.LabelFor(m => m.Program, new { @class = "col-sm-6 control-label" })
+                            <div class="">
+                                @Html.DropDownListFor(m => m.Program, Model.Programs, "SELECT PROGRAM",
+                                              new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.Program, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-12 col-md-6 col-lg-3 text-left ">
+                            @Html.LabelFor(m => m.Course, new { @class = "col-sm-6 control-label" })
+                            <div class="">
+                                @Html.DropDownListFor(m => m.Course, Model.Courses, "SELECT COURSE",
+                                              new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.Course, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group col-sm-12 col-md-6 col-lg-3 text-left ">
+                            @Html.LabelFor(m => m.NoOfStudents, new { @class = " control-label" })
+                            <div class="">
+                                @Html.TextBoxFor(m => m.NoOfStudents, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.NoOfStudents, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-12 col-md-6 col-lg-3 text-left ">
+                            @Html.LabelFor(m => m.Description, new { @class = " control-label" })
+                            <div class="">
+                                @Html.TextBoxFor(m => m.Description, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.Description, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-12 col-md-6 col-lg-3 text-left ">
+                            @Html.LabelFor(m => m.LateralEntry, new { @class = " control-label" })
+                            <div class="">
+                                @Html.TextBoxFor(m => m.LateralEntry, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.LateralEntry, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-12 col-md-6 col-lg-3 text-left ">
+                            @Html.LabelFor(m => m.TransferEntry, new { @class = " control-label" })
+                            <div class="">
+                                @Html.TextBoxFor(m => m.TransferEntry, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.TransferEntry, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+
+                        <div class="wizard col-sm-12">
+                            <div class="pull-right" style="padding: 5px;">
+                                <button id="btnClear" onclick="Clear()" class="btn btn-default">Clear</button>
+                                <button type="submit" id="btnsubmit" onclick="CourseSave()" class="btn btn-success btn-default">Submit</button>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="clearfix"></div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </form>
+
+
+        <div align="center">
+            <table id="DataTable" style="width:100%;" class="table table-bordered">
+                <thead>
+
+                </thead>
+                <tbody></tbody>
+                <tfoot></tfoot>
+            </table>
+
+        </div>
+
+    </section>
+</section>
