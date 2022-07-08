@@ -35,10 +35,9 @@
                     $(this).attr("autocomplete", "off");
                 });
             }
-            catch (e)
-            { }
+            catch (e) { }
         });
-      </script>
+    </script>
 
     <style>
         .alert-danger {
@@ -83,7 +82,7 @@
                                     <div class="form-group">
                                         @Html.LabelFor(m => m.RollNo, new { @class = "col-md-6 control-label" })
                                         <div class="col-md-12">
-                                            @Html.TextBoxFor(m => m.RollNo, new { @class = "form-control", placeholder = "Roll Number"})
+                                            @Html.TextBoxFor(m => m.RollNo, new { @class = "form-control", placeholder = "Roll Number" })
                                             <i class="fa fa-user"></i>
                                             @Html.ValidationMessageFor(m => m.RollNo, "", new { @class = "text-danger" })
 
@@ -110,6 +109,14 @@
                                             @*<button class="btn btn-info btn-lg btn-block" type="button" onclick="window.location.href='@Url.Action("Registration","Student")'">Signup</button>*@
                                         </div>
                                     </div>
+
+
+                                    <div class="form-group">
+                                        <div class="col-md-12">
+                                            <button class="btn btn-info btn-lg btn-block" type="button" onclick="window.location.href='@Url.Action("Registration","Student")'">Signup</button>
+                                        </div>
+                                    </div>
+
                                 }
                             </div>
                         </div>
